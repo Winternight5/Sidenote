@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+// login page color sets
+$background-color: #12b5a2;
+$background-accent-color: #209e8f;
+$base-color: #FFF;
+
+// stylize the input types
+input[type="radio"]
+{
+    position: fixed;
+    left: -100px;
+}
+
+input:not([type="radio"])
+{
+    background-color: $base-color;
+    display: block;
+    border-radius: 7px;
+    border: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0px 10px;
+    transition: 300ms ease;
+    overflow: scroll;
+    width: 250px;
+    font-size: 12px;
+    text-align: center;
+}
+
+// for the currently showing/selected login option
+[id="sign-in"]:checked ~ input.sign-in ,
+[id="sign-up"]:checked ~ input.sign-up ,
+[id="reset-login"]:checked ~ input.reset-login
+{
+    max-height: 40px;
+    padding: 10px;
+    margin: 10px 0px;
+}
+
+button
+{
+    width: 250px;
+    height: 40px;
+    border-radius: 7px;
+    border: none;
+    background-color: $background-accent-color;
+    
+    // hide basic "Submit" text so that you can apply the appropriate text later on (see the code below)
+    font-size: 0px;
+    font-style: italic;
+
+    &::before
+    {
+        font-size: 16px;
+    }
+}
+
+// applies the appropriate "submit text" based upon the login option selected
+[id="sign-in"]:checked ~ button::before {
+    content: "Sign In";
+}
+[id="sign-up"]:checked ~ button::before {
+    content: "Sign Up";
+}
+[id="reset-login"]:checked ~ button::before {
+    content: "Reset Password";
+}
+
+label
+{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    font-weight: 800;
+    cursor: pointer;
+    color: $background-accent-color;
+    transition: 300ms ease;
+    width: calc(100% / 3 - 4px);
+    &::after 
+    {
+        content: '';
+        border: 10px solid transparent;
+        position: absolute;
+        bottom: -10px;
+        left: calc(50% - 10px);
+        transition: inherit;
+    }
+}
+
+    // setting the active state presence of the labels
+    [id="sign-in"]:checked ~ label[for="sign-in"] ,
+    [id="sign-up"]:checked ~ label[for="sign-up"] ,
+    [id="reset-login"]:checked ~ label[for="reset-login"]
+    {
+        color: $base-color;
+
+        &::after 
+        {
+            border-bottom-color:$base-color;
+        }
+
+        font-style: italic;
+    }
+
+.flex-wrap
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 300px;
+    text-align: center;
+}
+
+body 
+{
+    background: $background-color;
+    font-family: "Nunito", sans-serif;
+    font-size: 16px;
+}
+
+h1
+{
+    text-align: center;
+    font-style: italic;
+    color: $base-color;
+}
+
+fieldset
+{
+    border: none;
+}

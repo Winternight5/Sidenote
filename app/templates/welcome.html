@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Sidenote: Welcome to Sidenote!</title>
+        <meta charset="UTF-8"> 
+        <link href="static/welcome.css" type="text/css" rel="stylesheet" /> 
+    </head>
+
+    <body>
+        <h1>Welcome to Sidenote</h1>
+
+        <div class="flex-wrap">
+            <form>
+                <fieldset>
+                    <!-- the value attribute will be sent to the server-->
+                    <input id="sign-in" type="radio" name="login-option" value="sign-in" checked/>
+                    <input id="sign-up" type="radio" name="login-option" value="sign-up"/>
+                    <input id="reset-login" type="radio" name="login-option" value="reset-login"/>
+
+                    <!-- radio options and their labels-->
+                    <label for="sign-in">Sign In</label>
+                    <label for="sign-up">Sign Up</label>
+                    <label for="reset-login">Reset</label>
+
+                    <!-- the name attribute will also be sent to the server later on-->
+
+                    <!-- input fields -->
+                    <input class="sign-in sign-up reset-login" type="email" placeholder="E-mail"/>
+                    <input class="sign-in sign-up" type="password" placeholder="Password"/>
+                    <input class="sign-up" type="password" placeholder="Repeat Password"/>
+
+                    <!-- submit button-->
+                    <button>Submit</button>
+
+                </fieldset>
+            </form>
+        </div>
+
+    <!--start of Script insertions -->
+
+      <!--inserting jQuery from the Google CDN -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+      <!-- fallback option ; inserting jQuery locally in case the CDN happens to fail -->
+      <script>
+        window.jQuery || document.write('<script src="js/jquery-3.4.1.min.js"><\/script>')
+      </script>
+
+      <script src="static/welcomeFadeInAnimation.js"></script>
+
+    <!--end of Script insertions -->
+
+    </body>
+
+</html>
