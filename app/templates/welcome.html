@@ -1,39 +1,59 @@
+<!DOCTYPE html>
+
 <html>
     <head>
-        <title>Sidenote: Welcome to Sidenote!</title>
+        <title>Sidenote: Welcome!</title>
         <meta charset="UTF-8"> 
-        <link href="static/welcome.css" type="text/css" rel="stylesheet" /> 
+        <link href="welcome.css" type="text/css"
+                rel="stylesheet" /> 
     </head>
 
     <body>
-        <h1>Welcome to Sidenote</h1>
+        <div class="welcome-container">             <!-- start of content container -->
 
-        <div class="flex-wrap">
-            <form>
-                <fieldset>
-                    <!-- the value attribute will be sent to the server-->
-                    <input id="sign-in" type="radio" name="login-option" value="sign-in" checked/>
-                    <input id="sign-up" type="radio" name="login-option" value="sign-up"/>
-                    <input id="reset-login" type="radio" name="login-option" value="reset-login"/>
-
-                    <!-- radio options and their labels-->
-                    <label for="sign-in">Sign In</label>
-                    <label for="sign-up">Sign Up</label>
-                    <label for="reset-login">Reset</label>
-
-                    <!-- the name attribute will also be sent to the server later on-->
-
-                    <!-- input fields -->
-                    <input class="sign-in sign-up reset-login" type="email" placeholder="E-mail"/>
-                    <input class="sign-in sign-up" type="password" placeholder="Password"/>
-                    <input class="sign-up" type="password" placeholder="Repeat Password"/>
-
-                    <!-- submit button-->
-                    <button>Submit</button>
-
-                </fieldset>
-            </form>
+        <div class="introduction">               <!-- start of left-hand side sidebar div-->
+            <h1 id="uppercase-intro">Welcome to Sidenote</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Tellus at urna condimentum mattis pellentesque id nibh tortor. Proin nibh nisl condimentum id venenatis. Eu non diam 
+              phasellus vestibulum lorem sed risus. Elementum facilisis leo vel fringilla est ullamcorper.
+            </p>
+            <div class="ghost-button">
+              <a href="">
+                <button>Learn More</button>
+                </a>
+            </div>
         </div>
+
+        <div class="getting-started">                 <!-- start of right-hand side split content-container-->
+            <div class="flex-wrap register">
+                <form>
+                  <fieldset>
+                     <!-- the value attribute will be sent to the server-->
+                     <input id="sign-in" type="radio" name="login-option" value="sign-in" checked/>
+                     <input id="sign-up" type="radio" name="login-option" value="sign-up"/>
+                     <input id="reset-login" type="radio" name="login-option" value="reset-login"/>
+
+                     <!-- radio options and their labels-->
+                     <label for="sign-in">Sign In</label>
+                     <label for="sign-up">Sign Up</label>
+                     <label for="reset-login">Reset</label>
+
+                      <!-- the name attribute will also be sent to the server later on-->
+
+                     <!-- input fields -->
+                     <input class="sign-in sign-up reset-login" type="email" placeholder="E-mail"/>
+                     <input class="sign-in sign-up" type="password" placeholder="Password"/>
+                     <input class="sign-up" type="password" placeholder="Repeat Password"/>
+
+                     <!-- submit button-->
+                     <button>Submit</button>
+
+                  </fieldset>
+                </form>
+            </div>
+        </div>
+
+        </div>                              <!-- end of welcome-content container -->
 
     <!--start of Script insertions -->
 
@@ -45,8 +65,8 @@
         window.jQuery || document.write('<script src="js/jquery-3.4.1.min.js"><\/script>')
       </script>
 
-      <script src="static/welcomeFadeInAnimation.js"></script>
-
+      <script src="welcomeFadeInAnimation.js"></script>
+      
     <!--end of Script insertions -->
 
     </body>
