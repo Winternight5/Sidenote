@@ -1,14 +1,15 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito");
+@import url("https://fonts.googleapis.com/css?family=Lora:400,700|Montserrat:300");
+@import url("https://fonts.googleapis.com/css?family=Cardo:400,700|Oswald");
 input[type="radio"] {
   position: fixed;
   left: -100px; }
 
 input:not([type="radio"]) {
-  background-color: #FFF;
+  background: rgba(0, 0, 0, 0.05);
   display: block;
-  border-radius: 7px;
-  border: 0;
-  max-height: 0;
+  border-radius: 0px;
+  max-height: 0px;
   margin: 0;
   padding: 0px 10px;
   -webkit-transition: 300ms ease;
@@ -17,25 +18,41 @@ input:not([type="radio"]) {
   overflow: scroll;
   width: 250px;
   font-size: 12px;
-  text-align: center; }
+  text-align: center;
+  border: none; }
 
 [id="sign-in"]:checked ~ input.sign-in,
 [id="sign-up"]:checked ~ input.sign-up,
 [id="reset-login"]:checked ~ input.reset-login {
   max-height: 40px;
   padding: 10px;
-  margin: 10px 0px; }
+  margin: 15px 0px; }
+
+.ghost-button button {
+  font-size: 22px;
+  height: 50px; }
 
 button {
   width: 250px;
+  padding: 3px;
   height: 40px;
-  border-radius: 7px;
-  border: none;
-  background-color: #209e8f;
+  border-radius: 0;
+  color: #000;
+  font-family: "Oswald";
+  border: 1.5px solid #000;
+  background: transparent;
+  font-weight: 200;
   font-size: 0px;
   font-style: italic; }
   button::before {
     font-size: 16px; }
+  button:hover {
+    color: #1c8a7d;
+    -webkit-transition: 0.345s;
+    -o-transition: 0.345s;
+    transition: 0.345s;
+    border-color: #1c8a7d;
+    cursor: pointer; }
 
 [id="sign-in"]:checked ~ button::before {
   content: "Sign In"; }
@@ -52,35 +69,30 @@ label {
   text-align: center;
   font-weight: 800;
   cursor: pointer;
-  color: #209e8f;
+  color: #000;
   -webkit-transition: 300ms ease;
   -o-transition: 300ms ease;
   transition: 300ms ease;
   width: calc(100% / 3 - 4px); }
-  label::after {
-    content: '';
-    border: 10px solid transparent;
-    position: absolute;
-    bottom: -10px;
-    left: calc(50% - 10px);
-    -webkit-transition: inherit;
-    -o-transition: inherit;
-    transition: inherit; }
 
 [id="sign-in"]:checked ~ label[for="sign-in"],
 [id="sign-up"]:checked ~ label[for="sign-up"],
 [id="reset-login"]:checked ~ label[for="reset-login"] {
-  color: #FFF;
+  color: #1c8a7d;
   font-style: italic; }
   [id="sign-in"]:checked ~ label[for="sign-in"]::after,
   [id="sign-up"]:checked ~ label[for="sign-up"]::after,
   [id="reset-login"]:checked ~ label[for="reset-login"]::after {
-    border-bottom-color: #FFF; }
+    content: '';
+    width: 30%;
+    position: absolute;
+    left: 30px;
+    bottom: -9px;
+    border: 0.5px solid #000; }
 
 .flex-wrap {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: -ms-grid;
+  display: grid;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
@@ -93,14 +105,51 @@ label {
   text-align: center; }
 
 body {
-  background: #12b5a2;
-  font-family: "Nunito", sans-serif;
-  font-size: 16px; }
+  background: #CFCFCF;
+  font-size: 18px; }
 
 h1 {
   text-align: center;
+  text-transform: uppercase;
+  font-family: "Oswald"; }
+
+p {
   font-style: italic;
-  color: #FFF; }
+  font-family: "Cardo"; }
 
 fieldset {
   border: none; }
+
+.welcome-container {
+  display: -ms-grid;
+  display: grid;
+  height: 100%;
+  -ms-grid-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: 1fr;
+  grid-template-rows: 1fr; }
+
+.welcome-container .introduction {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1/2;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1/2;
+  text-align: center;
+  background: #CFCFCF;
+  color: #000;
+  padding: 10px;
+  border: none; }
+  .welcome-container .introduction h1 {
+    font-size: 44px; }
+
+.welcome-container .register {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2/3;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1/2;
+  background: #CFCFCF;
+  height: 100vh; }
