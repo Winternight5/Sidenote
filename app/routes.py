@@ -1,18 +1,13 @@
-from flask import render_template, flash, redirect, url_for
-from app import app
-from app import db
-from app.forms import LoginForm
-from app.forms import RegistrationForm
+from flask import render_template, flash, redirect, url_for, request, jsonify
+from app import app, db
+from app.forms import LoginForm, RegistrationForm, ResetForm
 from app.models import User
-from flask_login import current_user, login_user
-from flask_login import logout_user
-from flask_login import login_required
-from flask import request
+from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 @app.route('/')
 @app.route('/index')
-#@login_required
+@login_required
 def index():
     posts = [
         {
@@ -24,44 +19,82 @@ def index():
             'body': 'The Avengers movie was so cool!'
         }
     ]
-    return render_template('welcome.html', title='Home', posts=posts)
+    return render_template('index.html', title='Home', posts=posts)
 
+		
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
+	# if user logged in, go to main home page
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
 
-    form = LoginForm()
-    if form.validate_on_submit():
-        # look at first result first()
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
-        # return to page before user got asked to login
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
+	# get post data of radio button 'login-option'
+	option = request.form.get('login-option')
+	form = LoginForm()
 
-        return redirect(next_page)
-    return render_template('login.html', title='Sign in', form=form)
+	# if radio is sign-in, autheticate user
+	if (option == "sign-in"):
+		print(form.email.data)
+		print(form.email.data)
+		print(form.email.data)
+		# validate form
+		if form.validate_on_submit():
+			print('validating')
+			# look at first result first()
+			user = User.query.filter_by(email=form.email.data).first()
+
+			if user is None or not user.check_password(form.password.data):
+				flash('Invalid username or password')
+				return redirect(url_for('index'))
+
+			#login_user(user, remember=form.remember_me.data)
+			login_user(user)
+
+			# return to page before user got asked to login
+			next_page = request.args.get('next')
+
+			if not next_page or url_parse(next_page).netloc != '':
+				next_page = url_for('index')
+
+			return redirect(next_page)
+			
+		print('unable to login')
+		return render_template('welcome.html', form=form)
+
+	# if sign-up validate registration form and create user
+	elif (option == "sign-up"):
+		if current_user.is_authenticated:
+			return redirect(url_for('index'))
+			
+		form = RegistrationForm()
+		if form.validate_on_submit():
+			user = User(email=form.email.data)
+			user.set_password(form.password.data)
+			db.session.add(user)
+			db.session.commit()
+			flash('Congratulations, you are now a registered user!')
+			return redirect(url_for('login'))
+		return render_template('welcome.html', form=form, loginOption=option)
+
+	# reset-login
+	elif (option == "reset-login"):	
+		form = ResetForm()
+		flash('reset function not set yet')
+		return render_template('welcome.html', form=form, loginOption=option)
+		
+	return render_template('welcome.html', form=form)
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+@app.route('/user')
+def usersDB():
+    data = User.query.all()
+    return render_template('result.html', data=data)
+	
+@app.route('/add')
+def addDB():
+    admin = User(username='admin', email='admin@example.com', password_hash='1234')
+    return None;

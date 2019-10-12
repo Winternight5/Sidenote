@@ -1,0 +1,10 @@
+<doctype html>
+<title>Users Results - Database</title>
+
+<table>
+{% for item in data %}
+<tr>
+	<td>{{item.email}} {{item.password_hash}}</td>
+</tr>
+{% endfor %}
+</table>

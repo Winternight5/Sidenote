@@ -5,7 +5,7 @@ input[type="radio"] {
   position: fixed;
   left: -100px; }
 
-input:not([type="radio"]) {
+input:not([type="radio"]):not([type="submit"]) {
   background: rgba(0, 0, 0, 0.05);
   display: block;
   border-radius: 0px;
@@ -28,11 +28,11 @@ input:not([type="radio"]) {
   padding: 10px;
   margin: 15px 0px; }
 
-.ghost-button button {
+.ghost-button .button {
   font-size: 22px;
   height: 50px; }
 
-button {
+.button {
   width: 250px;
   padding: 3px;
   height: 40px;
@@ -42,26 +42,18 @@ button {
   border: 1.5px solid #000;
   background: transparent;
   font-weight: 200;
-  font-size: 0px;
-  font-style: italic; }
-  button::before {
+  /* font-size: 0px; */
+  font-style: italic; 
+  }
+  .button::before {
     font-size: 16px; }
-  button:hover {
+  .button:hover {
     color: #1c8a7d;
     -webkit-transition: 0.345s;
     -o-transition: 0.345s;
     transition: 0.345s;
     border-color: #1c8a7d;
     cursor: pointer; }
-
-[id="sign-in"]:checked ~ button::before {
-  content: "Sign In"; }
-
-[id="sign-up"]:checked ~ button::before {
-  content: "Sign Up"; }
-
-[id="reset-login"]:checked ~ button::before {
-  content: "Reset Password"; }
 
 label {
   position: relative;

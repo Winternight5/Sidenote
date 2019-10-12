@@ -21,7 +21,7 @@ $learnMoreButton.hide();
 $header.delay(50 * delayTimer * 3).fadeIn(1450);
 $aboutSidenote.delay(50 * delayTimer * 10).fadeIn(1450);
 $learnMoreButton.delay(50 * delayTimer * 25).fadeIn(1450);
-$loginForm.delay(50 * delayTimer * 25).fadeIn(1450);
+$loginForm.delay(50 * delayTimer * 25).fadeIn(1450); 
 
 
 });

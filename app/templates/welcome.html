@@ -5,7 +5,7 @@
         <title>Sidenote: Welcome!</title>
         <meta charset="UTF-8"> 
         <link href="static/welcome.css" type="text/css"
-                rel="stylesheet" /> 
+                rel="stylesheet" />
     </head>
 
     <body>
@@ -19,14 +19,14 @@
             </p>
             <div class="ghost-button">
               <a href="">
-                <button>Learn More</button>
+                <button class="button">Learn More</button>
                 </a>
             </div>
         </div>
 
         <div class="getting-started">                 <!-- start of right-hand side split content-container-->
             <div class="flex-wrap register">
-                <form>
+                <form method="post" action="" novalidate>
                   <fieldset>
                      <!-- the value attribute will be sent to the server-->
                      <input id="sign-in" type="radio" name="login-option" value="sign-in" checked/>
@@ -39,14 +39,35 @@
                      <label for="reset-login">Reset</label>
 
                       <!-- the name attribute will also be sent to the server later on-->
-
-                     <!-- input fields -->
-                     <input class="sign-in sign-up reset-login" type="email" placeholder="E-mail"/>
-                     <input class="sign-in sign-up" type="password" placeholder="Password"/>
-                     <input class="sign-up" type="password" placeholder="Repeat Password"/>
-
-                     <!-- submit button-->
-                     <button>Submit</button>
+					{% with messages = get_flashed_messages() %}
+					{% if messages %}
+					<ul class="errorUl">
+						{% for message in messages %}
+						<li>{{ message }}</li>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					{% endwith %}
+                     <!-- input fields
+                     <input class="sign-in sign-up reset-login" type="email" name="email" value="team4@test.com" placeholder="E-mail"/>
+                     <input class="sign-in sign-up" type="password" name="password" value="1234" placeholder="Password"/>
+                     <input class="sign-up" type="password" name="password2" value=" 1234" placeholder="Repeat Password"/>-->
+					 {{ form.hidden_tag() }}
+					 {{ form.email(class="sign-in sign-up reset-login", placeholder="E-mail") }}
+						{% for error in form.email.errors %}
+						<span class="error" style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					 {{ form.password(class="sign-in sign-up",  placeholder="Password") }}
+						{% for error in form.password.errors %}
+						<span class="error" style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					 {{ form.password2(class="sign-up",  placeholder="Repeat Password") }}
+						{% for error in form.password2.errors %}
+						<span class="error" style="color: red;">[{{ error }}]</span>
+						{% endfor %}<br>
+					 {{ form.submit(class="button") }}
+                     <!-- submit button
+                     <button class="button">Submit</button>-->
 
                   </fieldset>
                 </form>
@@ -64,8 +85,13 @@
       <script>
         window.jQuery || document.write('<script src="js/jquery-3.4.1.min.js"><\/script>')
       </script>
-
-      <script src="static/welcomeFadeInAnimation.js"></script>
+	  <script>
+	  var selectedOption = '{{ loginOption }}';
+	  
+	  if (selectedOption != '')
+		$("#"+selectedOption).attr('checked', true).css('color', 'red');
+	  </script>
+      <!--<script src="static/welcomeFadeInAnimation.js"></script>-->
       
     <!--end of Script insertions -->
 
