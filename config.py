@@ -7,5 +7,5 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
     'sqlite:///' + os.path.join(basedir, 'app.db')
 	
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    conn = psycopg2.connect(SQLALCHEMY_DATABASE_URI, sslmode='require')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
