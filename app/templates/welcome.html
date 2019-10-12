@@ -53,19 +53,27 @@
                      <input class="sign-in sign-up" type="password" name="password" value="1234" placeholder="Password"/>
                      <input class="sign-up" type="password" name="password2" value=" 1234" placeholder="Repeat Password"/>-->
 					 {{ form.hidden_tag() }}
+					 {{ form.firstname(class="sign-up",  placeholder="First Name") }}
+						{% for error in form.firstname.errors %}
+						<span class="error">[{{ error }}]</span>
+						{% endfor %}
+					 {{ form.lastname(class="sign-up",  placeholder="Last Name") }}
+						{% for error in form.lastname.errors %}
+						<span class="error">[{{ error }}]</span>
+						{% endfor %}
 					 {{ form.email(class="sign-in sign-up reset-login", placeholder="E-mail") }}
 						{% for error in form.email.errors %}
-						<span class="error" style="color: red;">[{{ error }}]</span>
+						<span class="error">[{{ error }}]</span>
 						{% endfor %}
 					 {{ form.password(class="sign-in sign-up",  placeholder="Password") }}
 						{% for error in form.password.errors %}
-						<span class="error" style="color: red;">[{{ error }}]</span>
+						<span class="error">[{{ error }}]</span>
 						{% endfor %}
 					 {{ form.password2(class="sign-up",  placeholder="Repeat Password") }}
 						{% for error in form.password2.errors %}
-						<span class="error" style="color: red;">[{{ error }}]</span>
-						{% endfor %}<br>
-					 {{ form.submit(class="button") }}
+						<span class="error">[{{ error }}]</span>
+						{% endfor %}
+					 <br>{{ form.submit(class="button") }}
                      <!-- submit button
                      <button class="button">Submit</button>-->
 

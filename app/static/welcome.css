@@ -145,3 +145,6 @@ fieldset {
   grid-row: 1/2;
   background: #CFCFCF;
   height: 100vh; }
+
+.error {
+	color: red;}

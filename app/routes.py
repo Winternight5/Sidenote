@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify
+from flask import render_template, flash, redirect, url_for, request, jsonify, json
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, ResetForm
 from app.models import User
@@ -68,10 +68,14 @@ def login():
 			
 		form = RegistrationForm()
 		if form.validate_on_submit():
-			user = User(email=form.email.data)
+			user = User(email=form.email.data, firstname=form.firstname.data, lastname=form.lastname.data)
 			user.set_password(form.password.data)
-			db.session.add(user)
-			db.session.commit()
+			try:
+				db.session.add(user)
+				db.session.commit()
+			except Exception as e:
+				print("\n FAILED entry: {}\n".format(json.dumps(data)))
+				print(e)
 			flash('Congratulations, you are now a registered user!')
 			return redirect(url_for('login'))
 		return render_template('welcome.html', form=form, loginOption=option)
@@ -93,8 +97,26 @@ def logout():
 def usersDB():
     data = User.query.all()
     return render_template('result.html', data=data)
-	
+    
+@app.route('/delid')
+def delID():
+    id = request.args.get('id')
+    user = User.query.filter_by(id=id).first()
+    if user is None:
+        return "id not found"
+    else:
+        db.session.delete(user)
+        db.session.commit()
+    data = User.query.all()
+    return render_template('result.html', data=data)
+    
 @app.route('/add')
 def addDB():
-    admin = User(username='admin', email='admin@example.com', password_hash='1234')
-    return None;
+    admin = User(firstname='admin', lastname='sidenotes', email='admin@example.com')
+    admin.set_password('1234')
+    try:
+        db.session.add(admin)
+        db.session.commit()
+    except Exception as e:
+        return "FAILED entry: "+str(e)
+    return "admin created";
