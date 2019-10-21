@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
@@ -32,3 +32,6 @@ class ResetForm(FlaskForm):
     firstname = StringField('First Name')
     lastname = StringField('Last Name')
     submit = SubmitField('Sign In')
+
+class Note(FlaskForm):
+    note = TextAreaField('A Note', validators=[DataRequired()])
