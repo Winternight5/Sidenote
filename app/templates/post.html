@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    #contentEditor {
+        height: 65vh;
+    }
+    .row {
+        padding: 10px;
+    }
+</style>
+<br><br><br>
+<div class="{{ theme.note }} {{ theme.font_header }}">
+ <form name="post" method="post" action="/savepost">
+  <div class="row">
+    <div class="input-field">
+      <input id="post_title" name="title" type="text" class="validate {{ theme.font }}">
+      <label for="post_title">Title</label>
+    </div>
+    <!--<div class="input-field">
+      <input id="post_tags" name="tags" type="text" class="validate {{ theme.font }}">
+      <label for="post_tags">Tags</label>
+    </div>
+    <div class="input-field">
+      <textarea id="message" name="content" class="materialize-textarea {{ theme.font }}"></textarea>
+      <label for="message">Write a note</label>
+    </div>-->
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('bold')"><i class="material-icons">format_bold</i></a>
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('italic')"><i class="material-icons">format_italic</i></a>
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('underline')"><i class="material-icons">format_underlined</i></a>
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a>
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a>
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('insertOrderedList')"><i class="material-icons">format_list_numbered</i></a>
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('outdent')"><i class="material-icons">format_indent_decrease</i></a>
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>
+        <div class="divider"></div>
+      <div id="contentEditor" class="{{ theme.font }}" tabindex="0" contenteditable="true"></div>
+      <textarea type="hidden" name="content" id="content" style="display: none"></textarea>
+  </div>
+ </form>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    document.body.removeAttribute("class");
+    document.body.className += "{{ theme.note }}";
+    
+    function submitForm() {
+        $('#content').text($('#contentEditor').html());
+        document.post.submit();
+    }
+    
+    function editorCmd(cmd) {
+        $('#contentEditor').focus();
+        switch (cmd) {
+            case "underline" :
+                document.execCommand('underline', false, '');
+                break;
+                
+            case "italic" :
+                document.execCommand('italic', false, '');
+                break;
+                
+            case "bold" :
+                document.execCommand('bold', false, '');
+                break;
+                
+            case "strikeThrough" :
+                document.execCommand('strikeThrough', false, '');
+                break;
+                
+            case "insertUnorderedList" :
+                document.execCommand('insertUnorderedList');
+                break;
+                
+            case "insertOrderedList" :
+                document.execCommand('insertOrderedList');
+                break;
+                
+            case "indent" :
+                document.execCommand('indent');
+                break;
+                
+            case "outdent" :
+                document.execCommand('outdent');
+                break;
+        }
+    }
+</script>
+{% endblock %}:

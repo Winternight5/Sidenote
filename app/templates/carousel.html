@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+@media screen and (min-width : 320px) {
+}
+.container {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    min-width: 320px !important;
+}
+.indicators li {
+  background-color: {{ theme.indicator }} !important;
+}
+
+.indicators .active {
+  background-color: {{ theme.indicatorActive }} !important;
+}
+
+</style>
+<br><br><br><br>
+<div class="container" id="data-list">
+{% for eachTag in allposts %}
+  <div class="row">
+    <nav class="navbar-transition cool-navbar z-depth-0 {{ theme.background }}">
+        <div class="nav-wrapper tag">
+            <a href="#" class="brand-logo left {{ theme.font_header }}"><i class="material-icons {{ theme.font }}">{{ eachTag.icon }}</i> {{ eachTag.title }}</a>
+        </div>
+    </nav>
+    <div class="carousel carousel-slider">
+    {% for post in eachTag.posts %}
+    <div class="carousel-item card {{ theme.note }} {{ theme.font }} col s8 m4 l2 center">
+        <div class="card-content">
+            <span class="card-title activator small {{ theme.font_header }} title">{{ post.title }}
+            {% if eachTag.title == 'Important' %} <i class="material-icons right">more_vert</i> {% endif %}</span>
+            <p class="body">{{ post.body }}</p>
+            {{ post.key }}
+        </div>
+        {% if eachTag.title == 'Important' %}<div class="card-reveal {{ theme.button2 }}">
+            <span class="card-title {{ theme.font_header }}">Options<i class="material-icons right">close</i></span>
+            <p><i class="left">test</i></p>
+        </div>{% endif %}
+    </div>
+    {% endfor %}
+    </div>
+  </div>
+{% endfor %}
+
+    <div class="fixed-action-btn hide-on-large-only">
+      <a class="btn-floating btn-large waves-effect {{ theme.button1 }}">
+        <i class="large material-icons">add</i>
+      </a>
+      <ul>
+        <li><a class="btn-floating waves-effect {{ theme.button2 }}"><i class="material-icons">brush</i></a></li>
+        <li><a class="btn-floating waves-effect {{ theme.button2 }}"><i class="material-icons">event_available</i></a></li>
+        <li><a class="btn-floating waves-effect {{ theme.button2 }}"><i class="material-icons">event_note</i></a></li>
+      </ul>
+    </div>
+</div>
+<script src="https://listjs.com/assets/javascripts/list.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.fixed-action-btn');
+    var instances = M.FloatingActionButton.init(elems, {
+      direction: 'left'
+      
+    options = {
+        padding: 20,
+        fullWidth: false,
+        indicators: true,
+        duration: 70,
+        numVisible: 5
+    }
+    var elems = document.querySelectorAll('.carousel');
+    var instances = M.Carousel.init(elems, options);
+    });
+  });
+  
+  var list1 = {
+    valueNames: [ 'title', 'body', 'tag' ]
+  };
+  var userList = new List('data-list', list1);
+  
+      $(document).ready(function(){
+        $('.carousel').carousel();
+      });
+</script>
+{% endblock %}

@@ -2,9 +2,29 @@
 <title>Users Results - Database</title>
 
 <table>
-{% for item in data %}
+{% for item in Users %}
 <tr>
-	<td>{{item.id}} {{item.firstname}} {{item.lastname}} {{item.email}} {{item.password_hash}}</td>
+	<td>{{item.id}} {{item.firstname}} {{item.lastname}} {{item.email}}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<table>
+{% for item in AllPosts %}
+<tr>
+	<td>{{item.id}} {{item.user_id}} {{item.post_id}}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<table>
+{% for item in Posts %}
+<tr>
+	<td>{{item.id}} {{item.body}} {{item.timestamp}} <a href="/delpost/{{item.id}}">Delete</a></td>
 </tr>
 {% endfor %}
 </table>

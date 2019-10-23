@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="">
+        {% if title %}
+        <title>{{ title }} - Sidenote</title>
+        {% else %}
+        <title>microblog</title>
+        {% endif %}
+        <meta name="description" content="Sidenote for everyone">
+        <meta name="author" content="Tai Huynh">
+    </head>
+    <body>
+    
+        <div>
+		<img src="{{url_for('static', filename='images/logo_transparent.png')}}" width="64" height="64">
+        Menu:
+            <a href="{{ url_for('index') }}">Home</a>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+            <a href="{{ url_for('newpost') }}">New Post</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </body>
+    
+</html>
+
+
+    <!--<div class="col m6">
+        <div class="card {{ theme.note }} {{ theme.font }}">
+            <div class="card-content">
+                <span class="card-title activator {{ theme.font_header }}">{{ post.author.username }}<i class="material-icons right">more_vert</i></span>
+                <p>{{ post.body }}</p>
+            </div>
+            <div class="card-reveal {{ theme.nav }}">
+                <span class="card-title {{ theme.font_header }}">{{ post.author.username }}<i class="material-icons right">close</i></span>
+                <p><i>{{ post.body }}</i></p>
+            </div>
+        </div>
+    </div>-->
+    <!--<div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>-->
