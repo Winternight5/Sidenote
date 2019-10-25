@@ -23,6 +23,10 @@ body:not(input):not(texteara)  {
 [data-toggle='off'] {
   display:none;
 }
+.newImage {
+    width: 30%;
+    height: 30%;
+}
 </style>
 <br><br><br>
 <div class="row" >
@@ -33,12 +37,14 @@ body:not(input):not(texteara)  {
     <label>Filter by Tags:</label>
   </div>
   
-  <ul class="list" data-filter="ping">
+  <ul class="list">
     {% for post in allposts %}
-    <li class="card {{ theme.note }} {{ theme.font }} col s11 m5 l3" data-tags="{{ post.tags }}">
-      <div class="card-image waves-effect waves-block waves-light">
+    <li class="card {{ theme.font }} col s11 m5 l3 waves-effect waves-light
+                   {% if post.body.note_bgcolor  %}{{ post.body.note_bgcolor }}{% else %} {{ theme.note }} {% endif %}" data-tags="{{ post.tags }}">
+      <a href="/editnote/{{ post.id }}" class="{{ theme.font }}">
+      <!--<div class="card-image">
         <img src="static/images/office.jpg">
-      </div>
+      </div>-->
       <div class="card-content">
         <p class="card-title activator name"><b>{{ post.title }}</b>
         <i class="material-icons right">{{ post.icon }}</i>
@@ -46,21 +52,23 @@ body:not(input):not(texteara)  {
         <p class="content">{{ post.body | safe }}</p>
         <p class="tags">{{ post.tags }}</p>
       </div>
+      </a>
     </li>
     {% endfor %}
   </ul>
 </div>
 
-    <div class="fixed-action-btn hide-on-large-only">
-      <a class="btn-floating btn-large waves-effect {{ theme.button1 }}">
-        <i class="large material-icons">add</i>
-      </a>
-      <ul>
-        <li><a href="{{ url_for('newpost') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i class="material-icons">brush</i></a></li>
-        <li><a href="{{ url_for('newpost') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }}"><i class="material-icons">event_available</i></a></li>
-        <li><a href="{{ url_for('newpost') }}" class="btn-floating waves-effect {{ theme.btnNote }}"><i class="material-icons">event_note</i></a></li>
-      </ul>
-    </div>
+<div class="fixed-action-btn hide-on-large-only">
+  <a class="btn-floating btn-large waves-effect {{ theme.button1 }}">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i class="material-icons">brush</i></a></li>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }}"><i class="material-icons">event_available</i></a></li>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }}"><i class="material-icons">event_note</i></a></li>
+  </ul>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script>
     // Only pure JS scripts, no JQuery

@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request, jsonify, json
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, ResetForm
-from app.models import User, Post, AllPosts
+from app.models import User, Post, shares
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 import random, string, html, re
@@ -50,67 +50,184 @@ themes = {
 currentTheme = 'day'
 
 #-------------------------------------------------------------------------------------------------------------------------
-#----- Theme & Styles
+#----- Index
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
     global tags, currentTheme
-    if current_user.is_authenticated:
-        if current_user.settings is not None:
-            currentTheme = current_user.settings
-        else:
-            current_user.settings = 'day'
+    currentTheme = current_user.settings
         
     getposts = []
     for post in current_user.post:
-        getposts.append(json.loads(post.body))
-        
-    #print(html.unescape(getposts[43]['body']))
+        post.body = json.loads(post.body)
+        post.body.update(id=post.id)
+        getposts.append(post.body)
+    
     getposts.reverse()
     return render_template('index.html', theme=themes[currentTheme], allposts=getposts, tags=tags, title='Home')
 #-------------------------------------------------------------------------------------------------------------------------
 #----- Theme & Styles
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/changetheme', methods=['GET'])
+@login_required
 def changetheme():
     global currentTheme
     currentTheme = 'dark' if current_user.settings == 'day' else 'day'
     current_user.settings = currentTheme
     db.session.commit()
+    
     return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------
 #----- Create / Modify / Delete Notes
 #-------------------------------------------------------------------------------------------------------------------------
-@app.route('/newpost')
-def newpost():
-    return render_template('post.html', theme=themes[currentTheme], title='New Post') 
+@app.route('/newnote')
+@login_required
+def newnote():
+    return render_template('post.html', theme=themes[currentTheme], post=None, title='New Note') 
+    
 #-------------------------------------------------------------------------------------------------------------------------
-@app.route('/savepost', methods=['POST'])
-def savepost():
+@app.route('/savenote', methods=['POST'])
+@login_required
+def saveNewNote():  
+    title = request.form.get('title')
     tags = request.form.get('tags')
-    post = { 
-        'title': request.form.get('title'),
-        'icon': 'event_note',
-        'tags': '' if tags is None else tags,
-        'body': request.form.get('content')
-    }
-    print(request.form.get('tags'))
+    body = request.form.get('content')
     
-    newPost = Post()
-    newPost.body = json.dumps(post)
-    newPost.user_id = current_user.id
-    #newPost.share = current_user
+    # generate new note array
+    data = noteData(title, None, tags, body)
+    newNote = Post()
+    # convert noteData to json
+    newNote.body = json.dumps(data)
+    newNote.user_id = current_user.id
+    #newNote.share = current_user
+        
+    saveToDB(newNote)
     
-    try:
-        db.session.add(newPost)
-        db.session.commit()
-    except Exception as e:
-        print("\n FAILED entry: {}\n".format(json.dumps(newPost)))
-        print(e)
+    return redirect(url_for('index'))
+    
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/savenote/<int:id>', methods=['POST'])
+@login_required
+def saveNoteById(id):  
+    idExists = db.session.query(Post.id).filter_by(id=id).scalar() is not None
+    if idExists:
+        title = request.form.get('title')
+        tags = request.form.get('tags')
+        body = request.form.get('content')
+        
+        # generate new note array
+        data = noteData(title, None, tags, body)
+        # get current note by ID (it's linked with current_user)
+        currentPost = getNoteById(id)
+        # convert noteData to json
+        currentPost.body = json.dumps(data)
+        
+        saveToDB(currentPost)
         
     return redirect(url_for('index'))
+#-------------------------------------------------------------------------------------------------------------------------
+def noteData(title, bgcolor, tags, body):
+    icon = 'event_note'
+    if "<ol>" in body:
+        icon = 'event_available'
+    elif "<img src" in body:
+        icon = 'image'
+    
+    post = { 
+        'title': '' if title is None else title,
+        'icon': icon,
+        'note_bgcolor': '' if bgcolor is None else bgcolor,
+        'tags': '' if tags is None else tags,
+        'body': '' if body is None else body
+    }
+    return post
+    
+#-------------------------------------------------------------------------------------------------------------------------
+def saveToDB(note):
+    try:
+        db.session.add(note)
+        db.session.commit()
+    except Exception as e:
+        print("\n FAILED entry: {}\n")
+        print(e)
+
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/editnote/<int:id>', methods=['GET'])
+@login_required
+def editnote(id):
+    note = getNoteById(id)
+    
+    if note:
+        note.body = note if note.body is None else note.body
+        note.body = json.loads(note.body)
+        return render_template('post.html', theme=themes[currentTheme], post=note, title='New Note') 
+
+    return redirect(url_for('index'))
+    
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/delnote/<int:id>', methods=['GET'])
+@login_required
+def delNoteById(id):
+    post = getNoteById(id)
+    if post is None:
+        return "id not found"
+    else:
+        db.session.delete(post)
+        db.session.commit()
+    return redirect(url_for('index'))
+    
+#-------------------------------------------------------------------------------------------------------------------------
+def getNoteById(id):
+    note = None
+    
+    for eachNote in current_user.post:
+        if eachNote.id == id:
+            note = eachNote
+            
+    if note is None:
+        for eachNote in current_user.relations:
+            if eachNote.id == id:
+                note = eachNote
+    
+    return note
+    
+#-------------------------------------------------------------------------------------------------------------------------
+#----- Share Note
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/shared')
+@login_required
+def shared():
+    global tags, currentTheme
+    currentTheme = current_user.settings
+        
+    getposts = []
+    for post in current_user.relations:
+        post.body = json.loads(post.body)
+        post.body.update(id=post.id)
+        getposts.append(post.body)
+        
+    getposts.reverse()
+    
+    return render_template('index.html', theme=themes[currentTheme], allposts=getposts, tags=tags, title='Home')
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/share/<int:note_id>/<string:email>', methods=['GET'])
+@login_required
+def shareNoteById(note_id, email):
+    
+    note = getNoteById(note_id)
+    
+    if note:
+        getUser = User.query.filter_by(email=email).first()
+        if getUser:
+            note.shareto.append(getUser)
+            db.session.commit()
+        
+        print('User not found')
+        
+    return redirect(url_for('index'))
+    
 #-------------------------------------------------------------------------------------------------------------------------
 #----- User login & Registation / Logout
 #-------------------------------------------------------------------------------------------------------------------------
@@ -181,6 +298,7 @@ def login():
 	return render_template('welcome.html', form=form)
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -188,32 +306,48 @@ def logout():
 #----- Admin & skrunkworks stuff
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/db')
+@login_required
 def showdb():
-    Users = User.query.all()
-    Posts = Post.query.order_by(Post.id.desc()).all()
-    PostsAll = AllPosts.query.all()
-    return render_template('result.html', Users=Users, Posts=Posts, AllPosts=PostsAll)
+    if current_user.email == "admin":
+        Users = User.query.all()
+        Posts = Post.query.order_by(Post.id.desc()).all()
+        Shares = [] #shares.query.all()
+        for post in Posts:
+            post.body = post.body[0:50]
+            
+        return render_template('result.html', Users=Users, Posts=Posts, shares=Shares)
     
-@app.route('/delid/<int:id>', methods=['GET'])
-def delID(id):
-    user = User.query.filter_by(id=id).first()
-    if user is None:
-        return "id not found"
-    else:
-        db.session.delete(user)
-        db.session.commit()
-    data = User.query.all()
-    return render_template('result.html', data=data)
+    return redirect(url_for('index'))
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/delshareid/<int:id>', methods=['GET'])
+@login_required
+def delShareId(id):
+    if current_user.email == "admin":
+        shared = AllPosts.query.filter_by(id=id).first()
+        if shared is None:
+            return "id not found"
+        else:
+            db.session.delete(shared)
+            db.session.commit()
+            
+        return redirect(url_for('showdb'))
         
-@app.route('/delpost/<int:id>', methods=['GET'])
-def delPostById(id):
-    post = Post.query.filter_by(id=id).first()
-    if post is None:
-        return "id not found"
-    else:
-        db.session.delete(post)
-        db.session.commit()
-    return redirect(url_for('showdb'))
+    return redirect(url_for('index'))
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/delid/<int:id>', methods=['GET'])
+@login_required
+def delID(id):
+    if current_user.email == "admin":
+        user = User.query.filter_by(id=id).first()
+        if user is None:
+            return "id not found"
+        else:
+            db.session.delete(user)
+            db.session.commit()
+            
+        return redirect(url_for('showdb'))
+        
+    return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/db_init')
 def fillCheck():
@@ -233,26 +367,34 @@ def addadmin():
         return "FAILED entry: "+str(e)
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/db_clearposts')
+@login_required
 def clearPosts():
-    Post.query.delete()
-    db.session.commit()
-    return redirect(url_for('showdb'))
+    if current_user.email == "admin":
+        Post.query.delete()
+        db.session.commit()
+        return redirect(url_for('showdb'))
+        
+    return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/db_addposts')
+@login_required
 def addDB():
-    db.session.bulk_insert_mappings(
-        Post,
-        [
-            dict(
-                body=genPosts(),
-                user_id=current_user.id
-            )
-            for i in range(random.randint(10,30))
-        ],
-    )
-    db.session.commit()
+    if current_user.email == "admin":
+        db.session.bulk_insert_mappings(
+            Post,
+            [
+                dict(
+                    body=genPosts(),
+                    user_id=current_user.id
+                )
+                for i in range(random.randint(10,30))
+            ],
+        )
+        db.session.commit()
     
-    return redirect(url_for('showdb'))
+        return redirect(url_for('showdb'))
+        
+    return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------
 def genPosts():
     global icons
@@ -269,7 +411,7 @@ def genPosts():
     return json.dumps(post)
     
 icons = {
-    'brush': themes[currentTheme]['btnBrush'],
+    'image': themes[currentTheme]['btnBrush'],
     'event_available': themes[currentTheme]['btnCheckbox'],
     'event_note': themes[currentTheme]['btnNote']
     }

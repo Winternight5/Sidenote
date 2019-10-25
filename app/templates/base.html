@@ -28,10 +28,10 @@
     {% if title == "Home" %}
       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="large material-icons">menu</i></a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="javascript:void(0)" onclick="$('.sidenav').sidenav('open')" class="waves-effect"><i class="material-icons">menu</i></a></li>
-        <li><a href="{{ url_for('newpost') }}" class="waves-effect"><i class="material-icons">brush</i></a></li>
-        <li><a href="{{ url_for('newpost') }}" class="waves-effect"><i class="material-icons">event_available</i></a></li>
-        <li><a href="{{ url_for('newpost') }}" class="waves-effect"><i class="material-icons">event_note</i></a></li>
+        <li><a href="javascript:void(0)" onclick="$('.sidenav').sidenav('open')" class="waves-effect waves-light"><i class="material-icons">menu</i></a></li>
+        <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">brush</i></a></li>
+        <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">event_available</i></a></li>
+        <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">event_note</i></a></li>
       </ul>
       
       <form autocomplete="off" class="right">
@@ -42,13 +42,45 @@
         </div>
       </form>
       
-    {% elif title == "New Post" %}
-      <a href="{{ url_for('index') }}" class="left"><i class="large material-icons">arrow_back</i></a>
-      <ul class="right">
-        <li><a href="javascript:void(0)" onclick="submitForm()" class="waves-effect"><i class="material-icons">save</i></a></li>
-        <li><a href="javascript:void(0)" class="waves-effect"><i class="material-icons">event_available</i></a></li>
-        <li><a href="javascript:void(0)" class="waves-effect"><i class="material-icons">brush</i></a></li>
+    {% elif title == "New Note" %}
+      <ul class="left">
+        <li><a href="{{ url_for('index') }}" class="left"><i class="large material-icons">arrow_back</i></a></li>
       </ul>
+      <ul class="right">
+        <li><a href="javascript:void(0)" onclick="submitForm()" class="waves-effect waves-light"><i class="material-icons">save</i></a></li>
+        <li><a class="waves-effect waves-light modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>
+        <li><a class="waves-effect waves-light modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li>
+        <li><a class="waves-effect waves-light"  onclick="editorCmd('insertOrderedList')"><i class="material-icons">format_list_bulleted</i></a></li>
+        <li><input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
+        <label for="file" class="">
+            <a class="waves-effect waves-light"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
+        </label></li>
+      </ul>
+       <!--href="/share/{% if post.id  %}{{ post.id }}/2 {% endif %}" -->
+      <div id="modalDelete" class="modal">
+        <div class="modal-content center">
+          <h4>Delete</h4>
+          <p>Delete this note?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="/delnote/{% if post.id  %}{{ post.id }}{% endif %}" class="modal-close waves-effect waves-green btn-flat">Yes</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
+        </div>
+      </div>
+      
+      <div id="modalShare" class="modal">
+        <div class="modal-content center">
+          <h4>Sharing Note</h4>
+            <div class="input-field">
+              <input id="shareName" name="shareName" type="text" class="{{ theme.font }}">
+              <label for="shareName">Share with:</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" onclick="shareNote()" class="modal-close waves-effect waves-green btn-flat">Share</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancel</a>
+        </div>
+      </div>
     {% endif %}
     </div>
   </nav>
@@ -63,17 +95,15 @@
         <br>
     </div></li>
     {% if current_user.is_authenticated %}
-    <li><a class="subheader {{ theme.font }}">Tags</a></li>
-    <li><a href="{{ url_for('newpost') }}" class="waves-effect {{ theme.font }}"><i class="material-icons {{ theme.font }}">error_outline</i>Important</a></li>
-    <li><a href="{{ url_for('newpost') }}" class="waves-effect {{ theme.font }}"><i class="material-icons {{ theme.font }}">access_time</i>Recent Untag</a></li>
-    <li><a href="{{ url_for('newpost') }}" class="waves-effect {{ theme.font }}"><i class="material-icons {{ theme.font }}">local_offer</i>#Homework</a></li>
-    <li><a href="{{ url_for('newpost') }}" class="waves-effect {{ theme.font }}"><i class="material-icons {{ theme.font }}">local_offer</i>#School</a></li>
+    <li><a class="subheader {{ theme.font }}">Menu</a></li>
+    <li><a href="{{ url_for('index') }}" class="waves-effect waves-light {{ theme.font }}"><i class="material-icons {{ theme.font }}">event_note</i>My Notes</a></li>
+    <li><a href="{{ url_for('shared') }}" class="waves-effect waves-light {{ theme.font }}"><i class="material-icons {{ theme.font }}">screen_share</i>Shared to me</a></li>
     
     <li><div class="divider"></div></li>
     
-    <li><a href="{{ url_for('changetheme') }}" class="waves-effect {{ theme.font }}"><i class="material-icons {{ theme.font }}">brightness_6</i>{{ theme.switch }}</a></li>
-    <li><a href="{{ url_for('index') }}" class="waves-effect {{ theme.font }}"><i class="material-icons {{ theme.font }}">settings</i>Setting</a></li>
-    <li><a href="{{ url_for('logout') }}" class="waves-effect {{ theme.font }}"><i class="material-icons {{ theme.font }}">power_settings_new</i>Logout</a></li>
+    <li><a href="{{ url_for('changetheme') }}" class="waves-effect waves-light {{ theme.font }}"><i class="material-icons {{ theme.font }}">brightness_6</i>{{ theme.switch }}</a></li>
+    <li><a href="{{ url_for('index') }}" class="waves-effect waves-light {{ theme.font }}"><i class="material-icons {{ theme.font }}">settings</i>Setting</a></li>
+    <li><a href="{{ url_for('logout') }}" class="waves-effect waves-light {{ theme.font }}"><i class="material-icons {{ theme.font }}">power_settings_new</i>Logout</a></li>
     {% endif %}
     </ul>
 
@@ -89,10 +119,15 @@
         }
         var elems = document.querySelectorAll('.sidenav');
         var instances = M.Sidenav.init(elems, options);
+        {% if title == "New Note" %}
+        var elems = document.querySelectorAll('.modal');
+        var instances = M.Modal.init(elems, options);
+        {% endif %}
       });
       
       $(document).ready(function(){
         $('.sidenav').sidenav();
+        {% if title == "New Note" %} $('.modal').modal(); {% endif %}
         
         menu = $('.menu');
         target = $('#' +menu.attr("data-target"));

@@ -12,9 +12,9 @@
 <hr>
 
 <table>
-{% for item in AllPosts %}
+{% for item in shares %}
 <tr>
-	<td>{{item.id}} {{item.user_id}} {{item.post_id}}</td>
+	<td>{{item.id}} | {{item.user_id}} | {{item.post_id}} <a href="/delshareid/{{item.id}}">Delete</a></td>
 </tr>
 {% endfor %}
 </table>
@@ -24,7 +24,7 @@
 <table>
 {% for item in Posts %}
 <tr>
-	<td>{{item.id}} {{item.body}} {{item.timestamp}} <a href="/delpost/{{item.id}}">Delete</a></td>
+	<td>{{item.id}} | {{item.body}} | {{item.timestamp}} <a href="/delpost/{{item.id}}">Delete</a></td>
 </tr>
 {% endfor %}
 </table>

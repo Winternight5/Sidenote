@@ -2,51 +2,98 @@
 
 {% block content %}
 <style>
+    body {
+        overscroll-behavior: contain;
+    }
+/* Mobile Styles */
+@media screen and (max-aspect-ratio: 13/9) {
+    #contentEditor {
+        font-size: 140%;
+    }
+}
+
+/* Desktop Styles */
+@media screen and (min-aspect-ratio: 13/9) {
+    #contentEditor {
+        font-size: 120%;
+    }
+}
+
     #contentEditor {
         height: 65vh;
+        overflow-x: hidden;
     }
+    
     .row {
         padding: 10px;
+    }
+    
+    .newImage {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .InsertImage {
+        padding: 10px;
+        resize: both;
+        width: 99%;
+    }
+    .InsertImage img {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
     }
 </style>
 <br><br><br>
 <div class="{{ theme.note }} {{ theme.font_header }}">
- <form name="post" method="post" action="/savepost">
+ <form name="post" method="post" action="/savenote{% if post.id  %}/{{ post.id }}{% endif %}">
   <div class="row">
     <div class="input-field">
-      <input id="post_title" name="title" type="text" class="validate {{ theme.font }}">
+      <input id="post_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
       <label for="post_title">Title</label>
     </div>
-    <!--<div class="input-field">
-      <input id="post_tags" name="tags" type="text" class="validate {{ theme.font }}">
-      <label for="post_tags">Tags</label>
+    
+    <div class="center">
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('bold')"><i class="material-icons">format_bold</i></a>
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('italic')"><i class="material-icons">format_italic</i></a>
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('underline')"><i class="material-icons">format_underlined</i></a>
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a></li>
+        <!--<a class="waves-effect waves-light btn-small"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a></li>-->
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('outdent')"><i class="material-icons">format_indent_decrease</i></a>
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>
     </div>
-    <div class="input-field">
-      <textarea id="message" name="content" class="materialize-textarea {{ theme.font }}"></textarea>
-      <label for="message">Write a note</label>
-    </div>-->
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('bold')"><i class="material-icons">format_bold</i></a>
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('italic')"><i class="material-icons">format_italic</i></a>
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('underline')"><i class="material-icons">format_underlined</i></a>
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a>
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a>
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('insertOrderedList')"><i class="material-icons">format_list_numbered</i></a>
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('outdent')"><i class="material-icons">format_indent_decrease</i></a>
-        <a class="waves-effect waves-light btn"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>
-        <div class="divider"></div>
-      <div id="contentEditor" class="{{ theme.font }}" tabindex="0" contenteditable="true"></div>
-      <textarea type="hidden" name="content" id="content" style="display: none"></textarea>
+        <!--<input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
+        <label for="file" class="">
+            <a class="waves-effect waves-light btn"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
+        </label>-->
+        
+      <div id="contentEditor" class="card {{ theme.font }}" tabindex="0" contenteditable="true">{% if post.id  %}{{ post.body.body | safe }}{% endif %}</div>
+      <textarea name="content" id="content" style="display: none"></textarea>
+      <canvas class="whiteboard" style="display: none;"></canvas>
   </div>
  </form>
 </div>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
     document.body.removeAttribute("class");
     document.body.className += "{{ theme.note }}";
+    const $contentEditor = $('#contentEditor');
+    var canvas = document.getElementsByClassName('whiteboard')[0];
+    var context = canvas.getContext('2d');
     
     function submitForm() {
-        $('#content').text($('#contentEditor').html());
+        $('#content').text($contentEditor.html());
         document.post.submit();
+    }
+    
+    function shareNote() {
+        $.ajax({
+            url: "/share/{{ post.id }}/"+$('#shareName').val(),
+            context: ''
+        }).done(function() {
+            console.log('Shared')
+        });
     }
     
     function editorCmd(cmd) {
@@ -83,7 +130,81 @@
             case "outdent" :
                 document.execCommand('outdent');
                 break;
+                
+            case "image" :
+                document.execCommand('image');
+                break;
         }
     }
+    
+    function getImage() {
+        var file = $('#file')[0].files[0] 
+
+        var reader = new FileReader();
+        
+        reader.onload = function() {
+            var img = new Image();
+
+            img.onload = function() {
+                width = ($contentEditor.width() > img.width) ? img.width : $contentEditor.width();
+                height = Math.round(width / img.width * img.height);
+                
+                // Resize image to to reduce file size (optimization)
+                //canvas.width = width;
+                //canvas.height = height;
+                //context.drawImage(img, 0, 0, width, height);
+                
+                // Generate image data
+                //dataURL = canvas.toDataURL("image/jpeg")
+                //width="'+width+'" height="'+height+'"
+                imgHTML = '<div class="card-image"><img src="'+reader.result+'"></div><br>';
+                
+                pasteHtmlAtCaret(imgHTML);
+            };
+            
+            img.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    function pasteHtmlAtCaret(html) {
+        var sel, range;
+        if (window.getSelection) {
+            // IE9 and non-IE
+            sel = window.getSelection();
+            if (sel.getRangeAt && sel.rangeCount) {
+                range = sel.getRangeAt(0);
+                range.deleteContents();
+
+                // Range.createContextualFragment() would be useful here but is
+                // non-standard and not supported in all browsers (IE9, for one)
+                var el = document.createElement("div");
+                el.innerHTML = html;
+
+                var frag = document.createDocumentFragment(), node, lastNode;
+                while ((node = el.firstChild)) {
+                    lastNode = frag.appendChild(node);
+                }
+                range.insertNode(frag);
+                
+                // Preserve the selection
+                if (lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+                console.log(el);
+            }
+        } else if (document.selection && document.selection.type != "Control") {
+            // IE < 9
+            document.selection.createRange().pasteHTML(html);
+        }
+    }
+    $(".InsertImage").resizable();
 </script>
 {% endblock %}:
