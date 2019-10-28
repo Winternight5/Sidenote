@@ -20,7 +20,7 @@
 }
 
     #contentEditor {
-        height: 35vh;
+        height: 65vh;
         padding: 6px;
         overflow-x: hidden;
     }
@@ -74,7 +74,7 @@
         </label>-->
       <div class="clickable"></div>
       <div id="contentEditor" class="card {{ theme.font }}" tabindex="0" contenteditable="true">{% if post.id  %}{{ post.body.body | safe }}{% endif %}</div>
-      <textarea name="content" id="content" style="display: block; height: 30vh;"></textarea>
+      <textarea name="content" id="content" style="display: none; height: 30vh;"></textarea>
       <canvas class="whiteboard" style="display: none;"></canvas>
   </div>
  </form>
