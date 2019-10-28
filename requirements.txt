@@ -103,7 +103,7 @@ pyserial==3.4
 python-dateutil==1.5
 python-dotenv==0.10.3
 python-editor==1.0.4
-python-gnupg==0.4.1
+python-gnupg==0.4.4
 python-qt-binding==0.3.5
 python-snappy==0.5
 PyTrie==0.2
