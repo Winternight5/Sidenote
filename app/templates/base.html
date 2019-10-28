@@ -6,6 +6,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="{{ theme.browser }}">-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="">
         {% if title %}
@@ -42,9 +43,9 @@
         </div>
       </form>
       
-    {% elif title == "New Note" %}
+    {% elif title == "Note" %}
       <ul class="left">
-        <li><a href="{{ url_for('index') }}" class="left"><i class="large material-icons">arrow_back</i></a></li>
+        <li><a class="waves-effect waves-light modal-trigger" href="#modalSave" class="left"><i class="large material-icons">arrow_back</i></a></li>
       </ul>
       <ul class="right">
         <li><a href="javascript:void(0)" onclick="submitForm()" class="waves-effect waves-light"><i class="material-icons">save</i></a></li>
@@ -68,19 +69,42 @@
         </div>
       </div>
       
-      <div id="modalShare" class="modal">
+      <div id="modalSave" class="modal">
         <div class="modal-content center">
+          <h4>Save Note</h4>
+            Would you like to save first?
+        </div>
+        <div class="modal-footer">
+            <a href="#!" onclick="submitForm()" class="waves-effect waves-green btn-flat">Save</a>
+            <a href="#!" onclick="history.back()" class="waves-effect waves-red btn-flat">No</a>
+            <a href="#!" class="modal-close waves-effect waves-yellow btn-flat">Cancel</a>
+        </div>
+      </div>
+      
+      <div id="modalShare" class="modal">
+        <div class="modal-content">
           <h4>Sharing Note</h4>
             <div class="input-field">
               <input id="shareName" name="shareName" type="text" class="{{ theme.font }}">
-              <label for="shareName">Share with:</label>
+              <label for="shareName">Email to share with:</label>
             </div>
+            <p> <label>
+                <input id="writeAccess" type="checkbox" 
+                    {% if post.writeAllowed  %}checked{% endif %} 
+                    {% if not post.owner  %}disabled="disabled"{% endif %} 
+                />
+                <span>Allow other to edit this note.</span>
+            </label></p>
         </div>
         <div class="modal-footer">
             <a href="#!" onclick="shareNote()" class="modal-close waves-effect waves-green btn-flat">Share</a>
-            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancel</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
         </div>
       </div>
+    {% elif title == "View" %}
+      <ul class="left">
+        <li><a class="waves-effect waves-light" href="#!" onclick="history.back();" class="left"><i class="large material-icons">arrow_back</i></a></li>
+      </ul>
     {% endif %}
     </div>
   </nav>
@@ -119,7 +143,7 @@
         }
         var elems = document.querySelectorAll('.sidenav');
         var instances = M.Sidenav.init(elems, options);
-        {% if title == "New Note" %}
+        {% if title == "Note" %}
         var elems = document.querySelectorAll('.modal');
         var instances = M.Modal.init(elems, options);
         {% endif %}
@@ -127,7 +151,7 @@
       
       $(document).ready(function(){
         $('.sidenav').sidenav();
-        {% if title == "New Note" %} $('.modal').modal(); {% endif %}
+        {% if title == "Note" %} $('.modal').modal(); {% endif %}
         
         menu = $('.menu');
         target = $('#' +menu.attr("data-target"));

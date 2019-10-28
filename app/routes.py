@@ -85,7 +85,7 @@ def changetheme():
 @app.route('/newnote')
 @login_required
 def newnote():
-    return render_template('post.html', theme=themes[currentTheme], post=None, title='New Note') 
+    return render_template('post.html', theme=themes[currentTheme], post=None, title='Note') 
     
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/savenote', methods=['POST'])
@@ -117,16 +117,24 @@ def saveNoteById(id):
         tags = request.form.get('tags')
         body = request.form.get('content')
         
+        owner = NoteOwner(id)
+        
         # generate new note array
         data = noteData(title, None, tags, body)
         # get current note by ID (it's linked with current_user)
-        currentPost = getNoteById(id)
-        # convert noteData to json
-        currentPost.body = json.dumps(data)
+        currentPost = getNoteById(id, owner)
         
-        saveToDB(currentPost)
-        
-    return redirect(url_for('index'))
+        # only allow owner to write or shared note with write access
+        if owner or not owner and currentPost.writeAllowed:
+            # convert noteData to json
+            currentPost.body = json.dumps(data)
+            
+            saveToDB(currentPost)
+            
+    if owner:    
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('shared'))
 #-------------------------------------------------------------------------------------------------------------------------
 def noteData(title, bgcolor, tags, body):
     icon = 'event_note'
@@ -157,14 +165,40 @@ def saveToDB(note):
 @app.route('/editnote/<int:id>', methods=['GET'])
 @login_required
 def editnote(id):
-    note = getNoteById(id)
+    # return True or False
+    # True = get from owner
+    # False = get from sharing
+    owner = NoteOwner(id)
     
-    if note:
-        note.body = note if note.body is None else note.body
-        note.body = json.loads(note.body)
-        return render_template('post.html', theme=themes[currentTheme], post=note, title='New Note') 
+    note = getNoteById(id, owner)
+    
+    if note is not None:
+        # if not owner and no write access, go to view page
+        if not owner and not note.writeAllowed:
+            note.body = note if note.body is None else note.body
+            note.body = json.loads(note.body)
+            note.owner = ''
+            return render_template('view.html', theme=themes[currentTheme], post=note, title='View') 
+        
+        # if owner or with write access go to edit page
+        if note:
+            note.body = note if note.body is None else note.body
+            note.body = json.loads(note.body)
+            note.owner = owner
+            return render_template('post.html', theme=themes[currentTheme], post=note, title='Note') 
 
     return redirect(url_for('index'))
+    
+def NoteOwner(id):
+    noteOwner = Post.query.filter_by(id=id).first()
+    
+    if noteOwner is None:
+        return redirect(url_for('index'))
+    
+    if noteOwner.user_id == current_user.id:
+        return noteOwner
+    else:
+        return False
     
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/delnote/<int:id>', methods=['GET'])
@@ -172,21 +206,22 @@ def editnote(id):
 def delNoteById(id):
     post = getNoteById(id)
     if post is None:
-        return "id not found"
+        return "note not found or no access"
     else:
         db.session.delete(post)
         db.session.commit()
     return redirect(url_for('index'))
     
 #-------------------------------------------------------------------------------------------------------------------------
-def getNoteById(id):
+def getNoteById(id, owner=True):
     note = None
     
-    for eachNote in current_user.post:
-        if eachNote.id == id:
-            note = eachNote
+    if owner:
+        for eachNote in current_user.post:
+            if eachNote.id == id:
+                note = eachNote
             
-    if note is None:
+    else:
         for eachNote in current_user.relations:
             if eachNote.id == id:
                 note = eachNote
@@ -219,7 +254,7 @@ def shareNoteById(note_id, email):
     note = getNoteById(note_id)
     
     if note:
-        getUser = User.query.filter_by(email=email).first()
+        getUser = User.query.filter_by(email=email.lower()).first()
         if getUser:
             note.shareto.append(getUser)
             db.session.commit()
@@ -227,6 +262,21 @@ def shareNoteById(note_id, email):
         print('User not found')
         
     return redirect(url_for('index'))
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/writeAccess/<int:note_id>/<string:type>', methods=['GET'])
+@login_required
+def noteWriteAccess(note_id, type):
+    
+    note = getNoteById(note_id, True)
+    if note:
+        if type == 'true':
+            note.writeAllowed = True
+        else:
+            note.writeAllowed = False
+
+        db.session.commit()
+        
+    return ''
     
 #-------------------------------------------------------------------------------------------------------------------------
 #----- User login & Registation / Logout
@@ -277,7 +327,7 @@ def login():
 			
 		form = RegistrationForm()
 		if form.validate_on_submit():
-			user = User(email=form.email.data, firstname=form.firstname.data, lastname=form.lastname.data)
+			user = User(email=form.email.data.lower(), firstname=form.firstname.data, lastname=form.lastname.data)
 			user.set_password(form.password.data)
 			try:
 				db.session.add(user)

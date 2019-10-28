@@ -20,28 +20,34 @@
 }
 
     #contentEditor {
-        height: 65vh;
+        height: 35vh;
+        padding: 6px;
         overflow-x: hidden;
     }
     
     .row {
         padding: 10px;
     }
-    
-    .newImage {
-        width: 100%;
-        height: 100%;
+
+    ol {
+      list-style-type: none;
+    }
+
+    ol li span::before {
+      font-family: "FontAwesome";
+      content: '\f096';
+      margin-right: 7px;
+      font-size: 150%;
     }
     
-    .InsertImage {
-        padding: 10px;
-        resize: both;
-        width: 99%;
+    ol li.complete span:before {
+      content: '\f046';
+      color: gray;
     }
-    .InsertImage img {
-        width: 100%;
-        height: 100%;
-        border-radius: 20px;
+    
+    .complete {
+      /*text-decoration: line-through;*/
+      color: gray;
     }
 </style>
 <br><br><br>
@@ -57,35 +63,116 @@
         <a class="waves-effect waves-light btn-small"  onclick="editorCmd('bold')"><i class="material-icons">format_bold</i></a>
         <a class="waves-effect waves-light btn-small"  onclick="editorCmd('italic')"><i class="material-icons">format_italic</i></a>
         <a class="waves-effect waves-light btn-small"  onclick="editorCmd('underline')"><i class="material-icons">format_underlined</i></a>
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a></li>
-        <!--<a class="waves-effect waves-light btn-small"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a></li>-->
+        <!--<a class="waves-effect waves-light btn-small"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a></li>
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a></li>
+        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>-->
         <a class="waves-effect waves-light btn-small"  onclick="editorCmd('outdent')"><i class="material-icons">format_indent_decrease</i></a>
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>
     </div>
         <!--<input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
         <label for="file" class="">
             <a class="waves-effect waves-light btn"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
         </label>-->
-        
+      <div class="clickable"></div>
       <div id="contentEditor" class="card {{ theme.font }}" tabindex="0" contenteditable="true">{% if post.id  %}{{ post.body.body | safe }}{% endif %}</div>
-      <textarea name="content" id="content" style="display: none"></textarea>
+      <textarea name="content" id="content" style="display: block; height: 30vh;"></textarea>
       <canvas class="whiteboard" style="display: none;"></canvas>
   </div>
  </form>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<!--<script src="//cdn.jsdelivr.net/jquery.ui/1.11.4/jquery-ui.min.js"></script>-->
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>-->
 <script>
+    //$('ol').sortable();
     document.body.removeAttribute("class");
     document.body.className += "{{ theme.note }}";
     const $contentEditor = $('#contentEditor');
     var canvas = document.getElementsByClassName('whiteboard')[0];
     var context = canvas.getContext('2d');
     
+    $(document).ready(function() {
+        namingOl();
+    });
+    
+    $contentEditor.keyup(function(e) {
+        writeHTML();
+    });
+    
+    $(document).on('click', 'ol li', function(event) {
+        console.log(event.target.tagName)
+        if (event.target.tagName != 'SPAN' || $(this).text() == '') return false;
+        
+        $(this).toggleClass('complete');
+        $('.'+$(this).parent().attr('class')+' .complete')
+            .appendTo($(this).parent());
+            
+        writeHTML();
+    });
+    
+    function writeHTML() {
+        $('#content').text($contentEditor.html());
+        var beautify = formatFactory($('#content').text());
+        $('#content').val(beautify);
+        
+
+        $contentEditor.find('li').each(function() {
+            if ($(this).has('span').length == 0) {
+                $(this).prepend("<span>");
+            }
+        });
+    }
+    
+    function namingOl() {
+        var olCounter = 1;
+        
+        $('ol').each(function() {
+            $(this).removeClass(removeOlClasses);
+            
+            $(this).addClass('ol'+olCounter);
+            $(this).find('li').each(function(){
+                $(this).removeClass(removeOlClasses);
+                $(this).addClass('ol'+olCounter);
+            })
+            
+            olCounter++;
+        });
+        
+        writeHTML();
+    }
+    
+    function removeOlClasses(index, classNames) {
+        var current_classes = classNames.split(" "), 
+        classes_to_remove = [];
+
+        $.each(current_classes, function (index, class_name) {
+            if (/ol.*/.test(class_name)) {
+                classes_to_remove.push(class_name);
+            }
+        });
+        return classes_to_remove.join(" ");
+    }
+    
+    function removeEmptyLi() {
+        $contentEditor.find('li').each(function() {
+            if ($(this).text().length == 0) {
+                $(this).remove();
+            }
+        });
+    }
+    
     function submitForm() {
         $('#content').text($contentEditor.html());
         document.post.submit();
     }
+    
+    $('#writeAccess').change(function() {
+        console.log('changed')
+        $.ajax({
+            url: "/writeAccess/{{ post.id }}/"+$('#writeAccess').is(':checked')
+        }).done(function() {
+            console.log('Write Access Updated')
+        });
+    });
     
     function shareNote() {
         $.ajax({
@@ -135,6 +222,9 @@
                 document.execCommand('image');
                 break;
         }
+        namingOl();
+        removeEmptyLi();
+        writeHTML();
     }
     
     function getImage() {
@@ -205,6 +295,49 @@
             document.selection.createRange().pasteHTML(html);
         }
     }
-    $(".InsertImage").resizable();
+        
+    function formatFactory(html) {
+        function parse(html, tab = 0) {
+            var tab;
+            var html = $.parseHTML(html);
+            var formatHtml = new String();   
+
+            function setTabs () {
+                var tabs = new String();
+
+                for (i=0; i < tab; i++){
+                  tabs += '\t';
+                }
+                return tabs;    
+            };
+
+
+            $.each( html, function( i, el ) {
+                if (el.nodeName == '#text') {
+                    if (($(el).text().trim()).length) {
+                        formatHtml += setTabs() + $(el).text().trim() + '\n';
+                    }    
+                } else {
+                    var innerHTML = $(el).html().trim();
+                    $(el).html(innerHTML.replace('\n', '').replace(/ +(?= )/g, ''));
+                    
+
+                    if ($(el).children().length) {
+                        $(el).html('\n' + parse(innerHTML, (tab + 1)) + setTabs());
+                        var outerHTML = $(el).prop('outerHTML').trim();
+                        formatHtml += setTabs() + outerHTML + '\n'; 
+
+                    } else {
+                        var outerHTML = $(el).prop('outerHTML').trim();
+                        formatHtml += setTabs() + outerHTML + '\n';
+                    }      
+                }
+            });
+
+            return formatHtml;
+        };   
+        
+        return parse(html.replace(/(\r\n|\n|\r)/gm," ").replace(/ +(?= )/g,''));
+    };
 </script>
 {% endblock %}:

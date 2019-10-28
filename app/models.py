@@ -36,7 +36,7 @@ class Post(db.Model):
     body = db.Column(db.Text)
     imgUrl = db.Column(db.String(128))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    readAllowed = db.Column(db.Boolean)
+    readAllowed = db.Column(db.Boolean) # don't need this
     writeAllowed = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     # share = db.relationship('AllPosts', backref='share', lazy='dynamic') 

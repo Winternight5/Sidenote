@@ -27,6 +27,31 @@ body:not(input):not(texteara)  {
     width: 30%;
     height: 30%;
 }
+
+
+ol {
+  padding: 0;
+  list-style-type: none;
+}
+
+ol li:before {
+  font-family: "FontAwesome";
+  content: '\f096';
+  margin-right: 5px;
+  font-size: 130%;
+  font-weight: bold;
+}
+
+ol li.complete:before {
+  font-family: "FontAwesome";
+  content:  '\f046';
+  color: gray;
+}
+
+ol li.complete {
+  /*text-decoration: line-through;*/
+  color: gray;
+}
 </style>
 <br><br><br>
 <div class="row" >

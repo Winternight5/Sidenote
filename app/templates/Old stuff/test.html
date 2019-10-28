@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Custom List Numbers</title>
+<style>
+  body {
+  font-size: 1.2em;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  margin: 50px;
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+ol li {
+  counter-increment: step-counter;
+  margin-bottom: 10px;
+}
+
+ol li::before {
+  content: counter(step-counter);
+  margin-right: 5px;
+  font-size: 80%;
+  background-color: rgb(0,200,200);
+  color: white;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.featured {
+    color: blue;
+    text-decoration: line-through;
+}
+.featured ol li::before {
+    color: blue;
+    text-decoration: none;
+}
+</style>
+</head>
+<body>
+<div  contenteditable="true" tabindex="0">
+<ol class="order-me">
+    <li class="">normal content 1</li>
+    <li class="">normal content 2</li>
+    <li class="">featured content 3</li>
+    <li class="">normal content 4</li>
+    <li class="">featured content 5</li>
+    <li class="">normal content 6</li>
+    <li class="">normal content 7</li>
+</ol>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$('ol li').on('click', function() {
+    $(this).toggleClass('featured');
+    $('.featured').appendTo('ol');
+});
+</script>
+</body>
+</html>
