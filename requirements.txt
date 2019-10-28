@@ -23,7 +23,7 @@ configobj==5.0.6
 constantly==15.1.0
 controller-manager==0.15.1
 controller-manager-msgs==0.15.1
-cryptography==2.1.4
+cryptography==2.3
 cv-bridge==1.13.0
 cycler==0.10.0
 Cython==0.26.1
