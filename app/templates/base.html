@@ -91,7 +91,7 @@
             <p> <label>
                 <input id="writeAccess" type="checkbox" 
                     {% if post.writeAllowed  %}checked{% endif %} 
-                    {% if not post.owner  %}disabled="disabled"{% endif %} 
+                    {% if post.id and not post.owner  %}disabled="disabled"{% endif %} 
                 />
                 <span>Allow other to edit this note.</span>
             </label></p>
