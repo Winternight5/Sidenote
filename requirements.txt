@@ -109,7 +109,7 @@ python-snappy==0.5
 PyTrie==0.2
 pytz==2018.3
 pyxdg==0.25
-PyYAML==3.12
+PyYAML==5.1
 qrcode==5.3
 qt-dotgraph==0.3.11
 qt-gui==0.3.11
