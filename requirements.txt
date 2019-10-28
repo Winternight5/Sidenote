@@ -84,7 +84,7 @@ numpy==1.16.5
 oauth==1.0.1
 olefile==0.45.1
 PAM==0.4.2
-paramiko==2.0.0
+paramiko==2.0.9
 Pillow==5.1.0
 psutil==5.4.2
 py-ubjson==0.8.5
