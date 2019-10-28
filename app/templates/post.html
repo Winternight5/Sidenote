@@ -74,7 +74,8 @@
         </label>-->
       <div class="clickable"></div>
       <div id="contentEditor" class="card {{ theme.font }}" tabindex="0" contenteditable="true">{% if post.id  %}{{ post.body.body | safe }}{% endif %}</div>
-      <textarea name="content" id="content" style="display: none; height: 30vh;"></textarea>
+      <textarea name="contentArea" id="contentArea" style="display: none; height: 30vh;"></textarea>
+      <input type="hidden" name="content" id="content">
       <canvas class="whiteboard" style="display: none;"></canvas>
   </div>
  </form>
@@ -110,9 +111,9 @@
     });
     
     function writeHTML() {
-        $('#content').text($contentEditor.html());
-        var beautify = formatFactory($('#content').text());
-        $('#content').val(beautify);
+        $('#contentArea').text($contentEditor.html());
+        var beautify = formatFactory($('#contentArea').text());
+        $('#contentArea').val(beautify);
         
 
         $contentEditor.find('li').each(function() {
@@ -161,7 +162,7 @@
     }
     
     function submitForm() {
-        $('#content').text($contentEditor.html());
+        $('#content').val($contentEditor.html());
         document.post.submit();
     }
     
@@ -208,6 +209,9 @@
                 
             case "insertOrderedList" :
                 document.execCommand('insertOrderedList');
+                namingOl();
+                removeEmptyLi();
+                writeHTML();
                 break;
                 
             case "indent" :
@@ -216,15 +220,15 @@
                 
             case "outdent" :
                 document.execCommand('outdent');
+                namingOl();
+                removeEmptyLi();
+                writeHTML();
                 break;
                 
             case "image" :
                 document.execCommand('image');
                 break;
         }
-        namingOl();
-        removeEmptyLi();
-        writeHTML();
     }
     
     function getImage() {

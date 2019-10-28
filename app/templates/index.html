@@ -74,7 +74,11 @@ ol li.complete {
         <p class="card-title activator name"><b>{{ post.title }}</b>
         <i class="material-icons right">{{ post.icon }}</i>
         </p>
-        <p class="content">{{ post.body | safe }}</p>
+        <p class="content">{{ post.body | safe }}
+        {% if post.icon == 'event_available' %} 
+        <!--to do list-->
+        {% endif %}
+        </p>
         <p class="tags">{{ post.tags }}</p>
       </div>
       </a>

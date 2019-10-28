@@ -138,7 +138,7 @@ def saveNoteById(id):
 #-------------------------------------------------------------------------------------------------------------------------
 def noteData(title, bgcolor, tags, body):
     icon = 'event_note'
-    if "<ol>" in body:
+    if "<ol" in body:
         icon = 'event_available'
     elif "<img src" in body:
         icon = 'image'
