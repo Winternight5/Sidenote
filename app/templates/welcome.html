@@ -1,108 +1,103 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Sidenote: Welcome!</title>
-        <meta charset="UTF-8"> 
-        <link href="static/welcome.css" type="text/css"
-                rel="stylesheet" />
-    </head>
 
-    <body>
-        <div class="welcome-container">             <!-- start of content container -->
+<head>
+  <meta charset="UTF-8">
+  <!-- Custom Written CSS -->
+  <link href="static/welcome.css" type="text/css" rel="stylesheet" />
+  <!-- Import Material Google Icon Fonts -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Materialize.css CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <title>Sidenote: Welcome!</title>
+</head>
 
-        <div class="introduction">               <!-- start of left-hand side sidebar div-->
-            <h1 id="uppercase-intro">Welcome to Sidenote</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-              Tellus at urna condimentum mattis pellentesque id nibh tortor. Proin nibh nisl condimentum id venenatis. Eu non diam 
-              phasellus vestibulum lorem sed risus. Elementum facilisis leo vel fringilla est ullamcorper.
-            </p>
-            <div class="ghost-button">
-              <a href="">
-                <button class="button">Learn More</button>
-                </a>
-            </div>
+<body>
+  <div class="container">
+
+    <div class="row valign-wrapper">
+      <!-- left half -->
+      <div class="col s12 m6">
+        <h4 class="">Welcome to Sidenote</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua.
+          Tellus at urna condimentum mattis pellentesque id nibh tortor. Proin nibh nisl condimentum id venenatis. Eu
+          non
+          diam
+          phasellus vestibulum lorem sed risus. Elementum facilisis leo vel fringilla est ullamcorper.
+        </p>
+        <div class="">
+          <a href=""><button class="">Learn More</button></a>
         </div>
+      </div>
 
-        <div class="getting-started">                 <!-- start of right-hand side split content-container-->
-            <div class="flex-wrap register">
-                <form method="post" action="" novalidate>
-                  <fieldset>
-                     <!-- the value attribute will be sent to the server-->
-                     <input id="sign-in" type="radio" name="login-option" value="sign-in" checked/>
-                     <input id="sign-up" type="radio" name="login-option" value="sign-up"/>
-                     <input id="reset-login" type="radio" name="login-option" value="reset-login"/>
+      <!-- right half -->
+      <div class="col s12 m6">
+        <div class="">
+          <form method="post" action="" novalidate>
+            <fieldset>
+              <!-- the value attribute will be sent to the server-->
+              <input id="sign-in" type="radio" name="login-option" value="sign-in" checked />
+              <input id="sign-up" type="radio" name="login-option" value="sign-up" />
+              <input id="reset-login" type="radio" name="login-option" value="reset-login" />
 
-                     <!-- radio options and their labels-->
-                     <label for="sign-in">Sign In</label>
-                     <label for="sign-up">Sign Up</label>
-                     <label for="reset-login">Reset</label>
+              <!-- radio options and their labels-->
+              <label for="sign-in">Sign In</label>
+              <label for="sign-up">Sign Up</label>
+              <label for="reset-login">Reset</label>
 
-                      <!-- the name attribute will also be sent to the server later on-->
-					{% with messages = get_flashed_messages() %}
-					{% if messages %}
-					<ul class="errorUl">
-						{% for message in messages %}
-						<li>{{ message }}</li>
-						{% endfor %}
-					</ul>
-					{% endif %}
-					{% endwith %}
-                     <!-- input fields
+              <!-- the name attribute will also be sent to the server later on-->
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <ul class="">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+              {% endwith %}
+              <!-- input fields
                      <input class="sign-in sign-up reset-login" type="email" name="email" value="team4@test.com" placeholder="E-mail"/>
                      <input class="sign-in sign-up" type="password" name="password" value="1234" placeholder="Password"/>
                      <input class="sign-up" type="password" name="password2" value=" 1234" placeholder="Repeat Password"/>-->
-					 {{ form.hidden_tag() }}
-					 {{ form.firstname(class="sign-up",  placeholder="First Name") }}
-						{% for error in form.firstname.errors %}
-						<span class="error">[{{ error }}]</span>
-						{% endfor %}
-					 {{ form.lastname(class="sign-up",  placeholder="Last Name") }}
-						{% for error in form.lastname.errors %}
-						<span class="error">[{{ error }}]</span>
-						{% endfor %}
-					 {{ form.email(class="sign-in sign-up reset-login", placeholder="E-mail") }}
-						{% for error in form.email.errors %}
-						<span class="error">[{{ error }}]</span>
-						{% endfor %}
-					 {{ form.password(class="sign-in sign-up",  placeholder="Password") }}
-						{% for error in form.password.errors %}
-						<span class="error">[{{ error }}]</span>
-						{% endfor %}
-					 {{ form.password2(class="sign-up",  placeholder="Repeat Password") }}
-						{% for error in form.password2.errors %}
-						<span class="error">[{{ error }}]</span>
-						{% endfor %}
-					 <br>{{ form.submit(class="button") }}
-                     <!-- submit button
+              {{ form.hidden_tag() }}
+              {{ form.firstname(class="sign-up",  placeholder="First Name") }}
+              {% for error in form.firstname.errors %}
+              <span class="error">[{{ error }}]</span>
+              {% endfor %}
+              {{ form.lastname(class="sign-up",  placeholder="Last Name") }}
+              {% for error in form.lastname.errors %}
+              <span class="error">[{{ error }}]</span>
+              {% endfor %}
+              {{ form.email(class="sign-in sign-up reset-login", placeholder="E-mail") }}
+              {% for error in form.email.errors %}
+              <span class="error">[{{ error }}]</span>
+              {% endfor %}
+              {{ form.password(class="sign-in sign-up",  placeholder="Password") }}
+              {% for error in form.password.errors %}
+              <span class="error">[{{ error }}]</span>
+              {% endfor %}
+              {{ form.password2(class="sign-up",  placeholder="Repeat Password") }}
+              {% for error in form.password2.errors %}
+              <span class="error">[{{ error }}]</span>
+              {% endfor %}
+              <br>{{ form.submit(class="button") }}
+              <!-- submit button
                      <button class="button">Submit</button>-->
-
-                  </fieldset>
-                </form>
-            </div>
+            </fieldset>
+          </form>
         </div>
+      </div>
+    </div>
+  </div>
 
-        </div>                              <!-- end of welcome-content container -->
+  <!--start of Script insertions -->
 
-    <!--start of Script insertions -->
-
-      <!--inserting jQuery from the Google CDN -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-      <!-- fallback option ; inserting jQuery locally in case the CDN happens to fail -->
-      <script>
-        window.jQuery || document.write('<script src="js/jquery-3.4.1.min.js"><\/script>')
-      </script>
-	  <script>
-	  var selectedOption = '{{ loginOption }}';
-	  
-	  if (selectedOption != '')
-		$("#"+selectedOption).attr('checked', true).css('color', 'red');
-	  </script>
-      <!--<script src="static/welcomeFadeInAnimation.js"></script>-->
-      
-    <!--end of Script insertions -->
-
-    </body>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!--inserting jQuery from the Google CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</body>
 
 </html>
