@@ -20,7 +20,7 @@
 
     <div class="row valign-wrapper">
       <!-- left half -->
-      <div class="col s12 m6 center">
+      <div class="center col s12 m6">
         <h3 class=""><i>Welcome to Sidenote</i></h3>
         <img src="../static/images/logo_transparent.png">
         <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -60,10 +60,7 @@
               </ul>
               {% endif %}
               {% endwith %}
-              <!-- input fields
-                     <input class="sign-in sign-up reset-login" type="email" name="email" value="team4@test.com" placeholder="E-mail"/>
-                     <input class="sign-in sign-up" type="password" name="password" value="1234" placeholder="Password"/>
-                     <input class="sign-up" type="password" name="password2" value=" 1234" placeholder="Repeat Password"/>-->
+
               {{ form.hidden_tag() }}
               {{ form.firstname(class="sign-up",  placeholder="First Name") }}
               {% for error in form.firstname.errors %}
@@ -86,8 +83,6 @@
               <span class="error">[{{ error }}]</span>
               {% endfor %}
               <br>{{ form.submit(class="button") }}
-              <!-- submit button
-                     <button class="button">Submit</button>-->
             </fieldset>
           </form>
         </div>
