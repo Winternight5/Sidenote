@@ -3,17 +3,19 @@
         <!-- this break the color after typing in input
         <meta name="theme-color" content="{{ theme.browser }}">
         <meta name="msapplication-navbutton-color" content="{{ theme.browser }}">
-        <meta name="apple-mobile-web-app-status-bar-style" content="{{ theme.browser }}">-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="{{ theme.browser }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{url_for('static', filename='animate.css')}}">
         <meta http-equiv="X-UA-Compatible" content="">
-        {% if title %}
+{% if title %}
         <title>{{ title }} - Sidenote</title>
-        {% else %}
+{% else %}
         <title>microblog</title>
-        {% endif %}
+{% endif %}
         <meta name="description" content="Sidenote for everyone">
         <meta name="author" content="Tai Huynh">
         <style>
@@ -22,19 +24,21 @@
             }
         </style>
     </head>
-    <body class="{{ theme.background }}" id="data-list">
+    <body class="{{ theme.background }} " id="data-list">
   <div id="menu">
+  <!-- Top Navigation Bar -->
   <nav id="navMenu" class="menu {{ theme.nav }} {{ theme.font_header }}" data-target="menu" style="z-index: 500">
     <div class="nav-wrapper">
-    {% if title == "Home" %}
+{% if title == "Home" %}
+      <!-- Left Side -->
       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="large material-icons">menu</i></a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="javascript:void(0)" onclick="$('.sidenav').sidenav('open')" class="waves-effect waves-light"><i class="material-icons">menu</i></a></li>
         <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">brush</i></a></li>
-        <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">event_available</i></a></li>
+        <li><a href="{{ url_for('newlist') }}" class="waves-effect waves-light"><i class="material-icons">event_available</i></a></li>
         <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">event_note</i></a></li>
       </ul>
-      
+      <!-- Right Side -->
       <form autocomplete="off" class="right">
         <div class="input-field">
           <input id="search" type="search" class="search" required>
@@ -43,22 +47,27 @@
         </div>
       </form>
       
-    {% elif title == "Note" %}
+{% elif title == "Note" or title == "List" %}
+      <!-- Left Side -->
       <ul class="left">
         <li><a class="waves-effect waves-light modal-trigger" href="#modalSave" class="left"><i class="large material-icons">arrow_back</i></a></li>
       </ul>
+      <!-- Right Side -->
       <ul class="right">
         <li><a href="javascript:void(0)" onclick="submitForm()" class="waves-effect waves-light"><i class="material-icons">save</i></a></li>
         <li><a class="waves-effect waves-light modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>
         <li><a class="waves-effect waves-light modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li>
+    {% if title == "Note" %}
         <li><a class="waves-effect waves-light"  onclick="editorCmd('insertOrderedList')"><i class="material-icons">format_list_bulleted</i></a></li>
         <li><input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
         <label for="file" class="">
             <a class="waves-effect waves-light"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
         </label></li>
+    {% endif %}
       </ul>
-       <!--href="/share/{% if post.id  %}{{ post.id }}/2 {% endif %}" -->
-      <div id="modalDelete" class="modal">
+
+    <!-- Modal: Delete -->
+      <div id="modalDelete" class="modal {{ theme.button1 }} {{ theme.font }}">
         <div class="modal-content center">
           <h4>Delete</h4>
           <p>Delete this note?</p>
@@ -68,9 +77,9 @@
             <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
         </div>
       </div>
-      
-      <div id="modalSave" class="modal">
-        <div class="modal-content center">
+      <!-- Modal: Save -->
+      <div id="modalSave" class="modal {{ theme.button1 }} {{ theme.font }}">
+        <div class="modal-content center {{ theme.font }}">
           <h4>Save Note</h4>
             Would you like to save first?
         </div>
@@ -80,8 +89,8 @@
             <a href="#!" class="modal-close waves-effect waves-yellow btn-flat">Cancel</a>
         </div>
       </div>
-      
-      <div id="modalShare" class="modal">
+      <!-- Modal: Share -->
+      <div id="modalShare" class="modal {{ theme.button1 }}">
         <div class="modal-content">
           <h4>Sharing Note</h4>
             <div class="input-field">
@@ -93,7 +102,7 @@
                     {% if post.writeAllowed  %}checked{% endif %} 
                     {% if post.id and not post.owner  %}disabled="disabled"{% endif %} 
                 />
-                <span>Allow other to edit this note.</span>
+                <span class="{{ theme.font }}">Allow other to edit this note.</span>
             </label></p>
         </div>
         <div class="modal-footer">
@@ -101,14 +110,19 @@
             <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
         </div>
       </div>
-    {% elif title == "View" %}
+      <!-- end modals -->
+      
+{% elif title == "View" %}
+      <!-- Left Side -->
       <ul class="left">
         <li><a class="waves-effect waves-light" href="#!" onclick="history.back();" class="left"><i class="large material-icons">arrow_back</i></a></li>
       </ul>
-    {% endif %}
+{% endif %}
     </div>
   </nav>
+  <!-- End Top Navigation Bar -->
 
+    <!-- Side Navigation Bar -->
     <ul id="slide-out" class="sidenav {{ theme.background }}">
     <li><div class="user-view">
         <div class="background">
@@ -130,28 +144,18 @@
     <li><a href="{{ url_for('logout') }}" class="waves-effect waves-light {{ theme.font }}"><i class="material-icons {{ theme.font }}">power_settings_new</i>Logout</a></li>
     {% endif %}
     </ul>
-
+    <!-- End Side Navigation Bar -->
+    
+    <!-- block content -->
     {% block content %}{% endblock %}
     
+    <!-- Javascripts -->
     {% if title == "Home" %}<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>{% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        options = {
-            draggable: true,
-            preventScrolling: true
-        }
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, options);
-        {% if title == "Note" %}
-        var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, options);
-        {% endif %}
-      });
-      
       $(document).ready(function(){
         $('.sidenav').sidenav();
-        {% if title == "Note" %} $('.modal').modal(); {% endif %}
+        {% if title == "Note" or title == "List" %} $('.modal').modal(); {% endif %}
         
         menu = $('.menu');
         target = $('#' +menu.attr("data-target"));
@@ -160,6 +164,19 @@
           top: target.offset().top
         });
       });
+      
+      /* animate each card when scrolled to screen
+      $(window).scroll(function() {
+		$('.fadeFX').each(function(){
+		var imagePos = $(this).offset().top;
+
+		var topOfWindow = $(window).scrollTop();
+			if (imagePos < topOfWindow+500) {
+				$(this).addClass("bounceIn");
+                console.log('hey');
+			}
+		});
+	  });//*/
     </script>
     </body>
     

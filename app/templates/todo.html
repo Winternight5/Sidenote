@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+/* disable text select on everything excep input and textarea */
+    body:not(input):not(texteara)  {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-width: 320px !important;
+    }
+    body {
+        overscroll-behavior: contain;
+    }
+/* Mobile Styles */
+@media screen and (max-aspect-ratio: 13/9) {
+    #contentEditor {
+        font-size: 140%;
+    }
+}
+
+/* Desktop Styles */
+@media screen and (min-aspect-ratio: 13/9) {
+    #contentEditor {
+        font-size: 120%;
+    }
+}
+
+    #contentEditor {
+        height: auto;
+        padding: 6px;
+        overflow-x: hidden;
+    }
+    
+    .row {
+        padding: 10px;
+    }
+    
+    .ToDoList, .CompleteList {
+      list-style-type: none;
+      border: 0px;
+    }
+    
+    .cbox {
+      font-family: "FontAwesome";
+      margin-right: 7px;
+      font-size: 150%;
+    }
+    
+
+    .ToDoList .cbox::before {
+      content: '\f096';
+    }
+    
+    .CompleteList .cbox:before  {
+      content: '\f046';
+      color: gray;
+    }
+    
+    .CompleteList .complete {
+      /*text-decoration: line-through;*/
+      color: gray;
+    }
+    
+    .delete { 
+      color: red;
+    }
+    
+    .collection-item {
+      background: none !important;
+    }
+</style>
+<br><br><br>
+<div class="{{ theme.note }} {{ theme.font_header }}">
+ <form name="post" method="post" action="/savenote{% if post.id  %}/{{ post.id }}{% endif %}">
+  <div class="row">
+    <div class="input-field">
+      <input id="list_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
+      <label for="list_title">Title</label>
+    </div>
+    <div class="input-field">
+      <input id="list_tags" name="tags" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.tags }}{% endif %}">
+      <label for="list_tags">Tags:</label>
+    </div>
+    <div class="input-field">
+      <input id="list_add" name="task" type="text" class="validate {{ theme.font }}" tabindex="0">
+      <label for="list_add">Add a New Task:</label>
+    </div>
+    
+    <!-- To Do Items -->
+    <div id="contentEditor" class="{{ theme.font }}">
+        {% if post.id  %}{{ post.body.body | safe }}{% endif %}
+    </div>
+    
+    <textarea name="contentArea" id="contentArea" style="display: none; height: 30vh;"></textarea>
+    <input type="hidden" name="content" id="content">
+  </div>
+ </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+<script>
+    document.body.removeAttribute("class");
+    document.body.className += "{{ theme.note }}";
+    const $contentEditor = $('#contentEditor');
+    
+    $(document).ready(function() {
+        if (!$contentEditor.find('ul').hasClass('collection')) {
+            $contentEditor.append('<ul class="collection ToDoList">');
+            $contentEditor.append('<ul class="collection CompleteList">');
+        }
+        $('.ToDoList').sortable({ handle: ".move" });
+        writeHTML();
+    });
+    
+    $contentEditor.keyup(function(e) {
+        writeHTML();
+    });
+    
+    $('#list_add').keyup(function(event) {
+		var code = event.keyCode || event.which;
+        var text =  $(this).val();
+        if (code == 13 && text.length > 0) {
+                            
+            $('<li class="collection-item animated">'+ // '+defaultAnimations['add']+'
+                            '<span class="move"><i class="material-icons">chevron_right</i></span> '+
+                            '<span class="cbox"></span>'+
+                            '<span class="textbox">' + text + '</span>'+
+                            '<a href="#!" class="secondary-content"><i class="material-icons icon">delete</i></a>').hide().prependTo('.ToDoList').slideDown('normal');
+                            
+            $(this).val('');
+            writeHTML();
+        }
+    });
+    
+    // To Do List click events
+    $(document).on('click', '.collection li', function(event) {
+        
+        // clicked: cbox class (checkbox stuff)
+        if (event.target.className == 'cbox') {
+            // switch item between complete or not
+            $(this).toggleClass('complete');
+            
+            // 1 Line sorting
+            if ($(this).hasClass('complete')) {
+                $(this).slideUp('normal', function (){ $(this).prependTo('.CompleteList').slideDown('normal')});
+                
+            }else{
+                $(this).slideUp('normal', function (){ $(this).appendTo('.ToDoList').slideDown('normal')});
+            }
+                
+        // clicked: textbox class (edit text value)
+        }else if (event.target.className == 'textbox') {
+            event.target.setAttribute("contenteditable", true);
+            //event.target.focus();
+            
+        // clicked: material-icons class (delete item)
+        }else if (event.target.className == 'material-icons icon') {
+            $(this).slideUp('normal', function() { $(this).remove() });
+        }
+        
+        writeHTML();
+    }); //*/
+    
+    $(document).on('blur', '.textbox', function(event) {
+        event.target.setAttribute("contenteditable", false);
+    });
+    
+    function writeHTML() {
+        $('#contentArea').text($contentEditor.html());
+        var beautify = formatFactory($('#contentArea').text());
+        $('#contentArea').val(beautify);
+        
+
+        /*$contentEditor.find('li').each(function() {
+            if ($(this).has('span').length == 0) {
+                $(this).prepend("<span>");
+            }
+        });*/
+    }
+    
+    function submitForm() {
+        $('#content').val($contentEditor.html());
+        document.post.submit();
+    }
+    
+    $('#writeAccess').change(function() {
+        console.log('changed')
+        $.ajax({
+            url: "/writeAccess/{{ post.id }}/"+$('#writeAccess').is(':checked')
+        }).done(function() {
+            console.log('Write Access Updated')
+        });
+    });
+    
+    function shareNote() {
+        $.ajax({
+            url: "/share/{{ post.id }}/"+$('#shareName').val(),
+            context: ''
+        }).done(function() {
+            console.log('Shared')
+        });
+    }
+        
+    function formatFactory(html) {
+        function parse(html, tab = 0) {
+            var tab;
+            var html = $.parseHTML(html);
+            var formatHtml = new String();   
+
+            function setTabs () {
+                var tabs = new String();
+
+                for (i=0; i < tab; i++){
+                  tabs += '\t';
+                }
+                return tabs;    
+            };
+
+
+            $.each( html, function( i, el ) {
+                if (el.nodeName == '#text') {
+                    if (($(el).text().trim()).length) {
+                        formatHtml += setTabs() + $(el).text().trim() + '\n';
+                    }    
+                } else {
+                    var innerHTML = $(el).html().trim();
+                    $(el).html(innerHTML.replace('\n', '').replace(/ +(?= )/g, ''));
+                    
+
+                    if ($(el).children().length) {
+                        $(el).html('\n' + parse(innerHTML, (tab + 1)) + setTabs());
+                        var outerHTML = $(el).prop('outerHTML').trim();
+                        formatHtml += setTabs() + outerHTML + '\n'; 
+
+                    } else {
+                        var outerHTML = $(el).prop('outerHTML').trim();
+                        formatHtml += setTabs() + outerHTML + '\n';
+                    }      
+                }
+            });
+
+            return formatHtml;
+        };   
+        
+        return parse(html.replace(/(\r\n|\n|\r)/gm," ").replace(/ +(?= )/g,''));
+    };
+</script>
+{% endblock %}:
