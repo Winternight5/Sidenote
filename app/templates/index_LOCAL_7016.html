@@ -2,12 +2,7 @@
 
 {% block content %}
 <style>
-<<<<<<< HEAD
   body:not(input):not(texteara) {
-=======
-/* disable text select on everything excep input and textarea */
-body:not(input):not(texteara)  {
->>>>>>> 7dc25628e1f5652e7da3411689b0d118e2e22ec0
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -21,7 +16,6 @@ body:not(input):not(texteara)  {
     margin: 10px !important;
   }
 
-<<<<<<< HEAD
   [data-toggle='on'] {
     display: block;
   }
@@ -59,47 +53,6 @@ body:not(input):not(texteara)  {
     /*text-decoration: line-through;*/
     color: gray;
   }
-=======
-/* Checkbox filtering style */
-[data-toggle='on'] {
-  display:block;
-}
-
-[data-toggle='off'] {
-  display:none;
-}
-
-/* To Do List styles */
-.ToDoList {
-  list-style-type: none;
-  border: 0px;
-}
-
-.collection-item {
-  background: none !important;
-}
-
-.ToDoList .cbox::before {
-  font-family: "FontAwesome";
-  content: '\f096';
-  margin-right: 7px;
-  font-size: 150%;
-}
-
-.ToDoList .complete .cbox:before {
-  content: '\f046';
-  color: gray;
-}
-
-.ToDoList .complete {
-  /*text-decoration: line-through;*/
-  color: gray;
-}
-
-.ToDoList .secondary-content, .CompleteList {
-    display: none;
-}
->>>>>>> 7dc25628e1f5652e7da3411689b0d118e2e22ec0
 </style>
 
 <br><br><br>
@@ -111,7 +64,6 @@ body:not(input):not(texteara)  {
     <label>Filter by Tags:</label>
   </div>
 
-<<<<<<< HEAD
   <ul class="list center">
     {% for post in allposts %}
     <li class="card {{ theme.font }} col s11 m5 l3 waves-effect waves-light
@@ -133,87 +85,34 @@ body:not(input):not(texteara)  {
           <p class="tags">{{ post.tags }}</p>
         </div>
       </a>
-=======
-<!-- UL: LI Each card for loop -->
-  <ul class="list">
-    {% for post in allposts %}
-    <li class="card {{ theme.font }} col s11 m5 l3 waves-effect waves-light fadeFX
-                   {% if post.body.note_bgcolor  %}{{ post.body.note_bgcolor }}{% else %} {{ theme.note }} {% endif %}" data-tags="{{ post.tags }}"
-                   onclick="window.location.href='/editnote/{{ post.id }}'">
-      <div class="card-content">
-        <p class="card-title activator name"><b>{{ post.title }}</b>
-        <i class="material-icons right">{{ post.icon }}</i>
-        </p>
-        <p class="content">{{ post.body | safe }}
-        {% if post.icon == 'event_available' %} <!--to do list check checkbox task tasks-->
-        {% elif post.icon == 'image' %} <!--image photo picture-->
-        {% endif %}
-        </p>
-        <p class="tags">{{ post.tags }}</p>
-      </div>
->>>>>>> 7dc25628e1f5652e7da3411689b0d118e2e22ec0
     </li>
     {% endfor %}
   </ul>
 </div>
-<!-- End Each Card -->
 
-<!-- Floating Button -->
 <div class="fixed-action-btn hide-on-large-only">
   <a class="btn-floating btn-large waves-effect {{ theme.button1 }}">
     <i class="large material-icons">add</i>
   </a>
   <ul>
-<<<<<<< HEAD
     <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i
           class="material-icons">brush</i></a></li>
     <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }}"><i
           class="material-icons">event_available</i></a></li>
     <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }}"><i
           class="material-icons">event_note</i></a></li>
-=======
-    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i class="material-icons">brush</i></a></li>
-    <li><a href="{{ url_for('newlist') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }}"><i class="material-icons">event_available</i></a></li>
-    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }}"><i class="material-icons">event_note</i></a></li>
->>>>>>> 7dc25628e1f5652e7da3411689b0d118e2e22ec0
   </ul>
 </div>
-<!-- End Floating Button -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script>
   // Only pure JS scripts, no JQuery
 
-<<<<<<< HEAD
   // materialize select options
   document.addEventListener('DOMContentLoaded', function () {
     var fixedBtn = document.querySelectorAll('.fixed-action-btn');
     var fixedBtnInstances = M.FloatingActionButton.init(fixedBtn, {
       direction: 'left'
-=======
-      var selects = document.querySelectorAll('select');
-      var SelectsInstances= M.FormSelect.init(selects);
-      
-      var scrollspy = document.querySelectorAll('.scrollspy');
-      var scrollspyInstances = M.ScrollSpy.init(scrollspy);
-    });
-    
-    // filter select options
-    const selectElement = document.querySelector('.filters');
-    
-    selectElement.addEventListener('change', function(e) {
-      var options = selectElement.querySelectorAll("option");
-      
-      // reset notes display first
-      resetFilter();
-      
-      // run filter by individual tag
-      for (var i = 0;  i < options.length; i++) {
-        if (options[i].selected) {
-          filterTag(options[i].text);
-        }
-      }
->>>>>>> 7dc25628e1f5652e7da3411689b0d118e2e22ec0
     });
 
     var selects = document.querySelectorAll('select');

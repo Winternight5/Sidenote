@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+body:not(input):not(texteara)  {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    min-width: 320px !important;
+}
+
+.row .col {
+  margin: 10px !important;
+}
+
+[data-toggle='on'] {
+  display:block;
+}
+
+[data-toggle='off'] {
+  display:none;
+}
+.newImage {
+    width: 30%;
+    height: 30%;
+}
+
+
+ol {
+  padding: 0;
+  list-style-type: none;
+}
+
+ol li:before {
+  font-family: "FontAwesome";
+  content: '\f096';
+  margin-right: 5px;
+  font-size: 130%;
+  font-weight: bold;
+}
+
+ol li.complete:before {
+  font-family: "FontAwesome";
+  content:  '\f046';
+  color: gray;
+}
+
+ol li.complete {
+  /*text-decoration: line-through;*/
+  color: gray;
+}
+</style>
+<br><br><br>
+<div class="row" >
+  <div class="input-field col s11 m11 l11">
+    <select class="filters" multiple>
+    {% for eachTag in tags %}<option value="{{ eachTag }}" class="{{ theme.note }}">{{ eachTag }}</option>
+    {% endfor %}</select>
+    <label>Filter by Tags:</label>
+  </div>
+  
+  <ul class="list">
+    {% for post in allposts %}
+    <li class="card {{ theme.font }} col s11 m5 l3 waves-effect waves-light
+                   {% if post.body.note_bgcolor  %}{{ post.body.note_bgcolor }}{% else %} {{ theme.note }} {% endif %}" data-tags="{{ post.tags }}">
+      <a href="/editnote/{{ post.id }}" class="{{ theme.font }}">
+      <!--<div class="card-image">
+        <img src="static/images/office.jpg">
+      </div>-->
+      <div class="card-content">
+        <p class="card-title activator name"><b>{{ post.title }}</b>
+        <i class="material-icons right">{{ post.icon }}</i>
+        </p>
+        <p class="content">{{ post.body | safe }}
+        {% if post.icon == 'event_available' %} 
+        <!--to do list-->
+        {% endif %}
+        </p>
+        <p class="tags">{{ post.tags }}</p>
+      </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="fixed-action-btn hide-on-large-only">
+  <a class="btn-floating btn-large waves-effect {{ theme.button1 }}">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i class="material-icons">brush</i></a></li>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }}"><i class="material-icons">event_available</i></a></li>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }}"><i class="material-icons">event_note</i></a></li>
+  </ul>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script>
+    // Only pure JS scripts, no JQuery
+
+    // materialize select options
+    document.addEventListener('DOMContentLoaded', function() {
+      var fixedBtn = document.querySelectorAll('.fixed-action-btn');
+      var fixedBtnInstances = M.FloatingActionButton.init(fixedBtn, {
+        direction: 'left'
+      });
+
+      var selects = document.querySelectorAll('select');
+      var SelectsInstances= M.FormSelect.init(selects);
+    });
+    
+    // filter select options
+    const selectElement = document.querySelector('.filters');
+    
+    selectElement.addEventListener('change', function(e) {
+      var options = selectElement.querySelectorAll("option");
+      
+      // reset notes display first
+      resetFilter();
+      
+      // run filter by individual tag
+      for (var i = 0;  i < options.length; i++) {
+        if (options[i].selected) {
+          filterTag(options[i].text);
+        }
+      }
+    });
+
+    // Filter tag
+    function filterTag(tag) {
+      var items = document.querySelectorAll('.list > li');
+
+      for (var i = 0; i < items.length; i++) {
+        var itemTags = items[i].getAttribute('data-tags');
+
+        // Catch case with no tags
+        if (itemTags != null && itemTags.indexOf(tag) < 0) {
+          items[i].setAttribute('data-toggle', 'off');
+        }
+      }
+    }
+
+    // Reset filters
+    function resetFilter() {
+      var items = document.querySelectorAll('.list > li');
+
+      for (var i = 0; i < items.length; i++) {
+        items[i].setAttribute('data-toggle', 'on');
+      }
+    }
+    
+    // load searchable contents
+    function init() {
+      var list1 = {
+        valueNames: [ 'name', 'content', 'tags' ]
+      };
+      var results_list = new List('data-list', list1);
+    }
+    
+    window.onload = init;
+</script>
+{% endblock %}

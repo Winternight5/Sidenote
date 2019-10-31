@@ -62,6 +62,7 @@ def index():
     getposts = []
     for post in current_user.post:
         post.body = json.loads(post.body)
+        post.body['body'] = post.body['body'].replace('chevron_right', '')
         post.body.update(id=post.id)
         getposts.append(post.body)
     
@@ -79,6 +80,14 @@ def changetheme():
     db.session.commit()
     
     return redirect(url_for('index'))
+#-------------------------------------------------------------------------------------------------------------------------
+#----- Create / Modify / To Do List
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/newlist')
+@login_required
+def newlist():
+    return render_template('todo.html', theme=themes[currentTheme], post=None, title='List') 
+    
 #-------------------------------------------------------------------------------------------------------------------------
 #----- Create / Modify / Delete Notes
 #-------------------------------------------------------------------------------------------------------------------------
@@ -138,7 +147,7 @@ def saveNoteById(id):
 #-------------------------------------------------------------------------------------------------------------------------
 def noteData(title, bgcolor, tags, body):
     icon = 'event_note'
-    if "<ol" in body:
+    if "cbox" in body:
         icon = 'event_available'
     elif "<img src" in body:
         icon = 'image'
@@ -185,7 +194,18 @@ def editnote(id):
             note.body = note if note.body is None else note.body
             note.body = json.loads(note.body)
             note.owner = owner
-            return render_template('post.html', theme=themes[currentTheme], post=note, title='Note') 
+            
+            # edit to do list
+            if note.body['icon'] == 'event_available':
+                pageUrl = 'todo.html'
+                pageTitle = 'List'
+                
+            # edit note
+            else:
+                pageUrl = 'post.html'
+                pageTitle = 'Note'
+                
+            return render_template(pageUrl, theme=themes[currentTheme], post=note, title=pageTitle) 
 
     return redirect(url_for('index'))
     
@@ -363,7 +383,7 @@ def showdb():
         Posts = Post.query.order_by(Post.id.desc()).all()
         Shares = [] #shares.query.all()
         for post in Posts:
-            post.body = post.body[0:50]
+            post.body = post.body[0:150]
             
         return render_template('result.html', Users=Users, Posts=Posts, shares=Shares)
     

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+/* disable text select on everything excep input and textarea */
+body:not(input):not(texteara)  {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    min-width: 320px !important;
+}
+
+.row .col {
+  margin: 10px !important;
+}
+
+/* Checkbox filtering style */
+[data-toggle='on'] {
+  display:block;
+}
+
+[data-toggle='off'] {
+  display:none;
+}
+
+/* To Do List styles */
+.ToDoList {
+  list-style-type: none;
+  border: 0px;
+}
+
+.collection-item {
+  background: none !important;
+}
+
+.ToDoList .cbox::before {
+  font-family: "FontAwesome";
+  content: '\f096';
+  margin-right: 7px;
+  font-size: 150%;
+}
+
+.ToDoList .complete .cbox:before {
+  content: '\f046';
+  color: gray;
+}
+
+.ToDoList .complete {
+  /*text-decoration: line-through;*/
+  color: gray;
+}
+
+.ToDoList .secondary-content, .CompleteList {
+    display: none;
+}
+</style>
+<br><br><br>
+<div class="row" >
+  <div class="input-field col s11 m11 l11">
+    <select class="filters" multiple>
+    {% for eachTag in tags %}<option value="{{ eachTag }}" class="{{ theme.note }}">{{ eachTag }}</option>
+    {% endfor %}</select>
+    <label>Filter by Tags:</label>
+  </div>
+
+<!-- UL: LI Each card for loop -->
+  <ul class="list">
+    {% for post in allposts %}
+    <li class="card {{ theme.font }} col s11 m5 l3 waves-effect waves-light fadeFX
+                   {% if post.body.note_bgcolor  %}{{ post.body.note_bgcolor }}{% else %} {{ theme.note }} {% endif %}" data-tags="{{ post.tags }}"
+                   onclick="window.location.href='/editnote/{{ post.id }}'">
+      <div class="card-content">
+        <p class="card-title activator name"><b>{{ post.title }}</b>
+        <i class="material-icons right">{{ post.icon }}</i>
+        </p>
+        <p class="content">{{ post.body | safe }}
+        {% if post.icon == 'event_available' %} <!--to do list check checkbox task tasks-->
+        {% elif post.icon == 'image' %} <!--image photo picture-->
+        {% endif %}
+        </p>
+        <p class="tags">{{ post.tags }}</p>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<!-- End Each Card -->
+
+<!-- Floating Button -->
+<div class="fixed-action-btn hide-on-large-only">
+  <a class="btn-floating btn-large waves-effect {{ theme.button1 }}">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i class="material-icons">brush</i></a></li>
+    <li><a href="{{ url_for('newlist') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }}"><i class="material-icons">event_available</i></a></li>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }}"><i class="material-icons">event_note</i></a></li>
+  </ul>
+</div>
+<!-- End Floating Button -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<script>
+    // Only pure JS scripts, no JQuery
+
+    // materialize select options
+    document.addEventListener('DOMContentLoaded', function() {
+      var fixedBtn = document.querySelectorAll('.fixed-action-btn');
+      var fixedBtnInstances = M.FloatingActionButton.init(fixedBtn, {
+        direction: 'left'
+      });
+
+      var selects = document.querySelectorAll('select');
+      var SelectsInstances= M.FormSelect.init(selects);
+      
+      var scrollspy = document.querySelectorAll('.scrollspy');
+      var scrollspyInstances = M.ScrollSpy.init(scrollspy);
+    });
+    
+    // filter select options
+    const selectElement = document.querySelector('.filters');
+    
+    selectElement.addEventListener('change', function(e) {
+      var options = selectElement.querySelectorAll("option");
+      
+      // reset notes display first
+      resetFilter();
+      
+      // run filter by individual tag
+      for (var i = 0;  i < options.length; i++) {
+        if (options[i].selected) {
+          filterTag(options[i].text);
+        }
+      }
+    });
+
+    // Filter tag
+    function filterTag(tag) {
+      var items = document.querySelectorAll('.list > li');
+
+      for (var i = 0; i < items.length; i++) {
+        var itemTags = items[i].getAttribute('data-tags');
+
+        // Catch case with no tags
+        if (itemTags != null && itemTags.indexOf(tag) < 0) {
+          items[i].setAttribute('data-toggle', 'off');
+        }
+      }
+    }
+
+    // Reset filters
+    function resetFilter() {
+      var items = document.querySelectorAll('.list > li');
+
+      for (var i = 0; i < items.length; i++) {
+        items[i].setAttribute('data-toggle', 'on');
+      }
+    }
+    
+    // load searchable contents
+    function init() {
+      var list1 = {
+        valueNames: [ 'name', 'content', 'tags' ]
+      };
+      var results_list = new List('data-list', list1);
+    }
+    
+    window.onload = init;
+</script>
+{% endblock %}
