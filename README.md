@@ -3,8 +3,9 @@ Cmpe131
 SideNote: http://sidenotex.herokuapp.com/login?next=%2F
 
 To run SideNote locally: 
-  1) Make sure you have the proper pluggins installed.
-  2) In terminal $python main.py
+  Make sure you have the proper pluggins installed.
+  In terminal use command $python main.py
+  
 SideNotes features:
   1) Create an Account
   2) Login
@@ -14,6 +15,7 @@ SideNotes features:
   6) View Note
   7) Edit Note
   8) Delete Note
+  
 Test Cases are found in highest level test_main.py.
 Run them by using $pytest in terminal.
 
