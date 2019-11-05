@@ -9,7 +9,7 @@ from app import app
 @pytest.fixture(scope='module')
 def new_user():
     user = User(email='patkennedy79@gmail.com', firstname='firstname',
-                lastname='lastname', password_hash=generate_password_hash('1234'))
+                lastname='lastname', password_hash=generate_password_hash('1234'), settings = 'dark')
     return user
 
 
@@ -37,6 +37,9 @@ def test_logout(new_user):
     assert new_user.is_authenticated == True
     #assert logout_user()
 
+
+def test_changetheme(new_user):
+    assert new_user.settings == 'dark'
 
 def test_new_note(new_note):
     assert new_note.body != None
