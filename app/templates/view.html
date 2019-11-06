@@ -1,24 +1,23 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <style>
     body {
         overscroll-behavior: contain;
     }
-/* Mobile Styles */
-@media screen and (max-aspect-ratio: 13/9) {
-    #contentEditor {
-        font-size: 140%;
+    /* Mobile Styles */
+    
+    @media screen and (max-aspect-ratio: 13/9) {
+        #contentEditor {
+            font-size: 140%;
+        }
     }
-}
-
-/* Desktop Styles */
-@media screen and (min-aspect-ratio: 13/9) {
-    #contentEditor {
-        font-size: 120%;
+    /* Desktop Styles */
+    
+    @media screen and (min-aspect-ratio: 13/9) {
+        #contentEditor {
+            font-size: 120%;
+        }
     }
-}
-
+    
     #contentEditor {
         height: 77vh;
         overflow-x: hidden;
@@ -33,6 +32,7 @@
         resize: both;
         width: 99%;
     }
+    
     .InsertImage img {
         width: 100%;
         height: 100%;
@@ -40,15 +40,16 @@
     }
 </style>
 <br><br><br>
-<div class="container" >
-  <div class="card {{ theme.note }} {{ theme.font_header }}">
-    <div class="row">
-      <div class="title {{ theme.font_header }} center">
-        <b>{% if post.id  %}{{ post.body.title }}{% endif %}</b>
-      </div>
-      <div id="contentEditor" class="col s-12 {{ theme.font }}">{% if post.id  %}{{ post.body.body | safe }}{% endif %}</div>
+<div class="container">
+    <div class="card {{ theme.note }} {{ theme.font_header }}">
+        <div class="row">
+            <div class="title {{ theme.font_header }} center">
+                <b>{% if post.id  %}{{ post.body.title }}{% endif %}</b>
+            </div>
+            <div id="contentEditor" class="col s-12 {{ theme.font }}">
+                {% if post.id %}{{ post.body.body | safe }}{% endif %}</div>
+        </div>
     </div>
-  </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 {% endblock %}:
