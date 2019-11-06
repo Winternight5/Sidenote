@@ -23,5 +23,5 @@ Sidenote current working features:
 
 Test Cases
 Test case can be found in highest level of the app folder: test_main.py. Test cases will run a series of commands to test the User and Note database. 
-To run it use $pytest test_main.py in the terminal or click on the link below:
+To run it use $pytest test_main.py in the terminal or click on the link above.
 
