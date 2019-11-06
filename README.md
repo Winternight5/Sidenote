@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Winternight5/Team4.svg?branch=master)](https://travis-ci.org/Winternight5/Team4)
+
 # Cmpe131
 # Team4
 Live demo: http://sidenotex.herokuapp.com
@@ -23,4 +25,3 @@ Test Cases
 Test case can be found in highest level of the app folder: test_main.py. Test cases will run a series of commands to test the User and Note database. 
 To run it use $pytest test_main.py in the terminal or click on the link below:
 
-[![Build Status](https://travis-ci.org/Winternight5/Team4.svg?branch=master)](https://travis-ci.org/Winternight5/Team4)
