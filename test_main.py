@@ -1,13 +1,14 @@
 import pytest
+from app import routes
 from app.models import User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user
 
 
 @pytest.fixture(scope='module')
 def new_user():
     user = User(email='patkennedy79@gmail.com', firstname='firstname',
-                lastname='lastname', password_hash=generate_password_hash('1234'))
+                lastname='lastname', password_hash=generate_password_hash('1234'), settings='dark')
     return user
 
 
@@ -25,14 +26,18 @@ def test_new_user(new_user):
 def test_login(new_user):
     assert new_user.email == 'patkennedy79@gmail.com'
     assert new_user.check_password('1234') == True
+    assert new_user.is_authenticated == True
     #assert login_user(new_user)
-    assert new_user.is_authenticated == True
 
 
-def test_logout(new_user):
-    assert new_user.is_authenticated == True
-    #assert logout_user()
+def test_changetheme(new_user):
+    assert new_user.settings == 'dark'
 
 
 def test_new_note(new_note):
     assert new_note.body != None
+
+
+def test_listToString():
+    list = ['this', 'is', 'a', 'string']
+    assert routes.listToString(list) == 'this is a string'
