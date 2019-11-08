@@ -82,6 +82,7 @@ This repo is built with Heroku extension and is ready for deployment. Please see
 * **William Nguyen** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
 * **Brian Tamsing** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
 * **Nate Garza** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
+
 See also the list of [contributors]( https://github.com/Winternight5/Team4/graphs/contributors)
 
 
