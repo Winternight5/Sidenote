@@ -1,7 +1,11 @@
+[![Build Status](https://travis-ci.org/Winternight5/Team4.svg?branch=master)](https://travis-ci.org/Winternight5/Team4)
+
 # Sidenote
 ### Notes and To-do List web application.
 
 The application’s main features will enable users to simply append tasks onto their to-do list. Users are able to create their own account, and persisting their notes/to-do lists upon login. Using python language and database (SQLite / Postges SQL for heroku) as a backend to track user login data, which would permit user registration when an account does not already exist, and deny it when one does. Using HTML, Javascript (JQuery), and CSS (Bootstrap / MaterializeCSS) as front-end to make the user interface (UI) very elegant and appealing, implementing features such as customizable colorful backgrounds via a toggle menu on the page, etc.
+
+[Live Demo = http://sidenotex.herokuapp.com](http://sidenotex.herokuapp.com/)
 
 
 ## Getting Started
