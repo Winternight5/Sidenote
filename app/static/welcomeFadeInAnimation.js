@@ -7,7 +7,7 @@ $(document).ready(function () {
 
   const delayTimer = 1;
 
-  var $header = $("h4");
+  var $header = $("h3");
   var $aboutSidenote = $("img");
   var $loginForm = $("form");
   var $learnMoreButton = $("button");
