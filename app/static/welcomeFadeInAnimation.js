@@ -1,5 +1,5 @@
 /*
-  This script utilizes JavaScript and jQuery to fade in the Welcome Page's contents, including the header1 and
+  This script utilizes JavaScript and jQuery to fade in the Welcome Page's contents, including the header3 and
   the login/registration form.
 */
 
