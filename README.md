@@ -5,19 +5,23 @@
 
 The application’s main features will enable users to simply append tasks onto their to-do list. Users are able to create their own account, and persisting their notes/to-do lists upon login. Using python language and database (SQLite / Postges SQL for heroku) as a backend to track user login data, which would permit user registration when an account does not already exist, and deny it when one does. Using HTML, Javascript (JQuery), and CSS (Bootstrap / MaterializeCSS) as front-end to make the user interface (UI) very elegant and appealing, implementing features such as customizable colorful backgrounds via a toggle menu on the page, etc.
 
-[Live Demo = http://sidenotex.herokuapp.com](http://sidenotex.herokuapp.com/)
+
+[Live Demo - http://sidenotex.herokuapp.com/](http://sidenotex.herokuapp.com/)
 
 
 ## Getting Started
 
 Make sure you have Python version 3.6 with pip installed on your computer to setup a localhost web server for development purpose.
+
 More information can be found here:
+
 [How do you set up a local testing server?]( https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server)
 
 ### Prerequisites
 
 Python 3.6 with pip
-  Required extensions: 
+
+Required extensions: 
 1.	Flask
 2.	flask-heroku
 3.	Flask-Login
@@ -32,9 +36,12 @@ Python 3.6 with pip
 12.	Werkzeug
 13.	WTForms
 
+See the most updated complete list [requirements.txt](https://github.com/Winternight5/Team4/blob/master/requirements.txt)
+
 ### Installing
 
 Clone this git repo then install the required extensions. 
+
 To install individual extension, use the terminal: *(For Window, make sure to use “Run as administrator”)*
 ```
 pip install Flask
@@ -52,18 +59,20 @@ Test cases can be found in highest level of the app folder: test_main.py
 
 ### Test Cases Break down 
 
-Test cases will run a series of commands to test the User and Note database.
+To ensure various python functions and database works properly, we need to use data validation and Back-end testing.
+
 One example:
 ```
 test_new_user(new_user)
-```
-Testing insertion of new user into the User database
+``` 
+Database testing is checking the schema, and table of User database by insertion of new user
+
 
 Another example:
 ```
  test_login(new_user)
 ```
-Testing the login function to ensure authentication works using Flask-Login extension
+Python testing is checking the login function to ensure authentication works using Flask-Login extension
 
 
 ## Deployment
