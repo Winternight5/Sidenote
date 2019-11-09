@@ -3,7 +3,7 @@
   the login/registration form.
 */
 
-$(document).ready(function () {
+$(document).ready(function() {
 
   const delayTimer = 1;
 
