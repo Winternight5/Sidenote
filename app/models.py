@@ -39,7 +39,7 @@ class Post(db.Model):
     __tablename__ = "post"
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
-    imgUrl = db.Column(db.String(128))
+    imgUrl = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     readAllowed = db.Column(db.Boolean)  # don't need this
     writeAllowed = db.Column(db.Boolean)
