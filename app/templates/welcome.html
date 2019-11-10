@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <!-- Custom Written CSS -->
-  <link href="../static/welcome.css" type="text/css" rel="stylesheet" />
+  <link href="{{url_for('static', filename='welcome.css')}}" type="text/css" rel="stylesheet" />
   <!-- Import Material Google Icon Fonts -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Custom Google Fonts-->
@@ -85,12 +85,30 @@
   </div>
 
   <!--start of Script insertions -->
-  <!-- Custom JS written by Brian -->
-  <script src="../static/welcomeFadeInAnimation.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!--inserting jQuery from the Google CDN -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Custom JS written by Brian -->
+  <script src="{{url_for('static', filename='welcomeFadeInAnimation.js')}}"></script>
+  <script>
+    $(document).ready(function(){
+        $('input[type=radio]').on('change', function() {
+            displayNone();
+            $('.'+$(this).val()).css('display','block');
+        })
+        
+        function displayNone() {
+            $('.sign-in, .sign-up, .reset-login').css('display','none');
+        }
+        
+        // Hide all input fields
+        displayNone();
+        
+        // Only show Sign-In class
+        $('.sign-in').css('display','block');
+    });
+  </script>
 </body>
 
 </html>

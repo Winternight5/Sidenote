@@ -241,18 +241,18 @@
             var img = new Image();
 
             img.onload = function() {
-                width = ($contentEditor.width() > img.width) ? img.width : $contentEditor.width();
+                width = (1920 > img.width) ? img.width : 1920;
                 height = Math.round(width / img.width * img.height);
                 
                 // Resize image to to reduce file size (optimization)
-                //canvas.width = width;
-                //canvas.height = height;
-                //context.drawImage(img, 0, 0, width, height);
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(img, 0, 0, width, height);
                 
                 // Generate image data
-                //dataURL = canvas.toDataURL("image/jpeg")
+                dataURL = canvas.toDataURL("image/jpeg")
                 //width="'+width+'" height="'+height+'"
-                imgHTML = '<div class="card-image"><img src="'+reader.result+'"></div><br>';
+                imgHTML = '<div class="card-image"><img src="'+dataURL+'"></div><br>'; //reader.result
                 
                 pasteHtmlAtCaret(imgHTML);
             };

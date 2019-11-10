@@ -1,0 +1,559 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        overscroll-behavior: contain;
+    }
+
+/* Canvas */
+
+.Canvas {
+  height: 100%;
+  width: 100%;
+}
+
+.Canvas canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#imageCanvas {
+  pointer-events: none;
+}
+
+#loading {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 5vh;
+  background-color: #000;
+  color: #ccc;
+}
+
+#loading div {
+  position: absolute;
+  top: 40%;
+  text-align: center;
+  width: 100%;
+}
+
+.menuBtn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.fixed-action-btn {
+  /* top: 20px; */
+}
+
+#TB_colors {
+  right: 80px;
+}
+</style>
+
+<div id="Canvas" class="Canvas">
+    <canvas id="imageCanvas"></canvas>
+    <canvas id="whiteboard"></canvas>
+</div>
+
+
+<a class="menuBtn btn-floating btn-medium waves-effect waves-light {{ theme.button1 }}" href="{{ url_for('index') }}"><i class="material-icons">arrow_back</i></a>
+
+<!-- Floating Button -->
+<div id="TB_menu" class="fixed-action-btn">
+  <a class="btn-floating btn-medium waves-effect {{ theme.button1 }}">
+    <i class="large material-icons" id="iconTypeSettings">settings</i>
+  </a>
+  <ul>
+    <li><a class="new btn-floating waves-effect"><i class="material-icons">insert_drive_file</i></a></li>
+    <li><a class="btn-floating waves-effect modal-trigger" href="#modalSave"><i class="material-icons">save</i></a></li>
+    <li><a class="btn-floating waves-effect modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>
+{% if post.id  %}    <li><a class="btn-floating waves-effect modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li> {% endif %}
+    <li>
+        <input type="file" accept="image/*" id="file" accept="image/*;capture=camera" id="file" style="display: none;">
+        <label for="file">
+            <a class="btn-floating waves-effect"><i class="material-icons">image</i></a>
+        </label>
+    </li>
+    <li><a class="launch btn-floating waves-effect"><i class="material-icons">aspect_ratio</i></a></li>
+  </ul>
+</div>
+
+<div id="TB_colors" class="fixed-action-btn">
+  <a class="btn-floating btn-medium waves-effect {{ theme.button1 }}">
+    <i class="large material-icons" id="iconTypeColor">brush</i>
+  </a>
+  <ul>
+    <li><a href="#!" class="btn-floating waves-effect blue color"><i class="material-icons large blue-text">lens</i></a></li>
+    <li><a href="#!" class="btn-floating waves-effect red color"><i class="material-icons large red-text">lens</i></a></li>
+    <li><a href="#!" class="btn-floating waves-effect green color"><i class="material-icons large green-text">lens</i></a></li>
+    <li><a href="#!" class="btn-floating waves-effect black color"><i class="material-icons large black-text">lens</i></a></li>
+    <li><a href="#!" class="btn-floating waves-effect {{ theme.btnNote }} penType"><i class="material-icons large">invert_colors_off</i></a></li>
+    <li><a href="#!" class="btn-floating waves-effect {{ theme.btnNote }} penType"><i class="material-icons large">brush</i></a></li>
+  </ul>
+</div>
+<!-- End Floating Button -->
+
+<!-- Modal: Save -->
+<div id="modalSave" class="modal {{ theme.button1 }} {{ theme.font }}">
+<div class="modal-content center {{ theme.font }}">
+  <h4>Save Note</h4>
+    <div class="input-field">
+      <input id="post_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% else %}Cool{% endif %}">
+      <label for="post_title">Title*</label>
+    </div>
+    <div class="input-field">
+      <input id="post_tags" name="tags" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.tags }}{% else %}#Test{% endif %}">
+      <label for="post_tags">Tags</label>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="#!" class="save modal-close waves-effect waves-green btn-flat">Save</a>
+    <a href="#!" class="modal-close waves-effect waves-yellow btn-flat">Cancel</a>
+    <a href="#!" onclick="history.back()" class="waves-effect waves-red btn-flat">Return to Home</a>
+</div>
+</div>
+<!-- End -->
+
+  <div id="loading"><div><i class="fa fa-spinner"></i> Loading...</div></div>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script>
+  // materialize floating button
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.fixed-action-btn');
+    var instances = M.FloatingActionButton.init(elems, {
+      direction: 'top',
+      hoverEnabled: false
+    });
+  });
+</script>
+<script>
+/* Using Flask-SocketIO (https://github.com/miguelgrinberg/Flask-SocketIO)
+   Socket.IO integration for Flask applications.
+*/
+var socket;
+var idleTime = 0;
+var idleTouch = 1;
+var roomName = '{{ room }}';
+var noteId = '{% if post.id  %}{{ post.id }}{% endif %}';
+var colorsPalette = [
+		"#8B4513",
+		"#AF6E4D",
+		"#FFC0CB",
+		"#FFE5CC",
+		"#FFAA1D",
+		"#FA5B3D",
+		"#FF5470",
+		"#FF0000",
+		"#FF007C",
+		"#E936A7",
+		"#9C51B6",
+		"#5946B2",
+		"#2243B6",
+		"#5DADEC",
+		"#A7F432",
+		"#299617",
+		"#FFF700",
+		"#FFFFFF",
+		"#CCCCCC",
+		"#000000"
+	];
+	
+$(document).ready(function () {
+
+  socket = io.connect('http://' + document.domain + ':' + location.port + '/');
+	
+  var canvas = whiteboard;
+  var colors = document.getElementsByClassName('color');
+  var context = canvas.getContext('2d');
+  var imgContext = imageCanvas.getContext('2d');
+  var current = {
+    type: 'source-over',
+    color: 'black',
+    size: 2
+  };
+  var drawing = false;
+  
+  // init run first
+  init();
+  
+  // ----- socket io stuff
+  socket.on('connect', function () {
+    socket.emit('joined', {});
+  });
+  
+  socket.on('disconnect', function () {
+    socket.emit('disconnect', {});
+  });
+  
+  /*socket.on('count', function (data) {
+    $('#RoomList').empty();
+	for (i = 0; i < data.count.length; i++) {
+		$('#RoomList').append('<option value="'+data.rooms[i]+'">'+data.rooms[i]+': '+data.count[i]+'</option>');
+	}
+	$('#RoomList option[value='+roomName+']').attr('selected', 'selected');
+	//console.log(data.count);
+  });*/
+  
+  socket.on('drawing', onDrawingEvent);
+  
+  socket.on('fill', onFillEvent);
+  
+  socket.on('img', onFillImageEvent);
+  
+  socket.on('new', newCanvas);
+  
+  // ----- Detect screen resize
+  window.addEventListener('resize', onResize, false);
+  
+  //Desktop mouse events
+  canvas.addEventListener('mousedown', onMouseDown, false);
+  canvas.addEventListener('mouseup', onMouseUp, false);
+  canvas.addEventListener('mouseout', onMouseUp, false);
+  canvas.addEventListener('mousemove', throttle(onMouseMove, 10), false);
+  
+  //Touch support for mobile devices
+  canvas.addEventListener('touchstart', onMouseDown, false);
+  canvas.addEventListener('touchend', onMouseUp, false);
+  canvas.addEventListener('touchcancel', onMouseUp, false);
+  canvas.addEventListener('touchmove', throttle(onMouseMove, 10), false);
+  
+  // ----- interactive elements
+  
+  // select color by get all .color class elements
+  $('.color').on('click', function() {
+	current.color = $(this).css("background-color");
+    console.log($('#iconTypeColor').text())
+	if ($('#iconTypeColor').text() == "brush")
+      $('#iconTypeColor').css("color", current.color);
+	//$('.color').removeClass("active");
+	//$(this).addClass( "active" );
+  });
+  
+  // select color
+  $('.penType').on('click', function() {
+    if ($(this).text() == 'brush') {
+      current.type = 'source-over';
+      current.size = 2;
+      $('#iconTypeColor').css("color", current.color);
+      $('#iconTypeColor').text('brush');
+    }else{
+      current.type = 'destination-out';
+      current.size = 30;
+      $('#iconTypeColor').css("color", "black");
+      $('#iconTypeColor').text('invert_colors_off');
+    }
+  });
+
+  $('.new').on('click', function() {
+    socket.emit('new', {}); 
+  });
+  
+  $('.save').on('click', function() {
+    if ($('#post_title').val().length > 0) {
+      saveCanvas();
+      console.log('hey');
+    }
+  });
+  
+  $('.refresh').on('click', function() {
+	window.location.reload(false); 
+  });
+  
+  // open app in fullscreen
+  $('.launch').on('click', function() {
+    var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+    if (fullscreenElement)
+        exitFullscreen();
+    else
+        launchIntoFullscreen(document.documentElement);
+  });
+  
+  $('#file').on('change', function() {
+	loadImage();
+  });
+  
+  $('.fill').on('click', function() {
+    idleTime = 0;
+    socket.emit('fill', {
+      color: current.color
+    });
+  });
+  
+  function newCanvas() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    imgContext.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  
+  // Draw functions
+  function drawLine(x0, y0, x1, y1, color, size, type, emit){
+    context.globalCompositeOperation = type;
+    context.beginPath();
+    context.lineWidth = size; 
+	context.lineJoin = context.lineCap = 'round';
+    context.strokeStyle = color;
+    
+    context.moveTo(x0, y0);
+    context.lineTo(x1, y1);
+    context.stroke();
+
+    context.moveTo(x0 - 2, y0 - 2);
+    context.lineTo(x1 - 2, y1 - 2);
+    context.stroke();
+
+    context.moveTo(x0 - 1, y0 - 1);
+    context.lineTo(x1 - 1, y1 - 1);
+    context.stroke();
+
+    context.moveTo(x0 + 2, y0 + 2);
+    context.lineTo(x1 + 2, y1 + 2);
+    context.stroke();
+
+    context.moveTo(x0 + 1, y0 + 1);
+    context.lineTo(x1 + 1, y1 + 1);
+    context.stroke();
+    context.closePath();
+	
+    if (!emit) { return; }
+	
+    var w = canvas.width;
+    var h = canvas.height;
+	
+	emitData = [
+      (x0 / w).toFixed(4),
+      (y0 / h).toFixed(4),
+      (x1 / w).toFixed(4),
+      (y1 / h).toFixed(4),
+      color,
+	  size,
+      type
+    ];
+
+    socket.emit('drawing', emitData);
+  }
+  
+  function onMouseDown(e){
+    drawing = true;
+    current.x = getInputX(e);
+    current.y = getInputY(e);
+  }
+
+  function onMouseUp(e){
+    if (!drawing) { return; }
+    drawing = false;
+    drawLine(current.x, current.y, getInputX(e), getInputY(e), current.color, current.size, current.type, true);
+	  idleTouch = 1;
+    //runOCRAD();
+  }
+
+  function onMouseMove(e){
+    if (!drawing) { return; }
+    drawLine(current.x, current.y, getInputX(e), getInputY(e), current.color, current.size, current.type, true);
+    current.x = getInputX(e);
+    current.y = getInputY(e);
+  }
+  
+  function getInputX(e) {
+	return e.clientX || e.changedTouches[0].clientX || e.touches[0].clientX;
+  }
+  
+  function getInputY(e) {
+	return e.clientY || e.changedTouches[0].clientY || e.touches[0].clientY;
+  }
+
+  // limit the number of events per second
+  function throttle(callback, delay) {
+    var previousCall = new Date().getTime();
+    return function() {
+      var time = new Date().getTime();
+
+      if ((time - previousCall) >= delay) {
+        previousCall = time;
+        callback.apply(null, arguments);
+      }
+    };
+  }
+  
+  function onDrawingEvent(data){
+    var w = canvas.width;
+    var h = canvas.height;
+    drawLine(data[0] * w, data[1] * h, data[2] * w, data[3] * h, data[4], data[5], data[6], false);
+  }
+  
+  function onFillEvent(data) {
+	context.fillStyle = data.color;
+	context.fillRect(0,0,canvas.width,canvas.height);
+  }
+  
+  function onFillImageEvent(img, callback) {
+	var image = new Image();
+    
+	image.onload = function () {
+		imgContext.drawImage(image, 0, 0, canvas.width, canvas.height);
+        $('#loading').fadeOut();
+        if (typeof callback === 'function') callback();
+	}
+    
+	image.src = img;
+  }
+  
+  // make the canvas fill its parent
+  function onResize() {
+    $('#loading').show();
+	
+    canvas.width = $('#Canvas').width();
+    canvas.height = $('#Canvas').height();
+    imageCanvas.width = $('#Canvas').width();
+    imageCanvas.height = $('#Canvas').height();
+    
+    
+    // Redraw canvas if resize or newly loaded
+	$.get( '/img?r={{ room }}', function( d ) {
+
+        data = d[roomName];
+        
+        if (data == null) return;
+        
+        //console.log(data);
+        
+        // Load Image First
+        if (data['i'] != null) {
+            onFillImageEvent(data['i'], function () { loadAsynchronous(data) });
+            
+        // if no images, load all layers
+        }else{
+            loadAsynchronous(data);
+        }
+        
+        //*/
+	}); 
+    $('#loading').fadeOut();
+  }
+  
+  function loadAsynchronous(data) {
+    // Layer d (draw lines)
+	if (typeof data['d'] === 'object') {
+        // loop thru all of the layers
+	    for (j = 0; j < data['d'].length; j++) {
+            varJDeferred = $.Deferred();
+            //console.log(data['d'][j])
+            
+            // layer is string = Image (base64) or Fill Background color
+			if (typeof data['d'][j] === 'string') {
+                // color fill background data
+                if (data['d'][j].length < 10) {
+                    onFillEvent({'color': data['d'][j]});
+                    varJDeferred.resolve();
+                }
+            // layer is object and is coordinates for the canvas to draw
+			}else{
+			  onDrawingEvent(data['d'][j]);
+              varJDeferred.resolve();
+            }
+		}
+	}
+  } //*/
+  
+  // Save Canvas (create thumbnail)
+    var nloaded = 0;
+    var image1 = new Image,
+        image2 = new Image;
+        
+    function saveCanvas() {
+        image1.onload = checkload;
+        image1.src = imageCanvas.toDataURL();
+        
+        image2.onload = checkload;
+        image2.src = canvas.toDataURL();
+    }
+    
+    function checkload(event) {
+        nloaded++;
+        if (nloaded < 2) {
+            return;
+        }
+
+        var tempCanvas = document.createElement("canvas");
+        var tempContext = tempCanvas.getContext('2d');
+        var width = (512 > image1.width) ? image1.width : 512;
+        var height = Math.round(width / image1.width * image1.height);
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        tempContext.drawImage(image1, 0, 0, width, height);
+        tempContext.drawImage(image2, 0, 0, width, height);
+        
+        socket.emit('save', {
+            'id': noteId,
+            'title': $('#post_title').val(), 
+            'tags': $('#post_tags').val(),
+            'DataURL': '<div class="card-image"><img src="'+tempCanvas.toDataURL()+'"></div>'
+        }); //*/
+    }
+  
+  // Load Image
+    function loadImage() {
+        $('#loading').fadeIn();
+        var tempCanvas = document.createElement("canvas"),
+        tempContext = tempCanvas.getContext('2d');
+        tempCanvas.width = $('#Canvas').width();
+        tempCanvas.height = $('#Canvas').height();
+        
+        var file = $('#file')[0].files[0] 
+
+        var reader = new FileReader();
+        
+        reader.onload = function() {
+            var img = new Image();
+
+            img.onload = function() {
+                tempContext.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+                socket.emit('img', tempCanvas.toDataURL());
+            };
+            
+            img.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+  
+    function launchIntoFullscreen(element) {
+      if(element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
+    
+    function exitFullscreen() {
+      if(document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if(document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if(document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+    
+  function init() {
+	$('#iconTypeColor').css("color", current.color);
+    
+	// resize canvas
+    onResize();
+  }
+});
+</script>
+
+{% endblock %}

@@ -1,10 +1,10 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify, json
-from app import app, db
+from flask import render_template, flash, redirect, url_for, request, jsonify, json, session
+from app import app, db, events
 from app.forms import LoginForm, RegistrationForm, ResetForm
 from app.models import User, Post, shares
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-import random, string, html, re
+import random, string, html, re, uuid
 
 themes = {
     'day': {
@@ -81,7 +81,7 @@ def changetheme():
     
     return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------
-#----- Create / Modify / To Do List
+#----- Create new To Do List
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/newlist')
 @login_required
@@ -89,7 +89,7 @@ def newlist():
     return render_template('todo.html', theme=themes[currentTheme], post=None, title='List') 
     
 #-------------------------------------------------------------------------------------------------------------------------
-#----- Create / Modify / Delete Notes
+#----- Create & Delete Notes / Modify all type of nodes
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/newnote')
 @login_required
@@ -145,10 +145,12 @@ def saveNoteById(id):
     else:
         return redirect(url_for('shared'))
 #-------------------------------------------------------------------------------------------------------------------------
-def noteData(title, bgcolor, tags, body):
+def noteData(title, bgcolor, tags, body, canvas = False):
     icon = 'event_note'
     if "cbox" in body:
         icon = 'event_available'
+    elif canvas:
+        icon = 'brush'
     elif "<img src" in body:
         icon = 'image'
     
@@ -200,25 +202,28 @@ def editnote(id):
                 pageUrl = 'todo.html'
                 pageTitle = 'List'
                 
+            # edit to do list
+            elif note.body['icon'] == 'brush':
+                currentRoom = session['room'] = 'c'+str(id)
+                
+                if currentRoom not in events.datas:
+                    events.datas[currentRoom] = json.loads(note.imgUrl) 
+                pageUrl = 'canvas.html'
+                pageTitle = 'Canvas'
+                
             # edit note
             else:
                 pageUrl = 'post.html'
                 pageTitle = 'Note'
                 
-            return render_template(pageUrl, theme=themes[currentTheme], post=note, title=pageTitle) 
+            return render_template(pageUrl, theme=themes[currentTheme], post=note, title=pageTitle, room=session.get('room')) 
 
     return redirect(url_for('index'))
-    
+#-------------------------------------------------------------------------------------------------------------------------
 def NoteOwner(id):
-    noteOwner = Post.query.filter_by(id=id).first()
-    
-    if noteOwner is None:
-        return redirect(url_for('index'))
-    
-    if noteOwner.user_id == current_user.id:
-        return noteOwner
-    else:
-        return False
+    noteOwner = Post.query.filter_by(id=id, user_id=current_user.id).scalar() is not None
+
+    return noteOwner
     
 #-------------------------------------------------------------------------------------------------------------------------
 @app.route('/delnote/<int:id>', methods=['GET'])
@@ -226,10 +231,11 @@ def NoteOwner(id):
 def delNoteById(id):
     post = getNoteById(id)
     if post is None:
-        return "note not found or no access"
+        print("note not found or no access")
     else:
         db.session.delete(post)
         db.session.commit()
+        
     return redirect(url_for('index'))
     
 #-------------------------------------------------------------------------------------------------------------------------
@@ -237,16 +243,63 @@ def getNoteById(id, owner=True):
     note = None
     
     if owner:
-        for eachNote in current_user.post:
-            if eachNote.id == id:
-                note = eachNote
-            
+        note = Post.query.filter_by(id=id, user_id=current_user.id).first()
+                
     else:
         for eachNote in current_user.relations:
             if eachNote.id == id:
                 note = eachNote
     
     return note
+    
+#-------------------------------------------------------------------------------------------------------------------------
+#----- Handwriting/drawing Note
+#-------------------------------------------------------------------------------------------------------------------------
+@app.route('/newCanvas')
+@login_required
+def newCanvas():
+    session['room'] = str(current_user.email)
+        
+    return render_template('canvas.html', room=session['room'], theme=themes[currentTheme], post=None, title='Canvas')
+
+#-------------------------------------------------------------------------------------------------------------------------
+def saveCanvas(title, tags, thumbnail, JSONData):
+    print('saving')
+    if title is not None:
+        data = noteData(title, None, tags, thumbnail, True)
+
+        # generate new note array
+        newNote = Post()
+        # convert noteData to json
+        newNote.body = json.dumps(data)
+        newNote.imgUrl = json.dumps(JSONData)
+        newNote.user_id = current_user.id
+        saveToDB(newNote)
+        return True
+        
+    return False
+    
+#-------------------------------------------------------------------------------------------------------------------------
+def saveCanvasById(id, title, tags, thumbnail, JSONData):  
+    idExists = db.session.query(Post.id).filter_by(id=id).scalar() is not None
+    if idExists:
+        owner = NoteOwner(id)
+        
+        # generate new note array
+        data = noteData(title, None, tags, thumbnail, True)
+        # get current note by ID (it's linked with current_user)
+        currentPost = getNoteById(id, owner)
+        
+        # only allow owner to write or shared note with write access
+        if owner or not owner and currentPost.writeAllowed:
+            # convert noteData to json
+            currentPost.body = json.dumps(data)
+            currentPost.imgUrl = json.dumps(JSONData)
+            
+            saveToDB(currentPost)
+            return True
+            
+    return False
     
 #-------------------------------------------------------------------------------------------------------------------------
 #----- Share Note
@@ -279,7 +332,7 @@ def shareNoteById(note_id, email):
             note.shareto.append(getUser)
             db.session.commit()
         
-        print('User not found')
+        print('Note is now shared')
         
     return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------

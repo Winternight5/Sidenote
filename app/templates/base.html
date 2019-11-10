@@ -5,7 +5,7 @@
         <meta name="msapplication-navbutton-color" content="{{ theme.browser }}">
         <meta name="apple-mobile-web-app-status-bar-style" content="{{ theme.browser }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -14,7 +14,7 @@
 {% if title %}
         <title>{{ title }} - Sidenote</title>
 {% else %}
-        <title>microblog</title>
+        <title>Sidenote</title>
 {% endif %}
         <meta name="description" content="Sidenote for everyone">
         <meta name="author" content="Tai Huynh">
@@ -25,6 +25,7 @@
         </style>
     </head>
     <body class="{{ theme.background }} " id="data-list">
+{% if title != "Canvas" %}
   <div id="menu">
   <!-- Top Navigation Bar -->
   <nav id="navMenu" class="menu {{ theme.nav }} {{ theme.font_header }}" data-target="menu" style="z-index: 500">
@@ -34,7 +35,7 @@
       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="large material-icons">menu</i></a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="javascript:void(0)" onclick="$('.sidenav').sidenav('open')" class="waves-effect waves-light"><i class="material-icons">menu</i></a></li>
-        <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">brush</i></a></li>
+        <li><a href="{{ url_for('newCanvas') }}" class="waves-effect waves-light"><i class="material-icons">brush</i></a></li>
         <li><a href="{{ url_for('newlist') }}" class="waves-effect waves-light"><i class="material-icons">event_available</i></a></li>
         <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">event_note</i></a></li>
       </ul>
@@ -50,33 +51,22 @@
 {% elif title == "Note" or title == "List" %}
       <!-- Left Side -->
       <ul class="left">
-        <li><a class="waves-effect waves-light modal-trigger" href="#modalSave" class="left"><i class="large material-icons">arrow_back</i></a></li>
+        <li><a class="left waves-effect waves-light modal-trigger" href="#modalSave"><i class="large material-icons">arrow_back</i></a></li>
       </ul>
       <!-- Right Side -->
       <ul class="right">
         <li><a href="javascript:void(0)" onclick="submitForm()" class="waves-effect waves-light"><i class="material-icons">save</i></a></li>
         <li><a class="waves-effect waves-light modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>
-        <li><a class="waves-effect waves-light modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li>
+  {% if post.id  %}<li><a class="waves-effect waves-light modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li>{% endif %}
     {% if title == "Note" %}
         <li><a class="waves-effect waves-light"  onclick="editorCmd('insertOrderedList')"><i class="material-icons">format_list_bulleted</i></a></li>
-        <li><input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
+        <li><input type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
         <label for="file" class="">
-            <a class="waves-effect waves-light"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
+            <a class="waves-effect waves-light"><i class="material-icons">image</i></a>
         </label></li>
     {% endif %}
       </ul>
 
-    <!-- Modal: Delete -->
-      <div id="modalDelete" class="modal {{ theme.button1 }} {{ theme.font }}">
-        <div class="modal-content center">
-          <h4>Delete</h4>
-          <p>Delete this note?</p>
-        </div>
-        <div class="modal-footer">
-            <a href="/delnote/{% if post.id  %}{{ post.id }}{% endif %}" class="modal-close waves-effect waves-green btn-flat">Yes</a>
-            <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
-        </div>
-      </div>
       <!-- Modal: Save -->
       <div id="modalSave" class="modal {{ theme.button1 }} {{ theme.font }}">
         <div class="modal-content center {{ theme.font }}">
@@ -89,29 +79,8 @@
             <a href="#!" class="modal-close waves-effect waves-yellow btn-flat">Cancel</a>
         </div>
       </div>
-      <!-- Modal: Share -->
-      <div id="modalShare" class="modal {{ theme.button1 }}">
-        <div class="modal-content">
-          <h4>Sharing Note</h4>
-            <div class="input-field">
-              <input id="shareName" name="shareName" type="text" class="{{ theme.font }}">
-              <label for="shareName">Email to share with:</label>
-            </div>
-            <p> <label>
-                <input id="writeAccess" type="checkbox" 
-                    {% if post.writeAllowed  %}checked{% endif %} 
-                    {% if post.id and not post.owner  %}disabled="disabled"{% endif %} 
-                />
-                <span class="{{ theme.font }}">Allow other to edit this note.</span>
-            </label></p>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" onclick="shareNote()" class="modal-close waves-effect waves-green btn-flat">Share</a>
-            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
-        </div>
-      </div>
       <!-- end modals -->
-      
+    
 {% elif title == "View" %}
       <!-- Left Side -->
       <ul class="left">
@@ -120,6 +89,8 @@
 {% endif %}
     </div>
   </nav>
+  </div>
+{% endif %}
   <!-- End Top Navigation Bar -->
 
     <!-- Side Navigation Bar -->
@@ -146,6 +117,42 @@
     </ul>
     <!-- End Side Navigation Bar -->
     
+{% if title == "Note" or title == "List" or title == "Canvas" %}
+    <!-- Modal: Delete -->
+      <div id="modalDelete" class="modal {{ theme.button1 }} {{ theme.font }}">
+        <div class="modal-content center">
+          <h4>Delete</h4>
+          <p>Delete this note?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="/delnote/{% if post.id  %}{{ post.id }}{% endif %}" class="modal-close waves-effect waves-green btn-flat">Yes</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
+        </div>
+      </div>
+      <!-- Modal: Share -->
+      <div id="modalShare" class="modal {{ theme.button1 }}">
+        <div class="modal-content">
+          <h4>Sharing Note</h4>
+            <div class="input-field">
+              <input id="shareName" name="shareName" type="text" class="{{ theme.font }}">
+              <label for="shareName">Email to share with:</label>
+            </div>
+            <p> <label>
+                <input id="writeAccess" type="checkbox" 
+                    {% if post.writeAllowed  %}checked{% endif %} 
+                    {% if post.id and not post.owner  %}disabled="disabled"{% endif %} 
+                />
+                <span class="{{ theme.font }}">Allow other to edit this note.</span>
+            </label></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" onclick="shareNote()" class="modal-close waves-effect waves-green btn-flat">Share</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
+        </div>
+      </div>
+      <!-- end modals -->
+{% endif %}
+    
     <!-- block content -->
     {% block content %}{% endblock %}
     
@@ -155,14 +162,16 @@
     <script>
       $(document).ready(function(){
         $('.sidenav').sidenav();
-        {% if title == "Note" or title == "List" %} $('.modal').modal(); {% endif %}
+        {% if title == "Note" or title == "List" or title == "Canvas" %} $('.modal').modal(); {% endif %}
         
+        {% if title != "Canvas" %}
         menu = $('.menu');
         target = $('#' +menu.attr("data-target"));
         
         menu.pushpin({
           top: target.offset().top
         });
+        {% endif %}
       });
       
       /* animate each card when scrolled to screen

@@ -72,7 +72,7 @@ body:not(input):not(texteara)  {
     {% for post in allposts %}
     <li class="card {{ theme.font }} col s11 m5 l3 waves-effect waves-light fadeFX
                    {% if post.body.note_bgcolor  %}{{ post.body.note_bgcolor }}{% else %} {{ theme.note }} {% endif %}" data-tags="{{ post.tags }}"
-                   onclick="window.location.href='/editnote/{{ post.id }}'">
+                   onclick="window.location.href='/editnote/{{ post.id }}'" >
       <div class="card-content">
         <p class="card-title activator name"><b>{{ post.title }}</b>
         <i class="material-icons right">{{ post.icon }}</i>
@@ -96,7 +96,7 @@ body:not(input):not(texteara)  {
     <i class="large material-icons">add</i>
   </a>
   <ul>
-    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i class="material-icons">brush</i></a></li>
+    <li><a href="{{ url_for('newCanvas') }}" class="btn-floating waves-effect {{ theme.btnBrush }}"><i class="material-icons">brush</i></a></li>
     <li><a href="{{ url_for('newlist') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }}"><i class="material-icons">event_available</i></a></li>
     <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }}"><i class="material-icons">event_note</i></a></li>
   </ul>
@@ -105,8 +105,6 @@ body:not(input):not(texteara)  {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <script>
-    // Only pure JS scripts, no JQuery
-
     // materialize select options
     document.addEventListener('DOMContentLoaded', function() {
       var fixedBtn = document.querySelectorAll('.fixed-action-btn');
