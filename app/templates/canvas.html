@@ -460,10 +460,7 @@ $(document).ready(function () {
         }else{
             loadAsynchronous(data);
         }
-        
-        //*/
 	}); 
-    $('#loading').fadeOut();
   }
   
   function loadAsynchronous(data) {
@@ -487,6 +484,7 @@ $(document).ready(function () {
               varJDeferred.resolve();
             }
 		}
+        $('#loading').fadeOut();
 	}
   } //*/
   
@@ -512,7 +510,7 @@ $(document).ready(function () {
 
         var tempCanvas = document.createElement("canvas");
         var tempContext = tempCanvas.getContext('2d');
-        var width = (512 > image1.width) ? image1.width : 512;
+        var width = (256 > image1.width) ? image1.width : 256;
         var height = Math.round(width / image1.width * image1.height);
         tempCanvas.width = width;
         tempCanvas.height = height;
