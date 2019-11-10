@@ -460,6 +460,7 @@ $(document).ready(function () {
         }else{
             loadAsynchronous(data);
         }
+        $('#loading').fadeOut();
 	}); 
   }
   
@@ -485,7 +486,6 @@ $(document).ready(function () {
             }
 		}
 	}
-    $('#loading').fadeOut();
   } //*/
   
   // Save Canvas (create thumbnail)
