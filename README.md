@@ -43,6 +43,7 @@ See the most updated complete list [requirements.txt](https://github.com/Wintern
 Clone this git repo then install the required extensions. 
 
 To install individual extension, use the terminal: *(For Window, make sure to “Run as administrator”)*
+
 ```
 pip install Flask
 ```

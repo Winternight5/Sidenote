@@ -1,24 +1,23 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <style>
     body {
         overscroll-behavior: contain;
     }
-/* Mobile Styles */
-@media screen and (max-aspect-ratio: 13/9) {
-    #contentEditor {
-        font-size: 140%;
+    /* Mobile Styles */
+    
+    @media screen and (max-aspect-ratio: 13/9) {
+        #contentEditor {
+            font-size: 140%;
+        }
     }
-}
-
-/* Desktop Styles */
-@media screen and (min-aspect-ratio: 13/9) {
-    #contentEditor {
-        font-size: 120%;
+    /* Desktop Styles */
+    
+    @media screen and (min-aspect-ratio: 13/9) {
+        #contentEditor {
+            font-size: 120%;
+        }
     }
-}
-
+    
     #contentEditor {
         height: auto;
         min-height: 30vh;
@@ -29,57 +28,62 @@
     .row {
         padding: 10px;
     }
-
+    
     ol {
-      list-style-type: none;
+        list-style-type: none;
     }
-
+    
     ol li span::before {
-      font-family: "FontAwesome";
-      content: '\f096';
-      margin-right: 7px;
-      font-size: 150%;
+        font-family: "FontAwesome";
+        content: '\f096';
+        margin-right: 7px;
+        font-size: 150%;
     }
     
     ol li.complete span:before {
-      content: '\f046';
-      color: gray;
+        content: '\f046';
+        color: gray;
     }
     
     .complete {
-      /*text-decoration: line-through;*/
-      color: gray;
+        /*text-decoration: line-through;*/
+        color: gray;
     }
 </style>
 <br><br><br>
 <div class="{{ theme.note }} {{ theme.font_header }}">
- <form name="post" method="post" action="/savenote{% if post.id  %}/{{ post.id }}{% endif %}">
-  <div class="row">
-    <div class="input-field">
-      <input id="post_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
-      <label for="post_title">Title</label>
-    </div>
-    
-    <div class="center">
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('bold')"><i class="material-icons">format_bold</i></a>
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('italic')"><i class="material-icons">format_italic</i></a>
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('underline')"><i class="material-icons">format_underlined</i></a>
-        <!--<a class="waves-effect waves-light btn-small"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a></li>
+    <form name="post" method="post" action="/savenote{% if post.id  %}/{{ post.id }}{% endif %}">
+        <div class="row">
+            <div class="input-field">
+                <input id="post_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
+                <label for="post_title">Title</label>
+            </div>
+
+            <div class="center">
+                <a class="waves-effect waves-light btn-small" onclick="editorCmd('bold')"><i
+                        class="material-icons">format_bold</i></a>
+                <a class="waves-effect waves-light btn-small" onclick="editorCmd('italic')"><i
+                        class="material-icons">format_italic</i></a>
+                <a class="waves-effect waves-light btn-small" onclick="editorCmd('underline')"><i
+                        class="material-icons">format_underlined</i></a>
+                <!--<a class="waves-effect waves-light btn-small"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a></li>
         <a class="waves-effect waves-light btn-small"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a></li>
         <a class="waves-effect waves-light btn-small"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>-->
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('outdent')"><i class="material-icons">format_indent_decrease</i></a>
-    </div>
-        <!--<input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
+                <a class="waves-effect waves-light btn-small" onclick="editorCmd('outdent')"><i
+                        class="material-icons">format_indent_decrease</i></a>
+            </div>
+            <!--<input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
         <label for="file" class="">
             <a class="waves-effect waves-light btn"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
         </label>-->
-      <div class="clickable"></div>
-      <div id="contentEditor" class="card {{ theme.font }}" tabindex="0" contenteditable="true">{% if post.id  %}{{ post.body.body | safe }}{% endif %}</div>
-      <textarea name="contentArea" id="contentArea" style="display: none; height: 30vh;"></textarea>
-      <input type="hidden" name="content" id="content">
-      <canvas class="whiteboard" style="display: none;"></canvas>
-  </div>
- </form>
+            <div class="clickable"></div>
+            <div id="contentEditor" class="card {{ theme.font }}" tabindex="0" contenteditable="true">
+                {% if post.id %}{{ post.body.body | safe }}{% endif %}</div>
+            <textarea name="contentArea" id="contentArea" style="display: none; height: 30vh;"></textarea>
+            <input type="hidden" name="content" id="content">
+            <canvas class="whiteboard" style="display: none;"></canvas>
+        </div>
+    </form>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--<script src="//cdn.jsdelivr.net/jquery.ui/1.11.4/jquery-ui.min.js"></script>-->
@@ -91,31 +95,31 @@
     const $contentEditor = $('#contentEditor');
     var canvas = document.getElementsByClassName('whiteboard')[0];
     var context = canvas.getContext('2d');
-    
+
     $(document).ready(function() {
         namingOl();
     });
-    
+
     $contentEditor.keyup(function(e) {
         writeHTML();
     });
-    
+
     $(document).on('click', 'ol li', function(event) {
         console.log(event.target.tagName)
         if (event.target.tagName != 'SPAN' || $(this).text() == '') return false;
-        
+
         $(this).toggleClass('complete');
-        $('.'+$(this).parent().attr('class')+' .complete')
+        $('.' + $(this).parent().attr('class') + ' .complete')
             .appendTo($(this).parent());
-            
+
         writeHTML();
     });
-    
+
     function writeHTML() {
         $('#contentArea').text($contentEditor.html());
         var beautify = formatFactory($('#contentArea').text());
         $('#contentArea').val(beautify);
-        
+
 
         $contentEditor.find('li').each(function() {
             if ($(this).has('span').length == 0) {
@@ -123,37 +127,37 @@
             }
         });
     }
-    
+
     function namingOl() {
         var olCounter = 1;
-        
+
         $('ol').each(function() {
             $(this).removeClass(removeOlClasses);
-            
-            $(this).addClass('ol'+olCounter);
-            $(this).find('li').each(function(){
+
+            $(this).addClass('ol' + olCounter);
+            $(this).find('li').each(function() {
                 $(this).removeClass(removeOlClasses);
-                $(this).addClass('ol'+olCounter);
+                $(this).addClass('ol' + olCounter);
             })
-            
+
             olCounter++;
         });
-        
+
         writeHTML();
     }
-    
-    function removeOlClasses(index, classNames) {
-        var current_classes = classNames.split(" "), 
-        classes_to_remove = [];
 
-        $.each(current_classes, function (index, class_name) {
+    function removeOlClasses(index, classNames) {
+        var current_classes = classNames.split(" "),
+            classes_to_remove = [];
+
+        $.each(current_classes, function(index, class_name) {
             if (/ol.*/.test(class_name)) {
                 classes_to_remove.push(class_name);
             }
         });
         return classes_to_remove.join(" ");
     }
-    
+
     function removeEmptyLi() {
         $contentEditor.find('li').each(function() {
             if ($(this).text().length == 0) {
@@ -161,89 +165,89 @@
             }
         });
     }
-    
+
     function submitForm() {
         $('#content').val($contentEditor.html());
         document.post.submit();
     }
-    
+
     $('#writeAccess').change(function() {
         console.log('changed')
         $.ajax({
-            url: "/writeAccess/{{ post.id }}/"+$('#writeAccess').is(':checked')
+            url: "/writeAccess/{{ post.id }}/" + $('#writeAccess').is(':checked')
         }).done(function() {
             console.log('Write Access Updated')
         });
     });
-    
+
     function shareNote() {
         $.ajax({
-            url: "/share/{{ post.id }}/"+$('#shareName').val(),
+            url: "/share/{{ post.id }}/" + $('#shareName').val(),
             context: ''
         }).done(function() {
             console.log('Shared')
         });
     }
-    
+
     function editorCmd(cmd) {
         $('#contentEditor').focus();
         switch (cmd) {
-            case "underline" :
+            case "underline":
                 document.execCommand('underline', false, '');
                 break;
-                
-            case "italic" :
+
+            case "italic":
                 document.execCommand('italic', false, '');
                 break;
-                
-            case "bold" :
+
+            case "bold":
                 document.execCommand('bold', false, '');
                 break;
-                
-            case "strikeThrough" :
+
+            case "strikeThrough":
                 document.execCommand('strikeThrough', false, '');
                 break;
-                
-            case "insertUnorderedList" :
+
+            case "insertUnorderedList":
                 document.execCommand('insertUnorderedList');
                 break;
-                
-            case "insertOrderedList" :
+
+            case "insertOrderedList":
                 document.execCommand('insertOrderedList');
                 namingOl();
                 removeEmptyLi();
                 writeHTML();
                 break;
-                
-            case "indent" :
+
+            case "indent":
                 document.execCommand('indent');
                 break;
-                
-            case "outdent" :
+
+            case "outdent":
                 document.execCommand('outdent');
                 namingOl();
                 removeEmptyLi();
                 writeHTML();
                 break;
-                
-            case "image" :
+
+            case "image":
                 document.execCommand('image');
                 break;
         }
     }
-    
+
     function getImage() {
-        var file = $('#file')[0].files[0] 
+        var file = $('#file')[0].files[0]
 
         var reader = new FileReader();
-        
+
         reader.onload = function() {
             var img = new Image();
 
             img.onload = function() {
                 width = (1920 > img.width) ? img.width : 1920;
                 height = Math.round(width / img.width * img.height);
-                
+
                 // Resize image to to reduce file size (optimization)
                 canvas.width = width;
                 canvas.height = height;
@@ -256,7 +260,7 @@
                 
                 pasteHtmlAtCaret(imgHTML);
             };
-            
+
             img.src = reader.result;
         };
 
@@ -264,7 +268,7 @@
             reader.readAsDataURL(file);
         }
     }
-    
+
     function pasteHtmlAtCaret(html) {
         var sel, range;
         if (window.getSelection) {
@@ -279,12 +283,13 @@
                 var el = document.createElement("div");
                 el.innerHTML = html;
 
-                var frag = document.createDocumentFragment(), node, lastNode;
+                var frag = document.createDocumentFragment(),
+                    node, lastNode;
                 while ((node = el.firstChild)) {
                     lastNode = frag.appendChild(node);
                 }
                 range.insertNode(frag);
-                
+
                 // Preserve the selection
                 if (lastNode) {
                     range = range.cloneRange();
@@ -300,49 +305,49 @@
             document.selection.createRange().pasteHTML(html);
         }
     }
-        
+
     function formatFactory(html) {
         function parse(html, tab = 0) {
             var tab;
             var html = $.parseHTML(html);
-            var formatHtml = new String();   
+            var formatHtml = new String();
 
-            function setTabs () {
+            function setTabs() {
                 var tabs = new String();
 
-                for (i=0; i < tab; i++){
-                  tabs += '\t';
+                for (i = 0; i < tab; i++) {
+                    tabs += '\t';
                 }
-                return tabs;    
+                return tabs;
             };
 
 
-            $.each( html, function( i, el ) {
+            $.each(html, function(i, el) {
                 if (el.nodeName == '#text') {
                     if (($(el).text().trim()).length) {
                         formatHtml += setTabs() + $(el).text().trim() + '\n';
-                    }    
+                    }
                 } else {
                     var innerHTML = $(el).html().trim();
                     $(el).html(innerHTML.replace('\n', '').replace(/ +(?= )/g, ''));
-                    
+
 
                     if ($(el).children().length) {
                         $(el).html('\n' + parse(innerHTML, (tab + 1)) + setTabs());
                         var outerHTML = $(el).prop('outerHTML').trim();
-                        formatHtml += setTabs() + outerHTML + '\n'; 
+                        formatHtml += setTabs() + outerHTML + '\n';
 
                     } else {
                         var outerHTML = $(el).prop('outerHTML').trim();
                         formatHtml += setTabs() + outerHTML + '\n';
-                    }      
+                    }
                 }
             });
 
             return formatHtml;
-        };   
-        
-        return parse(html.replace(/(\r\n|\n|\r)/gm," ").replace(/ +(?= )/g,''));
+        };
+
+        return parse(html.replace(/(\r\n|\n|\r)/gm, " ").replace(/ +(?= )/g, ''));
     };
 </script>
 {% endblock %}:

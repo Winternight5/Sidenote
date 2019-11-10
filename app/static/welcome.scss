@@ -1,112 +1,102 @@
-
 html {
     background-color: #3ACD8F;
-}
-// Vertically centers the the page
-.row {
+  }
+  
+  .row {
     height: 100vh;
     font-family: 'Lato', sans-serif;
-
-    h3 {
-        font-weight: 800;
-        color: white;
-    }
-}
-
-// For the currently showing/selected login option
-[id="sign-in"]:checked ~ input.sign-in ,
-[id="sign-up"]:checked ~ input.sign-up ,
-[id="reset-login"]:checked ~ input.reset-login 
-{
+  }
+  
+  .row h3 {
+    font-weight: 800;
+    color: white;
+  }
+  
+  [id="sign-in"]:checked ~ input.sign-in,
+  [id="sign-up"]:checked ~ input.sign-up,
+  [id="reset-login"]:checked ~ input.reset-login {
     max-height: 40px;
-    // padding: 10px;
     margin: 15px 0px;
-}
-
-fieldset {
-    border: none; // getting rid of auto-displayed border
-}
-
-img {
+  }
+  
+  fieldset {
+    border: none;
+  }
+  
+  img {
     width: 250px;
     height: 250px;
-}
-
-// Centering the label options
-.label {
+  }
+  
+  .label {
     position: relative;
     display: inline-block;
     text-align: center;
     font-weight: 800;
     cursor: pointer;
+    -webkit-transition: 300ms ease;
     transition: 300ms ease;
     width: calc(100% / 3 - 4px);
-}
-
-// Styling the labels 
-label[for="sign-in"],
-label[for="sign-up"],
-label[for="reset-login"] 
-{
+  }
+  
+  label[for="sign-in"],
+  label[for="sign-up"],
+  label[for="reset-login"] {
     font-size: 15px;
     font-weight: 800;
     padding: 0 20px 20px 0;
-}
-
-// Setting the active state presence of the labels
-[id="sign-in"]:checked ~ label[for="sign-in"] ,
-[id="sign-up"]:checked ~ label[for="sign-up"] ,
-[id="reset-login"]:checked ~ label[for="reset-login"]
-    {
-        color: black;
-        &::after {
-            content: '';
-            width: 30%;
-            position: absolute;
-            left: 30px;
-            bottom: -9px;
-            border: 0.5px solid grey;
-        }
-        font-style: italic;
-    }
-
-// applies the appropriate "submit text" based upon the login option selected
-[id="sign-in"]:checked ~ .button::before {
+  }
+  
+  [id="sign-in"]:checked ~ label[for="sign-in"],
+  [id="sign-up"]:checked ~ label[for="sign-up"],
+  [id="reset-login"]:checked ~ label[for="reset-login"] {
+    color: black;
+    font-style: italic;
+  }
+  
+  [id="sign-in"]:checked ~ label[for="sign-in"]::after,
+  [id="sign-up"]:checked ~ label[for="sign-up"]::after,
+  [id="reset-login"]:checked ~ label[for="reset-login"]::after {
+    content: '';
+    width: 30%;
+    position: absolute;
+    left: 30px;
+    bottom: -9px;
+    border: 0.5px solid grey;
+  }
+  
+  [id="sign-in"]:checked ~ .button::before {
     content: "Sign In";
-}
-[id="sign-up"]:checked ~ .button::before {
+  }
+  
+  [id="sign-up"]:checked ~ .button::before {
     content: "Sign Up";
-}
-[id="reset-login"]:checked ~ .button::before {
+  }
+  
+  [id="reset-login"]:checked ~ .button::before {
     content: "Reset Password";
-}
-
+  }
+  
 .button {
     width: 250px;
     padding: 3px;
     height: 40px;
     border-radius: 0;
     color: white;
-    // font-family: "Oswald";
     border: 1.5px solid white;
     background: transparent;
     font-weight: 200;
-    
-    // hide basic "Submit" text so that you can apply the appropriate text later on (see the code below)
-    // font-size: 0px;
     font-style: italic;
-
-    &::before {
-        font-size: 16px;
-    }
-
-    &:hover {
-        color: black;
-        transition: 0.4s;
-        border-color: black;
-        cursor: pointer;
-    }
 }
-
-
-
+  
+.button::before {
+    font-size: 16px;
+}
+  
+.button:hover {
+    color: black;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-color: black;
+    cursor: pointer;
+}

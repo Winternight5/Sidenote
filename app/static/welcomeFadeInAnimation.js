@@ -1,13 +1,14 @@
 /*
-  This script utilizes JavaScript and jQuery to fade in the Welcome Page's contents, including the header1 and
+  This script utilizes JavaScript and jQuery to fade in the Welcome Page's contents, including the header3 and
   the login/registration form.
 */
 
-$(document).ready(function () {
+$(document).ready(function() {
 
   const delayTimer = 1;
 
-  var $header = $("h4");
+  // this was updated
+  var $header = $("h3");
   var $aboutSidenote = $("img");
   var $loginForm = $("form");
   var $learnMoreButton = $("button");
