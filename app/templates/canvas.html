@@ -207,9 +207,6 @@ $(document).ready(function () {
   };
   var drawing = false;
   
-  // init run first
-  init();
-  
   // ----- socket io stuff
   socket.on('connect', function () {
     socket.emit('joined', {});
@@ -460,7 +457,6 @@ $(document).ready(function () {
         }else{
             loadAsynchronous(data);
         }
-        $('#loading').fadeOut();
 	}); 
   }
   
@@ -614,7 +610,11 @@ $(document).ready(function () {
     
 	// resize canvas
     onResize();
+    $('#loading').fadeOut();
   }
+  
+  // init run
+  init();
 });
 </script>
 
