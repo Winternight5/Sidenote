@@ -42,8 +42,8 @@ def joined(data):
     #    'count': getValues(rooms),
 	#	'rooms': getKeys(rooms)
     #}, broadcast=True)
-    print(clients)
-    print(rooms)
+    print('clients: '+str(rooms))
+    print('--------------------------------------------------------------------------')
     
 @socketio.on('disconnect', namespace='/')
 def disconnect():
@@ -59,7 +59,7 @@ def disconnect():
         'count': getValues(rooms),
 		'rooms': getKeys(rooms)
     }, broadcast=True)
-    print(clients)
+    print('clients: '+str(rooms))
 	
 @socketio.on('drawing', namespace='/')
 def drawing(data):
@@ -106,7 +106,11 @@ def save(newdata):
         saveData = routes.saveCanvas(title, tags, thumbnail, data)
         
     emit('saved', saveData, room=currentRoom)
-        
+    print('Canvas Saved')
+
+def revokeAccess():
+    currentRoom = session.get('room')
+    socketio.emit('accessRevoked', {}, room=currentRoom)	
     
 @app.route('/img', methods=['GET'])
 def img():

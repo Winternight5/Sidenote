@@ -1,18 +1,21 @@
 from flask import render_template, flash, redirect, url_for, request, jsonify, json, session
 from app import app, db, events
 from app.forms import LoginForm, RegistrationForm, ResetForm
-from app.models import User, Post, shares
+from app.models import User, Post, Share
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 import random, string, html, re, uuid
+from sqlalchemy.orm import Session
 
 themes = {
     'day': {
         'browser': '#ffc400',
         'switch': 'Dark Mode',
         'nav': 'amber accent-3',
-        'note': 'amber lighten-4',
-        'background': 'yellow lighten-5',
+        'note': 'amber',
+        'themeMode': 'lighten-4',
+        'background': 'amber lighten-5',
+        'canvasBackground': 'amber lighten-5',
         'button1': 'amber lighten-2',
         'btnBrush': 'green accent-4',
         'btnCheckbox': 'light-blue darken-3',
@@ -20,6 +23,7 @@ themes = {
         'indicator': '#ffc400',
         'indicatorActive': '#424242',
         'font': 'black-text',
+        'font_input': 'black-text',
         'font_header': 'black-text',
         'c1': 'yellow lighten-3',
         'c2': 'light-blue lighten-3',
@@ -30,16 +34,19 @@ themes = {
         'browser': '#212121',
         'switch': 'Day Mode',
         'nav': 'grey darken-4',
-        'note': 'grey darken-3',
+        'note': 'grey',
+        'themeMode': 'darken-2',
         'background': 'black',
-        'button1': 'indigo darken-2',
+        'canvasBackground': 'grey darken-2',
+        'button1': 'indigo darken-4',
         'btnBrush': 'green accent-4',
         'btnCheckbox': 'light-blue darken-3',
         'btnNote': 'orange accent-2',
         'indicator': '#424242',
         'indicatorActive': '#bdbdbd',
-        'font': 'grey-text text-lighten-2',
-        'font_header': 'grey-text text-lighten-5',
+        'font': 'grey-text',
+        'font_input': 'grey-text text-lighten-4',
+        'font_header': 'grey-text text-lighten-1',
         'c1': 'yellow lighten-3',
         'c2': 'light-blue lighten-3',
         'c3': 'red lighten-4',
@@ -103,10 +110,11 @@ def newnote():
 def saveNewNote():
     title = request.form.get('title')
     tags = request.form.get('tags')
+    noteColor = request.form.get('noteColor')
     body = request.form.get('content')
 
     # generate new note array
-    data = noteData(title, None, tags, body)
+    data = noteData(title, noteColor, tags, body)
     newNote = Post()
     # convert noteData to json
     newNote.body = json.dumps(data)
@@ -114,8 +122,10 @@ def saveNewNote():
     #newNote.share = current_user
 
     saveToDB(newNote)
+    print("Note saved")
+    return str(newNote.id)
 
-    return redirect(url_for('index'))
+    #return redirect(url_for('index'))
 
 # -------------------------------------------------------------------------------------------------------------------------
 @app.route('/savenote/<int:id>', methods=['POST'])
@@ -125,12 +135,13 @@ def saveNoteById(id):
     if idExists:
         title = request.form.get('title')
         tags = request.form.get('tags')
+        noteColor = request.form.get('noteColor')
         body = request.form.get('content')
 
         owner = NoteOwner(id)
 
         # generate new note array
-        data = noteData(title, None, tags, body)
+        data = noteData(title, noteColor, tags, body)
         # get current note by ID (it's linked with current_user)
         currentPost = getNoteById(id, owner)
 
@@ -140,11 +151,11 @@ def saveNoteById(id):
             currentPost.body = json.dumps(data)
 
             saveToDB(currentPost)
-
-    if owner:
-        return redirect(url_for('index'))
-    else:
-        return redirect(url_for('shared'))
+            print("Note saved")
+            return str(currentPost.id)
+            
+    print("Error: Note not found or no access")
+    return '0'
         
 def noteData(title, bgcolor, tags, body, canvas = False):
     icon = 'event_note'
@@ -165,8 +176,6 @@ def noteData(title, bgcolor, tags, body, canvas = False):
     return post
 
 # -------------------------------------------------------------------------------------------------------------------------
-
-
 def saveToDB(note):
     try:
         db.session.add(note)
@@ -185,6 +194,8 @@ def editnote(id):
     owner = NoteOwner(id)
 
     note = getNoteById(id, owner)
+    
+    currentRoom = None
 
     if note is not None:
         # if not owner and no write access, go to view page
@@ -199,6 +210,8 @@ def editnote(id):
             note.body = note if note.body is None else note.body
             note.body = json.loads(note.body)
             note.owner = owner
+            note.ownerEmail = note.user.email
+            #note.shared = 
 
             # edit to do list
             if note.body['icon'] == 'event_available':
@@ -219,7 +232,7 @@ def editnote(id):
                 pageUrl = 'post.html'
                 pageTitle = 'Note'
                 
-            return render_template(pageUrl, theme=themes[currentTheme], post=note, title=pageTitle, room=session.get('room')) 
+            return render_template(pageUrl, theme=themes[currentTheme], post=note, title=pageTitle, room=currentRoom) 
 
     return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------
@@ -242,7 +255,6 @@ def delNoteById(id):
     return redirect(url_for('index'))
 
 # -------------------------------------------------------------------------------------------------------------------------
-
 def getNoteById(id, owner=True):
     note = None
 
@@ -250,10 +262,17 @@ def getNoteById(id, owner=True):
         note = Post.query.filter_by(id=id, user_id=current_user.id).first()
         
     else:
-        for eachNote in current_user.relations:
-            if eachNote.id == id:
-                note = eachNote
-
+        shared = Share.query.filter_by(post_id=id, user_id=current_user.id).first()
+        if shared is not None:
+            note = Post.query.filter_by(id=shared.post_id).first()
+    
+    if note is not None:
+        user = User()
+        note.user
+        note.collaborators = []
+        for item in note.shareto:
+            note.collaborators.append({'email': item.email, 'id': item.id})
+            
     return note
     
 #-------------------------------------------------------------------------------------------------------------------------
@@ -268,7 +287,6 @@ def newCanvas():
 
 #-------------------------------------------------------------------------------------------------------------------------
 def saveCanvas(title, tags, thumbnail, JSONData):
-    print('saving')
     if title is not None:
         data = noteData(title, None, tags, thumbnail, True)
 
@@ -279,8 +297,10 @@ def saveCanvas(title, tags, thumbnail, JSONData):
         newNote.imgUrl = json.dumps(JSONData)
         newNote.user_id = current_user.id
         saveToDB(newNote)
+        print('saved')
         return True
         
+    print('Did not save, title is empty')
     return False
     
 #-------------------------------------------------------------------------------------------------------------------------
@@ -332,13 +352,42 @@ def shareNoteById(note_id, email):
 
     if note:
         getUser = User.query.filter_by(email=email.lower()).first()
+        
         if getUser:
+            memberExist = Share.query.filter_by(post_id=note_id, user_id=getUser.id).first() is not None
+            
+            if memberExist:
+                print('Error: Member already added')
+                return '1'
+                
             note.shareto.append(getUser)
             db.session.commit()
         
-            print('Note is now shared')
+            print('Note shared to new member')
+            return json.dumps({'email': getUser.email, 'id': getUser.id})
+    
+    print("Error: Member not found or no access")
+    return '0'
+    
+# -------------------------------------------------------------------------------------------------------------------------
+@app.route('/sharedel/<int:getPost_id>/<int:getUser_id>', methods=['GET'])
+@login_required
+def delMemberByNoteId(getPost_id, getUser_id):
+    owner = NoteOwner(getPost_id)
+    member = None
+    
+    if owner:
+        member = Share.query.filter_by(post_id=getPost_id, user_id=getUser_id).first()
+    
+    if member is not None:
+        db.session.delete(member)
+        db.session.commit()
+        print("Deleted member access")
+        return 'Deleted member'
+    
+    print("Error: Member not found or no access")
+    return 'Denied'
 
-    return redirect(url_for('index'))
 # -------------------------------------------------------------------------------------------------------------------------
 @app.route('/writeAccess/<int:note_id>/<string:type>', methods=['GET'])
 @login_required
@@ -350,6 +399,7 @@ def noteWriteAccess(note_id, type):
             note.writeAllowed = True
         else:
             note.writeAllowed = False
+            events.revokeAccess()
 
         db.session.commit()
 
@@ -370,9 +420,7 @@ def login():
 
     # if radio is sign-in, autheticate user
     if (option == "sign-in"):
-        print(form.email.data)
-        print(form.email.data)
-        print(form.email.data)
+    
         # validate form
         if form.validate_on_submit():
             print('validating')
@@ -479,19 +527,29 @@ def delID(id):
 # -------------------------------------------------------------------------------------------------------------------------
 @app.route('/db_init')
 def fillCheck():
+    db.create_all()
     user = User.query.first()
-    if not user is None:
+    if user is not None:
         return str(user.email)
     addadmin()
-    return redirect(url_for('addadmin'))
-
+    return redirect(url_for('showdb'))
 
 def addadmin():
     admin = User(firstname='admin', lastname='sidenote', email='admin')
     admin.set_password('1234')
+    
+    user1 = User(firstname='tai', lastname='huynh', email='tai@mail.com')
+    user1.set_password('1234')
+    
+    user2 = User(firstname='tai', lastname='huynh 2', email='tai2@mail.com')
+    user2.set_password('1234')
+    
     try:
         db.session.add(admin)
+        db.session.add(user1)
+        db.session.add(user2)
         db.session.commit()
+        
     except Exception as e:
         return "FAILED entry: "+str(e)
 # -------------------------------------------------------------------------------------------------------------------------

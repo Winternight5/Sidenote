@@ -75,39 +75,37 @@
     }
 </style>
 <br><br><br>
-<div class="{{ theme.note }} {{ theme.font_header }}">
-    <form name="post" method="post" action="/savenote{% if post.id  %}/{{ post.id }}{% endif %}">
-        <div class="row">
-            <div class="input-field">
-                <input id="list_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
-                <label for="list_title">Title</label>
-            </div>
-            <div class="input-field">
-                <input id="list_tags" name="tags" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.tags }}{% endif %}">
-                <label for="list_tags">Tags:</label>
-            </div>
-            <div class="input-field">
-                <input id="list_add" name="task" type="text" class="validate {{ theme.font }}" tabindex="0">
-                <label for="list_add">Add a New Task:</label>
-            </div>
-
-            <!-- To Do Items -->
-            <div id="contentEditor" class="{{ theme.font }}">
-                {% if post.id %}{{ post.body.body | safe }}{% endif %}
-            </div>
-
-            <textarea name="contentArea" id="contentArea" style="display: none; height: 30vh;"></textarea>
-            <input type="hidden" name="content" id="content">
+<div class="{{ theme.font_header }}">
+    <div class="row">
+        <div class="input-field">
+            <input id="note_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
+            <label for="note_title">Title</label>
         </div>
-    </form>
+        <div class="input-field">
+            <input id="note_tags" name="tags" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.tags }}{% endif %}">
+            <label for="note_tags">Tags:</label>
+        </div>
+        <div class="input-field">
+            <input id="list_add" name="task" type="text" class="validate {{ theme.font_input }}" tabindex="0">
+            <label for="list_add">Add a New Task:</label>
+        </div>
+
+        <!-- To Do Items -->
+        <div id="contentEditor" class="card black-text {{ theme.themeMode }} {% if post.id %}{{ post.body.note_bgcolor }}{% endif %}">
+            {% if post.id %}{{ post.body.body | safe }}{% endif %}
+        </div>
+
+        <textarea name="contentArea" id="contentArea" style="display: none; height: 30vh;"></textarea>
+        <input type="hidden" name="content" id="content">
+    </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script>
-    document.body.removeAttribute("class");
-    document.body.className += "{{ theme.note }}";
     const $contentEditor = $('#contentEditor');
+    
+    var noteId = '{% if post.id  %}{{ post.id }}{% endif %}';
 
     $(document).ready(function() {
         if (!$contentEditor.find('ul').hasClass('collection')) {
@@ -190,29 +188,6 @@
                 $(this).prepend("<span>");
             }
         });*/
-    }
-
-    function submitForm() {
-        $('#content').val($contentEditor.html());
-        document.post.submit();
-    }
-
-    $('#writeAccess').change(function() {
-        console.log('changed')
-        $.ajax({
-            url: "/writeAccess/{{ post.id }}/" + $('#writeAccess').is(':checked')
-        }).done(function() {
-            console.log('Write Access Updated')
-        });
-    });
-
-    function shareNote() {
-        $.ajax({
-            url: "/share/{{ post.id }}/" + $('#shareName').val(),
-            context: ''
-        }).done(function() {
-            console.log('Shared')
-        });
     }
 
     function formatFactory(html) {

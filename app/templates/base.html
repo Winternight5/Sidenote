@@ -22,9 +22,12 @@
             body {
                 touch-action: manipulation;
             }
+            .colorPalette {
+                margin: 6px;
+            }
         </style>
     </head>
-    <body class="{{ theme.background }} " id="data-list">
+    <body>
 {% if title != "Canvas" %}
   <div id="menu">
   <!-- Top Navigation Bar -->
@@ -40,9 +43,9 @@
         <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i class="material-icons">event_note</i></a></li>
       </ul>
       <!-- Right Side -->
-      <form autocomplete="off" class="right">
+      <form autocomplete="off" class="right" onsubmit="return false">
         <div class="input-field">
-          <input id="search" type="search" class="search" required>
+          <input id="search" type="search" class="search" onkeyup="Search()" required>
           <label class="label-icon" for="search"><i class="material-icons left">search</i></label>
           <i class="material-icons">close</i>
         </div>
@@ -51,13 +54,15 @@
 {% elif title == "Note" or title == "List" %}
       <!-- Left Side -->
       <ul class="left">
-        <li><a class="left waves-effect waves-light modal-trigger" href="#modalSave"><i class="large material-icons">arrow_back</i></a></li>
+        <li><a class="left waves-effect waves-light" id="goBack"><i class="large material-icons">arrow_back</i></a></li>
       </ul>
       <!-- Right Side -->
       <ul class="right">
         <li><a href="javascript:void(0)" onclick="submitForm()" class="waves-effect waves-light"><i class="material-icons">save</i></a></li>
-        <li><a class="waves-effect waves-light modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>
-  {% if post.id  %}<li><a class="waves-effect waves-light modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li>{% endif %}
+        
+        {% if post.owner %}<li><a class="waves-effect waves-light modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>{% endif %}
+        {% if post.id %}<li><a class="waves-effect waves-light modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li>{% endif %}
+       
     {% if title == "Note" %}
         <li><a class="waves-effect waves-light"  onclick="editorCmd('insertOrderedList')"><i class="material-icons">format_list_bulleted</i></a></li>
         <li><input type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
@@ -65,6 +70,7 @@
             <a class="waves-effect waves-light"><i class="material-icons">image</i></a>
         </label></li>
     {% endif %}
+        <li><a class="waves-effect waves-light modal-trigger" href="#modalPalette"><i class="material-icons">palette</i></a></li>
       </ul>
 
       <!-- Modal: Save -->
@@ -74,8 +80,8 @@
             Would you like to save first?
         </div>
         <div class="modal-footer">
-            <a href="#!" onclick="submitForm()" class="waves-effect waves-green btn-flat">Save</a>
-            <a href="#!" onclick="history.back()" class="waves-effect waves-red btn-flat">No</a>
+            <a href="#!" onclick="submitForm(true)" class="waves-effect waves-green btn-flat">Save</a>
+            <a href="{{ url_for('index') }}" class="waves-effect waves-red btn-flat">No</a>
             <a href="#!" class="modal-close waves-effect waves-yellow btn-flat">Cancel</a>
         </div>
       </div>
@@ -92,7 +98,7 @@
   </div>
 {% endif %}
   <!-- End Top Navigation Bar -->
-
+  
     <!-- Side Navigation Bar -->
     <ul id="slide-out" class="sidenav {{ theme.background }}">
     <li><div class="user-view">
@@ -118,62 +124,205 @@
     <!-- End Side Navigation Bar -->
     
 {% if title == "Note" or title == "List" or title == "Canvas" %}
-    <!-- Modal: Delete -->
-      <div id="modalDelete" class="modal {{ theme.button1 }} {{ theme.font }}">
+    <!-- Modal: Background color palette -->
+      <div id="modalPalette" class="modal {{ theme.nav }} {{ theme.font }}">
         <div class="modal-content center">
-          <h4>Delete</h4>
-          <p>Delete this note?</p>
+          <h5>Select note's color</h5>
+            <ul>
+              <li data-color="" class="colorPalette s11 waves-effect amber {{ theme.themeMode }} btn-floating"><i class="material-icons black-text">check</i></li>
+              <li data-color="red" class="colorPalette s11 waves-effect red {{ theme.themeMode }} btn-floating">red</li>
+              <li data-color="deep-purple" class="colorPalette s11 waves-effect deep-purple {{ theme.themeMode }} btn-floating"></li>
+              <li data-color="blue" class="colorPalette s11 waves-effect blue {{ theme.themeMode }} btn-floating"></li>
+              <li data-color="cyan" class="colorPalette s11 waves-effect cyan {{ theme.themeMode }} btn-floating"></li>
+              <li data-color="lime" class="colorPalette s11 waves-effect lime {{ theme.themeMode }} btn-floating"></li>
+              <li data-color="deep-orange" class="colorPalette s11 waves-effect deep-orange {{ theme.themeMode }} btn-floating"></li>
+              <li data-color="brown" class="colorPalette s11 waves-effect brown {{ theme.themeMode }} btn-floating"></li>
+            </ul>
         </div>
-        <div class="modal-footer">
-            <a href="/delnote/{% if post.id  %}{{ post.id }}{% endif %}" class="modal-close waves-effect waves-green btn-flat">Yes</a>
-            <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
+        <div class="modal-footer {{ theme.button1 }}">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat {{ theme.font_header }}">Close</a>
+        </div>
+      </div>
+    <!-- Modal: Delete -->
+      <div id="modalDelete" class="modal {{ theme.nav }} {{ theme.font }}">
+        <div class="modal-content center">
+          <h4>Delete this note?</h4>
+        </div>
+        <div class="modal-footer {{ theme.button1 }}">
+            <a href="/delnote/{% if post.id  %}{{ post.id }}{% endif %}" class="modal-close waves-effect waves-green btn-flat {{ theme.font_header }}">Yes</a>
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat {{ theme.font_header }}">No</a>
         </div>
       </div>
       <!-- Modal: Share -->
-      <div id="modalShare" class="modal {{ theme.button1 }}">
+      <div id="modalShare" class="modal {{ theme.nav }} {{ theme.font }}">
         <div class="modal-content">
-          <h4>Sharing Note</h4>
+          <h4>Collaborators</h4>
+          {% if post.ownerEmail and post.owner == False %} <b>Owner:</b> {{ post.ownerEmail }} <br>{% endif %}
+          {% if post.owner and post.collaborators %}
+            <b>Members:</b> 
+            <ol id="collaborators">
+              {% for collaborator in post.collaborators %}
+                  <li>{{ collaborator.email }} <a class="waves-effect waves-light " onclick="removeMember(this, {{ collaborator.id }})"><i class="material-icons">delete</i></a></li>
+              {% endfor %}
+            </ol>
+          {% endif %}
+          {% if post.owner %}
             <div class="input-field">
-              <input id="shareName" name="shareName" type="text" class="{{ theme.font }}">
+              <input id="shareName" name="shareName" type="text" class="{{ theme.font }}"/>
               <label for="shareName">Email to share with:</label>
             </div>
-            <p> <label>
+            <label>
                 <input id="writeAccess" type="checkbox" 
-                    {% if post.writeAllowed  %}checked{% endif %} 
-                    {% if post.id and not post.owner  %}disabled="disabled"{% endif %} 
+                    {% if post.writeAllowed %}checked{% endif %} 
                 />
                 <span class="{{ theme.font }}">Allow other to edit this note.</span>
-            </label></p>
+            </label>
+            {% endif %} 
         </div>
-        <div class="modal-footer">
-            <a href="#!" onclick="shareNote()" class="modal-close waves-effect waves-green btn-flat">Share</a>
-            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
+        <div class="modal-footer {{ theme.button1 }}">
+            {% if post.owner %}<a href="#!" onclick="shareNote()" class="waves-effect waves-green btn-flat {{ theme.font_header }}">Share</a>{% endif %} 
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat {{ theme.font_header }}">Close</a>
         </div>
       </div>
       <!-- end modals -->
 {% endif %}
-    
+
+<div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
     <!-- block content -->
     {% block content %}{% endblock %}
-    
+
+
     <!-- Javascripts -->
     {% if title == "Home" %}<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>{% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
       $(document).ready(function(){
+        document.body.className = "{{ theme.background }}";
+        // Load sidenav 
         $('.sidenav').sidenav();
-        {% if title == "Note" or title == "List" or title == "Canvas" %} $('.modal').modal(); {% endif %}
+                
+{% if title == "Note" or title == "List" or title == "Canvas" %} 
+        // Load modals
+        $('.modal').modal(); 
+{% endif %}
         
-        {% if title != "Canvas" %}
+{% if title != "Canvas" %}
+        // Load top menu
         menu = $('.menu');
         target = $('#' +menu.attr("data-target"));
         
         menu.pushpin({
           top: target.offset().top
         });
-        {% endif %}
+{% else %}
+        document.body.className = "{{ theme.canvasBackground }}";
+{% endif %}
       });
       
+      function redirectToPreviousPage() {
+            window.location.href = "{{ url_for('index') }}";
+      }
+      
+{% if title == "Note" or title == "List" %}
+    // note background color
+    var noteColor = '{% if post.note_bgcolor %}{{ post.note_bgcolor }}{% endif %}';
+
+    var noteModified = false;
+    
+    document.addEventListener('keydown', logKey);
+    function logKey(e) {
+        noteModified = true;
+    }
+    
+    $('#goBack').click(function() {
+        if (noteModified)
+            $('#modalSave').modal('open');
+        else
+            redirectToPreviousPage();
+    });
+    
+    $('.colorPalette').click(function() {
+        $('.colorPalette').each(function() {
+            $(this).html('');
+        });
+        
+        $(this).html('<i class="material-icons black-text">check</i>');
+        
+        noteColor = $(this).data('color');
+        document.getElementById('contentEditor').className = "card black-text {{ theme.themeMode }} "+noteColor;
+    });
+
+    function submitForm(goToIndex) {
+        //document.post.submit();
+        $.ajax({
+            type: "POST",
+            url: "/savenote{% if post.id  %}/{{ post.id }}{% endif %}",
+            data: {
+                "title": $('#note_title').val(),
+                "tags": $('#note_tags').val(),
+                "noteColor": noteColor,
+                "content": $contentEditor.html()
+            },
+        }).done(function(data) {
+        
+            if (goToIndex)
+                redirectToPreviousPage();
+                
+            else if (noteId == '')
+                window.location.href = "/editnote/"+data
+                
+            if (typeof data === "string") {
+                M.toast({html: 'Saved!'})
+            }
+            
+            noteModified = false;
+        });
+    }
+{% endif %}
+
+{% if post and post.id %}
+        $('#writeAccess').change(function() {
+            $.ajax({
+                url: "/writeAccess/{{ post.id }}/" + $('#writeAccess').is(':checked')
+            }).done(function() {
+                M.toast({html: 'Write Access Updated'})
+            });
+        });
+    
+        function shareNote() {
+            shareEmail = $('#shareName').val();
+            if (shareEmail.length > 0)
+                $.ajax({
+                    url: "/share/{{ post.id }}/" + shareEmail,
+                    context: ''
+                }).done(function(data) {
+                    if (data.length > 5) {
+                        data = JSON.parse(data);
+                        $('#collaborators').append('<li> '+data.email+' <a class="waves-effect waves-light " onclick="removeMember(this, '+data.id+')"><i class="material-icons">delete</i></a></li>');
+                        $('#shareName').val('');
+                        M.toast({html: 'Member added!'})
+                        
+                    }else if (data == '1') {
+                        $('#shareName').val('');
+                        
+                    }else if (data == '0') {
+                        M.toast({html: 'Unable to share, unknown email or invalid email'})
+                    }
+                });
+            else
+                M.toast({html: 'Enter an email'})
+        }
+    
+        function removeMember(obj, memberId) {
+            $.ajax({
+                url: "/sharedel/{{ post.id }}/"+memberId,
+                context: ''
+            }).done(function() {
+                obj.parentElement.remove();
+                $('#shareName').val('');
+            });
+        }
+{% endif %}
       /* animate each card when scrolled to screen
       $(window).scroll(function() {
 		$('.fadeFX').each(function(){
@@ -181,11 +330,23 @@
 
 		var topOfWindow = $(window).scrollTop();
 			if (imagePos < topOfWindow+500) {
-				$(this).addClass("bounceIn");
-                console.log('hey');
+				animateCSS($(this)[0], "fadeInUp");
 			}
 		});
 	  });//*/
+    
+    function animateCSS(node, animationName, callback) {
+        node.classList.add('animated', animationName)
+
+        function handleAnimationEnd() {
+            node.classList.remove('animated', animationName)
+            node.removeEventListener('animationend', handleAnimationEnd)
+
+            if (typeof callback === 'function') callback()
+        }
+
+        node.addEventListener('animationend', handleAnimationEnd)
+    }
     </script>
     </body>
     

@@ -20,7 +20,7 @@
     
     #contentEditor {
         height: auto;
-        min-height: 30vh;
+        min-height: 50vh;
         padding: 6px;
         overflow-x: hidden;
     }
@@ -28,74 +28,45 @@
     .row {
         padding: 10px;
     }
-    
-    ol {
-        list-style-type: none;
-    }
-    
-    ol li span::before {
-        font-family: "FontAwesome";
-        content: '\f096';
-        margin-right: 7px;
-        font-size: 150%;
-    }
-    
-    ol li.complete span:before {
-        content: '\f046';
-        color: gray;
-    }
-    
-    .complete {
-        /*text-decoration: line-through;*/
-        color: gray;
-    }
 </style>
 <br><br><br>
-<div class="{{ theme.note }} {{ theme.font_header }}">
-    <form name="post" method="post" action="/savenote{% if post.id  %}/{{ post.id }}{% endif %}">
-        <div class="row">
-            <div class="input-field">
-                <input id="post_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
-                <label for="post_title">Title</label>
-            </div>
-
-            <div class="center">
-                <a class="waves-effect waves-light btn-small" onclick="editorCmd('bold')"><i
-                        class="material-icons">format_bold</i></a>
-                <a class="waves-effect waves-light btn-small" onclick="editorCmd('italic')"><i
-                        class="material-icons">format_italic</i></a>
-                <a class="waves-effect waves-light btn-small" onclick="editorCmd('underline')"><i
-                        class="material-icons">format_underlined</i></a>
-                <!--<a class="waves-effect waves-light btn-small"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a></li>
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a></li>
-        <a class="waves-effect waves-light btn-small"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>-->
-                <a class="waves-effect waves-light btn-small" onclick="editorCmd('outdent')"><i
-                        class="material-icons">format_indent_decrease</i></a>
-            </div>
-            <!--<input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
-        <label for="file" class="">
-            <a class="waves-effect waves-light btn"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
-        </label>-->
-            <div class="clickable"></div>
-            <div id="contentEditor" class="card {{ theme.font }}" tabindex="0" contenteditable="true">
-                {% if post.id %}{{ post.body.body | safe }}{% endif %}</div>
-            <textarea name="contentArea" id="contentArea" style="display: none; height: 30vh;"></textarea>
-            <input type="hidden" name="content" id="content">
-            <canvas class="whiteboard" style="display: none;"></canvas>
+<div class="{{ theme.font_header }}">
+    <div class="row">
+        <div class="input-field">
+            <input id="note_title" name="title" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
+            <label for="post_title">Title</label>
         </div>
-    </form>
+        <div class="input-field">
+            <input id="note_tags" name="tags" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.tags }}{% endif %}">
+            <label for="note_tags">Tags:</label>
+        </div>
+        <div class="center">
+            <a class="waves-effect waves-light btn-small" onclick="editorCmd('bold')"><i class="material-icons">format_bold</i></a>
+            <a class="waves-effect waves-light btn-small" onclick="editorCmd('italic')"><i class="material-icons">format_italic</i></a>
+            <a class="waves-effect waves-light btn-small" onclick="editorCmd('underline')"><i class="material-icons">format_underlined</i></a>
+            <!--<a class="waves-effect waves-light btn-small"  onclick="editorCmd('strikeThrough')"><i class="material-icons">format_strikethrough</i></a></li>
+    <a class="waves-effect waves-light btn-small"  onclick="editorCmd('insertUnorderedList')"><i class="material-icons">format_list_bulleted</i></a></li>-->
+            <a class="waves-effect waves-light btn-small" onclick="editorCmd('outdent')"><i class="material-icons">format_indent_decrease</i></a>
+            <a class="waves-effect waves-light btn-small"  onclick="editorCmd('indent')"><i class="material-icons">format_indent_increase</i></a>
+        </div>
+        <!--<input class="tool-items fa fa-file-image-o" type="file" accept="image/*" id="file" style="display: none;" onchange="getImage()" accept="image/*;capture=camera">
+    <label for="file" class="">
+        <a class="waves-effect waves-light btn"  onclick="editorCmd('image')"><i class="material-icons">image</i></a>
+    </label>-->
+    
+        <div id="contentEditor" class="card black-text {{ theme.themeMode }} {% if post.id %}{{ post.body.note_bgcolor }}{% endif %}" tabindex="0" contenteditable="true">{% if post.id %}{{ post.body.body | safe }}{% endif %}</div>
+            
+        <canvas class="whiteboard" style="display: none;"></canvas>
+    </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!--<script src="//cdn.jsdelivr.net/jquery.ui/1.11.4/jquery-ui.min.js"></script>-->
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>-->
 <script>
-    //$('ol').sortable();
-    document.body.removeAttribute("class");
-    document.body.className += "{{ theme.note }}";
+    var noteId = '{% if post.id  %}{{ post.id }}{% endif %}';
     const $contentEditor = $('#contentEditor');
     var canvas = document.getElementsByClassName('whiteboard')[0];
     var context = canvas.getContext('2d');
 
+    /* Old to do list functions
     $(document).ready(function() {
         namingOl();
     });
@@ -144,7 +115,7 @@
         });
 
         writeHTML();
-    }
+    } */
 
     function removeOlClasses(index, classNames) {
         var current_classes = classNames.split(" "),
@@ -163,29 +134,6 @@
             if ($(this).text().length == 0) {
                 $(this).remove();
             }
-        });
-    }
-
-    function submitForm() {
-        $('#content').val($contentEditor.html());
-        document.post.submit();
-    }
-
-    $('#writeAccess').change(function() {
-        console.log('changed')
-        $.ajax({
-            url: "/writeAccess/{{ post.id }}/" + $('#writeAccess').is(':checked')
-        }).done(function() {
-            console.log('Write Access Updated')
-        });
-    });
-
-    function shareNote() {
-        $.ajax({
-            url: "/share/{{ post.id }}/" + $('#shareName').val(),
-            context: ''
-        }).done(function() {
-            console.log('Shared')
         });
     }
 
@@ -214,9 +162,9 @@
 
             case "insertOrderedList":
                 document.execCommand('insertOrderedList');
-                namingOl();
+                /*namingOl();
                 removeEmptyLi();
-                writeHTML();
+                writeHTML();*/
                 break;
 
             case "indent":
@@ -225,9 +173,9 @@
 
             case "outdent":
                 document.execCommand('outdent');
-                namingOl();
+                /*namingOl();
                 removeEmptyLi();
-                writeHTML();
+                writeHTML();*/
                 break;
 
             case "image":

@@ -35,11 +35,10 @@
   color: #ccc;
 }
 
-#loading div {
+#loading .inner {
   position: absolute;
-  top: 40%;
-  text-align: center;
-  width: 100%;
+  top: 45%;
+  left: 20%;
 }
 
 .menuBtn {
@@ -71,10 +70,12 @@
     <i class="large material-icons" id="iconTypeSettings">settings</i>
   </a>
   <ul>
-    <li><a class="new btn-floating waves-effect"><i class="material-icons">insert_drive_file</i></a></li>
+    <li><a class="btn-floating waves-effect modal-trigger" href="#modalNew"><i class="material-icons">insert_drive_file</i></a></li>
     <li><a class="btn-floating waves-effect modal-trigger" href="#modalSave"><i class="material-icons">save</i></a></li>
-    <li><a class="btn-floating waves-effect modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>
-{% if post.id  %}    <li><a class="btn-floating waves-effect modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li> {% endif %}
+    
+    {% if post.owner %}<li><a class="btn-floating waves-effect modal-trigger" href="#modalDelete"><i class="material-icons">delete</i></a></li>{% endif %}
+    {% if post.id %}<li><a class="btn-floating waves-effect modal-trigger" href="#modalShare"><i class="material-icons">share</i></a></li>{% endif %}
+    
     <li>
         <input type="file" accept="image/*" id="file" accept="image/*;capture=camera" id="file" style="display: none;">
         <label for="file">
@@ -105,11 +106,11 @@
 <div class="modal-content center {{ theme.font }}">
   <h4>Save Note</h4>
     <div class="input-field">
-      <input id="post_title" name="title" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.title }}{% else %}Cool{% endif %}">
+      <input id="post_title" name="title" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.title }}{% else %}Cool{% endif %}">
       <label for="post_title">Title*</label>
     </div>
     <div class="input-field">
-      <input id="post_tags" name="tags" type="text" class="validate {{ theme.font }}" value="{% if post.id  %}{{ post.body.tags }}{% else %}#Test{% endif %}">
+      <input id="post_tags" name="tags" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.tags }}{% else %}#Test{% endif %}">
       <label for="post_tags">Tags</label>
     </div>
 </div>
@@ -119,9 +120,34 @@
     <a href="#!" onclick="history.back()" class="waves-effect waves-red btn-flat">Return to Home</a>
 </div>
 </div>
+<!-- Modal: New Canvas -->
+<div id="modalNew" class="modal {{ theme.button1 }} {{ theme.font }}">
+<div class="modal-content center {{ theme.font }}">
+  <h5>Start a new canvas?</h5>
+</div>
+<div class="modal-footer">
+    <a href="#!" class="new modal-close waves-effect waves-green btn-flat">Yes</a>
+    <a href="#!" class="modal-close waves-effect waves-yellow btn-flat">Cancel</a>
+</div>
+</div>
 <!-- End -->
 
-  <div id="loading"><div><i class="fa fa-spinner"></i> Loading...</div></div>
+  <div id="loading">
+    <span class="inner">
+    <span class="preloader-wrapper small active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+      </span>
+      Loading...
+    </span>
+  </div>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 <script>
@@ -210,6 +236,10 @@ $(document).ready(function () {
   
   socket.on('new', newCanvas);
   
+  socket.on('saved', onSaved);
+  
+  socket.on('accessRevoked', onRevoke);
+  
   // ----- Detect screen resize
   window.addEventListener('resize', onResize, false);
   
@@ -259,7 +289,6 @@ $(document).ready(function () {
   $('.save').on('click', function() {
     if ($('#post_title').val().length > 0) {
       saveCanvas();
-      console.log('hey');
     }
   });
   
@@ -467,6 +496,7 @@ $(document).ready(function () {
         image2 = new Image;
         
     function saveCanvas() {
+        $('#loading').show();
         image1.onload = checkload;
         image1.src = imageCanvas.toDataURL();
         
@@ -495,6 +525,19 @@ $(document).ready(function () {
             'tags': $('#post_tags').val(),
             'DataURL': '<div class="card-image"><img src="'+tempCanvas.toDataURL()+'"></div>'
         }); //*/
+        
+        nloaded = 0;
+    }
+    
+    function onSaved(data) {
+        msg = data ? "Saved!" : "Error: unable to save, please try again later";
+        
+        M.toast({html: msg})
+        
+        if (noteId == '')
+            window.location.reload()
+        else
+            $('#loading').fadeOut();
     }
   
   // Load Image
@@ -545,6 +588,27 @@ $(document).ready(function () {
       } else if(document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
       }
+    }
+    
+    function onRevoke() {
+        {% if post.owner == False %}
+        //Desktop mouse events
+        canvas.removeEventListener('mousedown', onMouseDown, false);
+        canvas.removeEventListener('mouseup', onMouseUp, false);
+        canvas.removeEventListener('mouseout', onMouseUp, false);
+        canvas.removeEventListener('mousemove', throttle(onMouseMove, 10), false);
+
+        //Touch support for mobile devices
+        canvas.removeEventListener('touchstart', onMouseDown, false);
+        canvas.removeEventListener('touchend', onMouseUp, false);
+        canvas.removeEventListener('touchcancel', onMouseUp, false);
+        canvas.removeEventListener('touchmove', throttle(onMouseMove, 10), false);
+        
+        $('#TB_menu').hide();
+        $('#TB_colors').hide();
+        M.toast({html: 'The owner of this note has revoke collaborators editing access'})
+        
+        {% endif %}
     }
     
   function init() {

@@ -57,6 +57,7 @@ body:not(input):not(texteara)  {
 .ToDoList .secondary-content, .CompleteList {
     display: none;
 }
+
 </style>
 <br><br><br>
 <div class="row" >
@@ -68,19 +69,19 @@ body:not(input):not(texteara)  {
   </div>
 
 <!-- UL: LI Each card for loop -->
-  <ul class="list">
+  <ul class="data-list">
     {% for post in allposts %}
-    <li class="card {{ theme.font }} col s11 m5 l3 waves-effect waves-light fadeFX
-                   {% if post.body.note_bgcolor  %}{{ post.body.note_bgcolor }}{% else %} {{ theme.note }} {% endif %}" data-tags="{{ post.tags }}"
-                   onclick="window.location.href='/editnote/{{ post.id }}'" >
+    <li class="card black-text col s11 m5 l3 waves-effect waves-light fadeFX
+                   {{ theme.themeMode }}
+                   {% if post.note_bgcolor %}{{ post.note_bgcolor }}{% else %}{{ theme.note }}{% endif %}"
+                   onclick="window.location.href='/editnote/{{ post.id }}'"  data-tags="{{ post.tags }}" 
+                   data-keywords="{% if post.icon == 'event_available' %}to do list check checkbox task tasks {% elif post.icon == 'image' %} image photo picture{% elif post.icon == 'brush' %} image photo picture paint canvas draw handwriting{% endif %} colored {{ post.note_bgcolor }}">
       <div class="card-content">
-        <p class="card-title activator name"><b>{{ post.title }}</b>
+        <p class="card-title activator"><b>{{ post.title }}</b>
         <i class="material-icons right">{{ post.icon }}</i>
         </p>
-        <p class="content">{{ post.body | safe }}
-        {% if post.icon == 'event_available' %} <!--to do list check checkbox task tasks-->
-        {% elif post.icon == 'image' %} <!--image photo picture-->
-        {% endif %}
+        <p class="content">
+            {{ post.body | safe }}
         </p>
         <p class="tags">{{ post.tags }}</p>
       </div>
@@ -162,11 +163,53 @@ body:not(input):not(texteara)  {
     // load searchable contents
     function init() {
       var list1 = {
-        valueNames: [ 'name', 'content', 'tags' ]
+        valueNames: [ 'tags' ]
       };
       var results_list = new List('data-list', list1);
     }
     
     window.onload = init;
+    
+    var nodeIndex = delay = 0;
+    const nodes = document.querySelectorAll(".card");
+    var searching = false;
+    var timer;
+    
+    function Search() {
+        clearTimeout(timer);
+        
+        nodeIndex = 0
+        delay = 50;
+        
+        clearTimeout(timer);
+        console.log(nodeIndex)
+        
+        var input = $('#search').val();
+        var filter = input.toUpperCase();
+        
+        SearchRecursive(filter)
+    }
+    
+    function SearchRecursive(filter) {
+    
+        node = nodes[nodeIndex];
+        
+        cardText = node.innerText;
+        keywords = node.getAttribute('data-keywords');
+        if (cardText.toUpperCase().indexOf(filter) > -1 ||
+            keywords.toUpperCase().indexOf(filter) > -1 ) {
+            node.style.display = 'block';
+            animateCSS(node, 'pulse');
+            console.log(keywords)
+            
+        } else {
+            node.style.display = 'none';
+        }
+        nodeIndex++;
+        timer = setTimeout(function() { SearchRecursive(filter); }, delay);
+        
+        if (nodeIndex == nodes.length)
+            clearTimeout(timer);
+    }
 </script>
 {% endblock %}
