@@ -7,7 +7,7 @@ $(document).ready(function() {
 
   const delayTimer = 1;
 
-  // this was updated
+  // fixed?
   var $header = $("h3");
   var $aboutSidenote = $("img");
   var $loginForm = $("form");

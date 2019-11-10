@@ -1,5 +1,5 @@
 html {
-    background-color: #3ACD8F;
+    background-color: black;
   }
   
   .row {
@@ -50,7 +50,7 @@ html {
   [id="sign-in"]:checked ~ label[for="sign-in"],
   [id="sign-up"]:checked ~ label[for="sign-up"],
   [id="reset-login"]:checked ~ label[for="reset-login"] {
-    color: black;
+    color: white;
     font-style: italic;
   }
   
@@ -94,7 +94,7 @@ html {
 }
   
 .button:hover {
-    color: black;
+    color: teal;
     -webkit-transition: 0.4s;
     transition: 0.4s;
     border-color: black;
