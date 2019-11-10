@@ -193,7 +193,7 @@
             var img = new Image();
 
             img.onload = function() {
-                width = (1920 > img.width) ? img.width : 1920;
+                width = (512 > img.width) ? img.width : 512;
                 height = Math.round(width / img.width * img.height);
 
                 // Resize image to to reduce file size (optimization)
