@@ -106,11 +106,11 @@
 <div class="modal-content center {{ theme.font }}">
   <h4>Save Note</h4>
     <div class="input-field">
-      <input id="post_title" name="title" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.title }}{% else %}Cool{% endif %}">
+      <input id="post_title" name="title" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.title }}{% endif %}">
       <label for="post_title">Title*</label>
     </div>
     <div class="input-field">
-      <input id="post_tags" name="tags" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.tags }}{% else %}#Test{% endif %}">
+      <input id="post_tags" name="tags" type="text" class="validate {{ theme.font_input }}" value="{% if post.id  %}{{ post.body.tags }}{% endif %}">
       <label for="post_tags">Tags</label>
     </div>
 </div>
