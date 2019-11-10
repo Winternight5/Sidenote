@@ -38,10 +38,10 @@ def joined(data):
     rooms[currentRoom] = str(sum(1 for i in clients if i == request.namespace + currentRoom))
 	
     #updateRooms()
-    emit('count', {
-        'count': getValues(rooms),
-		'rooms': getKeys(rooms)
-    }, broadcast=True)
+    #emit('count', {
+    #    'count': getValues(rooms),
+	#	'rooms': getKeys(rooms)
+    #}, broadcast=True)
     print(clients)
     print(rooms)
     
