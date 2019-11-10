@@ -57,7 +57,6 @@ body:not(input):not(texteara)  {
 .ToDoList .secondary-content, .CompleteList {
     display: none;
 }
-
 </style>
 <br><br><br>
 <div class="row" >
@@ -69,7 +68,7 @@ body:not(input):not(texteara)  {
   </div>
 
 <!-- UL: LI Each card for loop -->
-  <ul class="data-list">
+  <ul class="list">
     {% for post in allposts %}
     <li class="card black-text col s11 m5 l3 waves-effect waves-light fadeFX
                    {{ theme.themeMode }}
@@ -168,7 +167,7 @@ body:not(input):not(texteara)  {
       var results_list = new List('data-list', list1);
     }
     
-    window.onload = init;
+    //window.onload = init;
     
     var nodeIndex = delay = 0;
     const nodes = document.querySelectorAll(".card");
@@ -182,7 +181,6 @@ body:not(input):not(texteara)  {
         delay = 50;
         
         clearTimeout(timer);
-        console.log(nodeIndex)
         
         var input = $('#search').val();
         var filter = input.toUpperCase();

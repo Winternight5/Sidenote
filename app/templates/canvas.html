@@ -431,7 +431,7 @@ $(document).ready(function () {
   }
   
   // make the canvas fill its parent
-  function onResize() {
+  function onResize(callback) {
     $('#loading').show();
 	
     canvas.width = $('#Canvas').width();
@@ -439,10 +439,9 @@ $(document).ready(function () {
     imageCanvas.width = $('#Canvas').width();
     imageCanvas.height = $('#Canvas').height();
     
-    
     // Redraw canvas if resize or newly loaded
 	$.get( '/img?r={{ room }}', function( d ) {
-
+        $('#loading').show();
         data = d[roomName];
         
         if (data == null) return;
@@ -456,7 +455,8 @@ $(document).ready(function () {
         // if no images, load all layers
         }else{
             loadAsynchronous(data);
-        }
+        }=
+        $('#loading').fadeOut();
 	}); 
   }
   
