@@ -1,3 +1,6 @@
+// Variables
+$sidenote-red: #F85E5E;
+
 html {
     background-color: black;
   }
@@ -16,7 +19,15 @@ html {
   
   .row h3 {
     font-weight: 800;
-    color: white;
+    color: #ffffff;
+  }
+
+  input.sign-in, input.sign-up, input.reset-login {
+    color: #ffffff;
+    &:focus {
+      border-bottom: 1px solid $sidenote-red !important;
+      box-shadow: 0 1px 0 0 $sidenote-red !important
+    }
   }
   
   [id="sign-in"]:checked ~ input.sign-in,
@@ -28,6 +39,7 @@ html {
   
   fieldset {
     border: none;
+    color: #ffffff;
   }
   
   img {
@@ -101,7 +113,7 @@ html {
 }
   
 .button:hover {
-    color: teal;
+    color: $sidenote-red;
     -webkit-transition: 0.4s;
     transition: 0.4s;
     border-color: black;
