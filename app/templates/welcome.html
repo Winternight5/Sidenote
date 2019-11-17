@@ -19,18 +19,18 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container valign-wrapper">
 
-    <div class="row valign-wrapper">
+    <div class="row">
       <!-- left half -->
-      <div class="center col s11 m6">
+      <div class="center col s12 m6">
         <h3 class=""><i>Welcome to Sidenote</i></h3>
         <img src="../static/images/logo_transparent.png">
 
       </div>
 
       <!-- right half -->
-      <div class="col s11 m6">
+      <div id="loginBlock" class="col s12 m6">
         <div class="center-align">
           <form method="post" action="" novalidate>
             <fieldset>
@@ -92,21 +92,21 @@
   <!-- Custom JS written by Brian -->
   <script src="{{url_for('static', filename='welcomeFadeInAnimation.js')}}"></script>
   <script>
-    $(document).ready(function(){
-        $('input[type=radio]').on('change', function() {
-            displayNone();
-            $('.'+$(this).val()).css('display','block');
-        })
-        
-        function displayNone() {
-            $('.sign-in, .sign-up, .reset-login').css('display','none');
-        }
-        
-        // Hide all input fields
+    $(document).ready(function () {
+      $('input[type=radio]').on('change', function () {
         displayNone();
-        
-        // Only show Sign-In class
-        $('.sign-in').css('display','block');
+        $('.' + $(this).val()).css('display', 'block');
+      })
+
+      function displayNone() {
+        $('.sign-in, .sign-up, .reset-login').css('display', 'none');
+      }
+
+      // Hide all input fields
+      displayNone();
+
+      // Only show Sign-In class
+      $('.sign-in').css('display', 'block');
     });
   </script>
 </body>

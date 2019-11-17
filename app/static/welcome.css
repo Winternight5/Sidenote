@@ -2,9 +2,16 @@ html {
   background-color: black;
 }
 
-.row {
+.container {
   height: 100vh;
+}
+
+.row {
   font-family: 'Lato', sans-serif;
+}
+
+.row #loginBlock {
+  margin-top: 5%;
 }
 
 .row h3 {
