@@ -42,6 +42,7 @@ def joined(data):
 	#	'rooms': getKeys(rooms)
     #}, broadcast=True)
     print('clients: '+str(rooms))
+    print('clients list: '+str(clients))
     print('--------------------------------------------------------------------------')
     
 @socketio.on('disconnect', namespace='/')
@@ -49,11 +50,8 @@ def disconnect():
     global rooms
     currentRoom = session.get('room')
     
-    if (rooms[currentRoom] is not None):
-        if(rooms[currentRoom] == 0):
-            clients.remove(request.namespace + str(currentRoom))
-        else
-            rooms[currentRoom] = str(sum(1 for i in clients if i == request.namespace + currentRoom))
+    clients.remove(request.namespace + str(currentRoom))
+    rooms[currentRoom] = str(sum(1 for i in clients if i == request.namespace + currentRoom))
 
     leave_room(currentRoom)
     #updateRooms()
@@ -62,6 +60,7 @@ def disconnect():
 		'rooms': getKeys(rooms)
     }, broadcast=True)
     print('clients: '+str(rooms))
+    print('clients list: '+str(clients))
 	
 @socketio.on('drawing', namespace='/')
 def drawing(data):
