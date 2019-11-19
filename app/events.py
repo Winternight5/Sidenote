@@ -32,7 +32,6 @@ def joined(data):
     global rooms
     currentRoom = session.get('room')
     clients.append(request.namespace + str(currentRoom))
-    #getRooms()
     
     join_room(currentRoom)
     rooms[currentRoom] = str(sum(1 for i in clients if i == request.namespace + currentRoom))
