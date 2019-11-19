@@ -48,9 +48,12 @@ def joined(data):
 def disconnect():
     global rooms
     currentRoom = session.get('room')
-    clients.remove(request.namespace + str(currentRoom))
-	
-    rooms[currentRoom] = str(sum(1 for i in clients if i == request.namespace + currentRoom))
+    
+    if (rooms[currentRoom] is not None):
+        if(rooms[currentRoom] == 0):
+            clients.remove(request.namespace + str(currentRoom))
+        else
+            rooms[currentRoom] = str(sum(1 for i in clients if i == request.namespace + currentRoom))
 
     leave_room(currentRoom)
     #updateRooms()
