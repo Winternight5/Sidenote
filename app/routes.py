@@ -102,7 +102,7 @@ def newlist():
 @app.route('/newnote')
 @login_required
 def newnote():
-    return render_template('post.html', theme=themes[currentTheme], post=None, title='Note')
+    return render_template('note.html', theme=themes[currentTheme], post=None, title='Note')
 
 # -------------------------------------------------------------------------------------------------------------------------
 @app.route('/savenote', methods=['POST'])
