@@ -43,12 +43,17 @@
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="javascript:void(0)" onclick="$('.sidenav').sidenav('open')"
                             class="waves-effect waves-light"><i class="material-icons">menu</i></a></li>
-                    <li><a href="{{ url_for('newCanvas') }}" class="waves-effect waves-light"><i
-                                class="material-icons">brush</i></a></li>
-                    <li><a href="{{ url_for('newlist') }}" class="waves-effect waves-light"><i
+                    <li><a href="{{ url_for('newCanvas') }}" class="waves-effect waves-light tooltipped"
+                            data-position="bottom" data-delay="150" data-tooltip="New Canvas"><i
+                                class="material-icons">brush</i></a>
+                    </li>
+                    <li><a href="{{ url_for('newlist') }}" class="waves-effect waves-light tooltipped"
+                            data-position="bottom" data-delay="150" data-tooltip="New Todo List"><i
                                 class="material-icons">event_available</i></a></li>
-                    <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light"><i
-                                class="material-icons">event_note</i></a></li>
+                    <li><a href="{{ url_for('newnote') }}" class="waves-effect waves-light tooltipped"
+                            data-position="bottom" data-delay="150" data-tooltip="New Note"><i
+                                class="material-icons">event_note</i></a>
+                    </li>
                 </ul>
                 <!-- Right Side -->
                 <form autocomplete="off" class="right" onsubmit="return false">
@@ -383,6 +388,9 @@
 
             node.addEventListener('animationend', handleAnimationEnd)
         }
+
+        // Tooltip labels for buttons for CRUD operations
+        $('.tooltipped').tooltip()
     </script>
 </body>
 

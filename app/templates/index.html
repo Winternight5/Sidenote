@@ -96,12 +96,13 @@
     <i class="large material-icons">add</i>
   </a>
   <ul>
-    <li><a href="{{ url_for('newCanvas') }}" class="btn-floating waves-effect {{ theme.btnBrush }} btn tooltipped"
-        data-position="left" data-tooltip="New Canvas"><i class="material-icons">brush</i></a></li>
-    <li><a href="{{ url_for('newlist') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }} btn tooltipped"
-        data-position="left" data-tooltip="New Todo List"><i class="material-icons">event_available</i></a></li>
-    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }} btn tooltipped"
-        data-position="left" data-tooltip="New Note"><i class="material-icons">event_note</i></a></li>
+    <li><a href="{{ url_for('newCanvas') }}" class="btn-floating waves-effect {{ theme.btnBrush }} tooltipped"
+        data-position="left" data-delay="150" data-tooltip="New Canvas"><i class="material-icons">brush</i></a></li>
+    <li><a href="{{ url_for('newlist') }}" class="btn-floating waves-effect {{ theme.btnCheckbox }} tooltipped"
+        data-position="left" data-delay="150" data-tooltip="New Todo List"><i
+          class="material-icons">event_available</i></a></li>
+    <li><a href="{{ url_for('newnote') }}" class="btn-floating waves-effect {{ theme.btnNote }} tooltipped"
+        data-position="left" data-delay="150" data-tooltip="New Note"><i class="material-icons">event_note</i></a></li>
   </ul>
 </div>
 <!-- End Floating Button -->
@@ -212,5 +213,9 @@
     if (nodeIndex == nodes.length)
       clearTimeout(timer);
   }
+
+  // Tooltip labels for buttons on Floating Button
+  $('.tooltipped').tooltip()
+
 </script>
 {% endblock %}
