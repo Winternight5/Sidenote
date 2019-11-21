@@ -24,9 +24,9 @@ input.sign-in, input.sign-up, input.reset-login {
 }
 
 input.sign-in:focus, input.sign-up:focus, input.reset-login:focus {
-  border-bottom: 1px solid #F85E5E !important;
-  -webkit-box-shadow: 0 1px 0 0 #F85E5E !important;
-          box-shadow: 0 1px 0 0 #F85E5E !important;
+  border-bottom: 1px solid #F08080 !important;
+  -webkit-box-shadow: 0 1px 0 0 #F08080 !important;
+          box-shadow: 0 1px 0 0 #F08080 !important;
 }
 
 [id="sign-in"]:checked ~ input.sign-in,
@@ -112,7 +112,7 @@ label[for="reset-login"] {
 }
 
 .button:hover {
-  color: #F85E5E;
+  color: #F08080;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-color: black;
