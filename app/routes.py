@@ -102,7 +102,7 @@ def newlist():
 @app.route('/newnote')
 @login_required
 def newnote():
-    return render_template('post.html', theme=themes[currentTheme], post=None, title='Note')
+    return render_template('note.html', theme=themes[currentTheme], post=None, title='Note')
 
 # -------------------------------------------------------------------------------------------------------------------------
 @app.route('/savenote', methods=['POST'])
@@ -487,9 +487,9 @@ def showdb():
     if current_user.email == "admin":
         Users = User.query.all()
         Posts = Post.query.order_by(Post.id.desc()).all()
-        Shares = []  # shares.query.all()
+        Shares = Share.query.all()
         for post in Posts:
-            post.body = post.body[0:150]
+            post.body = post.body[0:100]
 
         return render_template('result.html', Users=Users, Posts=Posts, shares=Shares)
 

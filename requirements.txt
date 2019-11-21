@@ -1,5 +1,5 @@
 Click>=7.0
-eventlet==0.17.4
+eventlet>=0.17.4
 Flask>=1.1.1
 flask-heroku>=0.1.9
 Flask-Login>=0.4.1
@@ -11,7 +11,7 @@ Flask-WTF>=0.14.2
 gevent>=1.4.0
 gevent-websocket>=0.10.1
 greenlet>=0.4.15
-gunicorn==18.0
+gunicorn>=18.0
 itsdangerous>=1.1.0
 Jinja2>=2.10.1
 MarkupSafe>=1.1.1
