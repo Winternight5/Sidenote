@@ -2,7 +2,8 @@
 $sidenote-red: #F85E5E;
 
 html {
-    background-color: black;
+    background-color: rgb(25,25,25);
+  
   }
   
   .container {
@@ -47,7 +48,7 @@ html {
     height: 250px;
   }
   
-  .label {
+  label {
     position: relative;
     display: inline-block;
     text-align: center;
@@ -69,7 +70,7 @@ html {
   [id="sign-in"]:checked ~ label[for="sign-in"],
   [id="sign-up"]:checked ~ label[for="sign-up"],
   [id="reset-login"]:checked ~ label[for="reset-login"] {
-    color: white;
+    color: $sidenote-red;
     font-style: italic;
   }
   
@@ -79,9 +80,9 @@ html {
     content: '';
     width: 30%;
     position: absolute;
-    left: 30px;
-    bottom: -9px;
-    border: 0.5px solid grey;
+    left: 28px;
+    bottom: -0.5px;
+    border: 0.5px solid $sidenote-red;
   }
   
   [id="sign-in"]:checked ~ .button::before {
@@ -116,6 +117,6 @@ html {
     color: $sidenote-red;
     -webkit-transition: 0.4s;
     transition: 0.4s;
-    border-color: black;
+    border-color: $sidenote-red;
     cursor: pointer;
 }
