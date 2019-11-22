@@ -9,6 +9,8 @@
 
   <!-- Custom Written CSS -->
   <link href="{{url_for('static', filename='welcome.css')}}" type="text/css" rel="stylesheet" />
+  <!-- importing Font Awesome for welcome page login icons-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Import Material Google Icon Fonts -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Custom Google Fonts-->
@@ -26,7 +28,6 @@
       <div class="center col s12 m6">
         <h3 class=""><i>Welcome to Sidenote</i></h3>
         <img src="../static/images/logo_transparent.png">
-
       </div>
 
       <!-- right half -->
@@ -95,10 +96,14 @@
     $(document).ready(function () {
       $('input[type=radio]').on('change', function () {
         displayNone();
-        $('.' + $(this).val()).css('display', 'block');
+        $('.' + $(this).val()).css(
+          {
+            "display": "block",
+          });
       })
 
-      function displayNone() {
+      function displayNone() 
+      {
         $('.sign-in, .sign-up, .reset-login').css('display', 'none');
       }
 
