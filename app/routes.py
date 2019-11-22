@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request, jsonify, j
 from app import app, db, events
 from app.forms import LoginForm, RegistrationForm, ResetForm
 from app.models import User, Post, Share
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user, login_required, login_manager
 from werkzeug.urls import url_parse
 import random, string, html, re, uuid
 from sqlalchemy.orm import Session
@@ -417,6 +417,7 @@ def login():
     # get post data of radio button 'login-option'
     option = request.form.get('login-option')
     form = LoginForm()
+    form.login_message = ""
 
     # if radio is sign-in, autheticate user
     if (option == "sign-in"):
