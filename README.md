@@ -23,15 +23,15 @@ Python 3.6 with pip
 
 Required packages: 
 1.	Flask
-2.	flask-heroku
+2.	Flask-Heroku
 3.	Flask-Login
 4.	Flask-SQLAlchemy
 5.	Flask-WTF
-6.	Gunicorn
+6.	Gunicorn (only required on Heroku)
 7.	Itsdangerous
 8.	Jinja2
 9.	MarkupSafe
-10.	psycopg2 binary
+10.	psycopg2 binary (only required on Heroku)
 11.	SQLAlchemy
 12.	Werkzeug
 13.	WTForms
