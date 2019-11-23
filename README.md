@@ -21,17 +21,17 @@ More information can be found here:
 
 Python 3.6 with pip
 
-Required extensions: 
+Required packages: 
 1.	Flask
-2.	flask-heroku
+2.	Flask-Heroku
 3.	Flask-Login
 4.	Flask-SQLAlchemy
 5.	Flask-WTF
-6.	Gunicorn
+6.	Gunicorn (only required on Heroku)
 7.	Itsdangerous
 8.	Jinja2
 9.	MarkupSafe
-10.	psycopg2 binary
+10.	psycopg2 binary (only required on Heroku)
 11.	SQLAlchemy
 12.	Werkzeug
 13.	WTForms
@@ -40,9 +40,9 @@ See the most updated complete list [requirements.txt](https://github.com/Wintern
 
 ### Installing
 
-Clone this git repo then install the required extensions. 
+Clone this git repo then install the required packages. 
 
-To install individual extension, use the terminal: *(For Window, make sure to “Run as administrator”)*
+To install individual package, use the terminal: *(For Window, make sure to “Run as administrator”)*
 
 ```
 pip install Flask
@@ -51,7 +51,7 @@ For Mac:
 ```
 pip3 install Flask
 ```
-And repeat until all required extensions are installed.
+And repeat until all required packages are installed.
 
 
 ## Running Test Cases
@@ -73,12 +73,12 @@ Another example:
 ```
  test_login(new_user)
 ```
-Python testing is checking the login function to ensure authentication works using Flask-Login extension
+Python testing is checking the login function to ensure authentication works using Flask-Login package
 
 
 ## Deployment
 
-This repo is built with Heroku extension and is ready for deployment. Please see Heroku official website for more information.
+This repo is built with Heroku package and is ready for deployment. Please see Heroku official website for more information.
 [GitHub Integration (Heroku GitHub Deploys)]( https://devcenter.heroku.com/articles/github-integration)
 
 
@@ -97,7 +97,7 @@ This repo is built with Heroku extension and is ready for deployment. Please see
 * **Brian Tamsing** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
 * **Nate Garza** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
 
-See also the list of [contributors]( https://github.com/Winternight5/Team4/graphs/contributors)
+List of [contributors]( https://github.com/Winternight5/Team4/graphs/contributors)
 
 
 ## License
