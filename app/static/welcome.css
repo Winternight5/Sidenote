@@ -118,4 +118,31 @@ label[for="reset-login"] {
   border-color: #F85E5E;
   cursor: pointer;
 }
+
+nav {
+  background-color: rgba(0, 0, 0, 0) !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+nav ul li.active {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+nav ul li.active a {
+  color: #F85E5E;
+}
+
+nav ul a:hover {
+  background-color: rgba(0, 0, 0, 0) !important;
+  -webkit-transform: translateY(-2.5px);
+          transform: translateY(-2.5px);
+  -webkit-transition: ease 350ms;
+  transition: ease 350ms;
+  color: #F85E5E;
+}
+
+nav a {
+  font-size: 15.5px !important;
+}
 /*# sourceMappingURL=welcome.css.map */
