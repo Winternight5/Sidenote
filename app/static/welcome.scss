@@ -120,3 +120,33 @@ html {
     border-color: $sidenote-red;
     cursor: pointer;
 }
+
+nav
+{
+  // adding to and overriding parts of materialize's default navbar styling
+  background-color: rgba(0,0,0,0) !important;
+  box-shadow: none !important;
+
+  ul li.active
+  {
+    background-color: rgba(0,0,0,0) !important;
+  }
+
+  ul li.active a
+  {
+    color: $sidenote-red;
+  }
+
+  ul a:hover
+  {
+    background-color: rgba(0,0,0,0) !important;
+    transform: translateY(-2.5px);
+    transition: ease 350ms;
+    color: $sidenote-red;
+  }
+
+  a
+  {
+    font-size: 15.5px !important;
+  }
+}
