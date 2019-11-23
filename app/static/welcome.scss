@@ -130,6 +130,11 @@ nav
   ul li.active
   {
     background-color: rgba(0,0,0,0) !important;
+
+    & a:hover
+    {
+      background-color: rgba(0,0,0,0) !important;
+    }
   }
 
   ul li.active a
@@ -137,7 +142,7 @@ nav
     color: $sidenote-red;
   }
 
-  ul a:hover
+  ul li:not(.active) a:hover
   {
     background-color: rgba(0,0,0,0) !important;
     transform: translateY(-2.5px);

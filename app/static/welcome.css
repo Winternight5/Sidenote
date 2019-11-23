@@ -129,11 +129,15 @@ nav ul li.active {
   background-color: rgba(0, 0, 0, 0) !important;
 }
 
+nav ul li.active a:hover {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
 nav ul li.active a {
   color: #F85E5E;
 }
 
-nav ul a:hover {
+nav ul li:not(.active) a:hover {
   background-color: rgba(0, 0, 0, 0) !important;
   -webkit-transform: translateY(-2.5px);
           transform: translateY(-2.5px);
