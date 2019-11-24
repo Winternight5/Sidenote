@@ -107,6 +107,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- Custom JS written by Brian -->
   <script src="{{url_for('static', filename='welcomeFadeInAnimation.js')}}"></script>
+
+  <!-- alters the display of the login form-->
   <script>
     $(document).ready(function () {
       $('input[type=radio]').on('change', function () {
@@ -115,18 +117,37 @@
           {
             "display": "block",
           });
+          applyButtonText($(this));
       })
-
-      function displayNone() 
-      {
-        $('.sign-in, .sign-up, .reset-login').css('display', 'none');
-      }
 
       // Hide all input fields
       displayNone();
 
       // Only show Sign-In class
       $('.sign-in').css('display', 'block');
+
+      // functions
+      function displayNone() 
+      {
+        $('.sign-in, .sign-up, .reset-login').css('display', 'none');
+      }
+
+      // applies the apprproiate "submit" text based upon the selected radio/login option
+      function applyButtonText(loginOption)
+      {
+        $submitButton = $(".button");
+
+        switch(loginOption.attr("id"))
+        {
+          case "sign-in": $submitButton.val("Sign In");
+            break;
+          case "sign-up": $submitButton.val("Sign Up");
+            break;
+          case "reset-login": $submitButton.val("Reset Login");
+            break;
+        }
+      }
+      
     });
   </script>
 </body>
