@@ -165,11 +165,19 @@ nav
   {
     font-size: 16px !important;
   }
+}
 
-  /* ABOUT PAGE */
-  #aboutPage {
-    font-family: 'Raleway', sans-serif;
-    background-color: white;
-    margin: 20px 0 20px 0;
+/* ABOUT PAGE */
+#aboutPage {
+  font-family: 'Lato', sans-serif;
+  margin: 15vh 0 15vh 0;
+  h3 {
+    padding: 10px 0 10px 0;
+  }
+  .valign-wrapper {
+    flex-wrap: wrap;
+  }
+  .col {
+    padding-top: 5px;
   }
 }
