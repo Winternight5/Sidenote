@@ -163,9 +163,6 @@ nav a {
 nav #aboutPage {
   font-family: 'Raleway', sans-serif;
   background-color: white;
-}
-
-nav #aboutPage h2 {
-  padding: 20px 0 20px 0;
+  margin: 20px 0 20px 0;
 }
 /*# sourceMappingURL=welcome.css.map */

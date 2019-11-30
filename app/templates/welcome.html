@@ -9,8 +9,9 @@
 
   <!-- Custom Written CSS-->
   <link href="{{url_for('static', filename='welcome.css')}}" type="text/css" rel="stylesheet" />
-  <!-- importing Font Awesome for welcome page login icons-->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- Import Material Google Icon Fonts -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Custom Google Fonts-->
@@ -104,11 +105,11 @@
   <section id="aboutPage">
     <div class="container">
       <h2 class="center">What is Sidenote?</h2>
-      <div class="row">
-        <div class="col s12 m6 center-align">
+      <div class="row valign-wrapper">
+        <div class="col s12 m5 center-align">
           <img class="resoponsive-img" src="../static/images/floatingiPhone.png">
         </div>
-        <div class="col s12 m1 valign-wrapper center-align">
+        <div class="col s12 m1 center-align">
           <i class="fas fa-plus"></i>
         </div>
         <div class="col s12 m5 center-align">
@@ -121,10 +122,17 @@
             enables
             users to simply append tasks onto their to-do list, which is the main functionality of the web application.
             The application also
-            allows users to make accounts, and persists their to-do lists upon login. This project lies on a
+            allows users to make accounts, and persists their to-do lists upon login. We implemented special features
+            such as being able to type and manually draw/write notes, sharing notes to other users via email (and
+            allowing edit permissions), and real time editing of notes/todo lists between creator's and collaborators.
+          </p>
+          <p>
+            This project lies on a
             Python-Flask server side program that retrieves data from a PostgreSQL database
             as a backend to which keeps track of user data. We used standard tools such as Git as a version control and
-            Travis CI for continuous integration.
+            Travis CI for continuous integration. The feature of real time editing of notes/todo lists is possible via
+            the integration of websockets. The technologies we used were: Python, Flask, Javascript, AJAX, HTML,
+            CSS/SCSS, Materialize.css, Travis CI, and Heroku.
           </p>
         </div>
       </div>
