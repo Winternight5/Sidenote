@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-   <!-- Custom Written CSS-->
+  <!-- Custom Written CSS-->
   <link href="{{url_for('static', filename='welcome.css')}}" type="text/css" rel="stylesheet" />
   <!-- importing Font Awesome for welcome page login icons-->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,79 +25,111 @@
   <!-- unfinished currently-->
   <header>
     <nav class="">
-          <ul class="right">
-            <li class="active"><a href="">Home.</a></li>
-            <li><a href="">About.</a></li>
-            <li><a href="">Meet the Developers.</a></li>
-            <li><a href="">Contact.</a></li>
-          </ul>
+      <ul class="right">
+        <li class="active"><a href="">Home</a></li>
+        <li><a href="#aboutPage">About</a></li>
+        <li><a href="">Meet the Developers</a></li>
+        <li><a href="">Contact</a></li>
+      </ul>
     </nav>
-  </header> 
+  </header>
   <!-- end of nav bar implementation-->
 
-  <div class="container valign-wrapper">
+  <!-- HOME/LANDING PAGE -->
+  <section id="landingPage">
+    <div class="container valign-wrapper">
+      <div class="row">
+        <!-- left half -->
+        <div class="center col s12 m6">
+          <h3 class=""><i>Welcome to Sidenote</i></h3>
+          <img src="../static/images/logo_transparent.png">
+        </div>
 
-    <div class="row">
-      <!-- left half -->
-      <div class="center col s12 m6">
-        <h3 class=""><i>Welcome to Sidenote</i></h3>
-        <img src="../static/images/logo_transparent.png">
-      </div>
+        <!-- right half -->
+        <div id="loginBlock" class="col s12 m6">
+          <div class="center-align">
+            <form method="post" action="" novalidate>
+              <fieldset>
+                <!-- the value attribute will be sent to the server-->
+                <input id="sign-in" type="radio" name="login-option" value="sign-in" checked />
+                <input id="sign-up" type="radio" name="login-option" value="sign-up" />
+                <input id="reset-login" type="radio" name="login-option" value="reset-login" />
 
-      <!-- right half -->
-      <div id="loginBlock" class="col s12 m6">
-        <div class="center-align">
-          <form method="post" action="" novalidate>
-            <fieldset>
-              <!-- the value attribute will be sent to the server-->
-              <input id="sign-in" type="radio" name="login-option" value="sign-in" checked />
-              <input id="sign-up" type="radio" name="login-option" value="sign-up" />
-              <input id="reset-login" type="radio" name="login-option" value="reset-login" />
+                <!-- radio options and their labels-->
+                <label for="sign-in">Sign In</label>
+                <label for="sign-up">Sign Up</label>
+                <label for="reset-login">Reset</label>
 
-              <!-- radio options and their labels-->
-              <label for="sign-in">Sign In</label>
-              <label for="sign-up">Sign Up</label>
-              <label for="reset-login">Reset</label>
+                <!-- the name attribute will also be sent to the server later on-->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul class="">
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
 
-              <!-- the name attribute will also be sent to the server later on-->
-              {% with messages = get_flashed_messages() %}
-              {% if messages %}
-              <ul class="">
-                {% for message in messages %}
-                <li>{{ message }}</li>
+                {{ form.hidden_tag() }}
+                {{ form.firstname(class="sign-up",  placeholder="First Name") }}
+                {% for error in form.firstname.errors %}
+                <span class="error">[{{ error }}]</span>
                 {% endfor %}
-              </ul>
-              {% endif %}
-              {% endwith %}
-
-              {{ form.hidden_tag() }}
-              {{ form.firstname(class="sign-up",  placeholder="First Name") }}
-              {% for error in form.firstname.errors %}
-              <span class="error">[{{ error }}]</span>
-              {% endfor %}
-              {{ form.lastname(class="sign-up",  placeholder="Last Name") }}
-              {% for error in form.lastname.errors %}
-              <span class="error">[{{ error }}]</span>
-              {% endfor %}
-              {{ form.email(class="sign-in sign-up reset-login", placeholder="E-mail") }}
-              {% for error in form.email.errors %}
-              <span class="error">[{{ error }}]</span>
-              {% endfor %}
-              {{ form.password(class="sign-in sign-up",  placeholder="Password") }}
-              {% for error in form.password.errors %}
-              <span class="error">[{{ error }}]</span>
-              {% endfor %}
-              {{ form.password2(class="sign-up",  placeholder="Repeat Password") }}
-              {% for error in form.password2.errors %}
-              <span class="error">[{{ error }}]</span>
-              {% endfor %}
-              <br>{{ form.submit(class="button") }}
-            </fieldset>
-          </form>
+                {{ form.lastname(class="sign-up",  placeholder="Last Name") }}
+                {% for error in form.lastname.errors %}
+                <span class="error">[{{ error }}]</span>
+                {% endfor %}
+                {{ form.email(class="sign-in sign-up reset-login", placeholder="E-mail") }}
+                {% for error in form.email.errors %}
+                <span class="error">[{{ error }}]</span>
+                {% endfor %}
+                {{ form.password(class="sign-in sign-up",  placeholder="Password") }}
+                {% for error in form.password.errors %}
+                <span class="error">[{{ error }}]</span>
+                {% endfor %}
+                {{ form.password2(class="sign-up",  placeholder="Repeat Password") }}
+                {% for error in form.password2.errors %}
+                <span class="error">[{{ error }}]</span>
+                {% endfor %}
+                <br>{{ form.submit(class="button") }}
+              </fieldset>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <section id="aboutPage">
+    <div class="container">
+      <h2 class="center">What is Sidenote?</h2>
+      <div class="row">
+        <div class="col s12 m6 center-align">
+          <img class="resoponsive-img" src="../static/images/floatingiPhone.png">
+        </div>
+        <div class="col s12 m1 valign-wrapper center-align">
+          <i class="fas fa-plus"></i>
+        </div>
+        <div class="col s12 m5 center-align">
+          <img class="responsive-img" src="../static/images/checkList.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <p>The application’s main features are rather simple, but effective. Broadly speaking, the application
+            enables
+            users to simply append tasks onto their to-do list, which is the main functionality of the web application.
+            The application also
+            allows users to make accounts, and persists their to-do lists upon login. This project lies on a
+            Python-Flask server side program that retrieves data from a PostgreSQL database
+            as a backend to which keeps track of user data. We used standard tools such as Git as a version control and
+            Travis CI for continuous integration.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!--start of Script insertions -->
 
@@ -117,7 +149,7 @@
           {
             "display": "block",
           });
-          applyButtonText($(this));
+        applyButtonText($(this));
       })
 
       // Hide all input fields
@@ -127,18 +159,15 @@
       $('.sign-in').css('display', 'block');
 
       // functions
-      function displayNone() 
-      {
+      function displayNone() {
         $('.sign-in, .sign-up, .reset-login').css('display', 'none');
       }
 
       // applies the apprproiate "submit" text based upon the selected radio/login option
-      function applyButtonText(loginOption)
-      {
+      function applyButtonText(loginOption) {
         $submitButton = $(".button");
 
-        switch(loginOption.attr("id"))
-        {
+        switch (loginOption.attr("id")) {
           case "sign-in": $submitButton.val("Sign In");
             break;
           case "sign-up": $submitButton.val("Sign Up");
@@ -147,7 +176,7 @@
             break;
         }
       }
-      
+
     });
   </script>
 </body>

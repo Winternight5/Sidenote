@@ -1,12 +1,21 @@
 html {
+  scroll-behavior: smooth;
+}
+
+nav .right {
+  padding-right: 5%;
+}
+
+#landingPage {
   background-color: #191919;
 }
 
-.container {
+#landingPage .container {
   height: 100vh;
 }
 
 .row {
+  width: 100%;
   font-family: 'Lato', sans-serif;
 }
 
@@ -120,9 +129,10 @@ label[for="reset-login"] {
 }
 
 nav {
-  background-color: rgba(0, 0, 0, 0) !important;
+  background-color: #191919 !important;
   -webkit-box-shadow: none !important;
           box-shadow: none !important;
+  /* ABOUT PAGE */
 }
 
 nav ul li.active {
@@ -148,5 +158,14 @@ nav ul li:not(.active) a:hover {
 
 nav a {
   font-size: 16px !important;
+}
+
+nav #aboutPage {
+  font-family: 'Raleway', sans-serif;
+  background-color: white;
+}
+
+nav #aboutPage h2 {
+  padding: 20px 0 20px 0;
 }
 /*# sourceMappingURL=welcome.css.map */
