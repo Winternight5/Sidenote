@@ -63,6 +63,12 @@ currentTheme = 'day'
 @app.route('/index')
 @login_required
 def index():
+    '''Main home page
+
+    *login required*
+
+    :return: Display all of user's notes
+    '''
     global tags, currentTheme
     currentTheme = current_user.settings
 
@@ -81,6 +87,12 @@ def index():
 @app.route('/changetheme', methods=['GET'])
 @login_required
 def changetheme():
+    '''Change theme
+
+    *login required*
+
+    :return: Allow the user to change from day to dark theme
+    '''
     global currentTheme
     currentTheme = 'dark' if current_user.settings == 'day' else 'day'
     current_user.settings = currentTheme
@@ -94,6 +106,10 @@ def changetheme():
 @app.route('/newlist')
 @login_required
 def newlist():
+    '''New To Do List page
+
+    *login required*
+    '''
     return render_template('todo.html', theme=themes[currentTheme], post=None, title='List') 
     
 #-------------------------------------------------------------------------------------------------------------------------
@@ -102,12 +118,22 @@ def newlist():
 @app.route('/newnote')
 @login_required
 def newnote():
+    '''New Note page
+
+    *login required*
+    '''
     return render_template('note.html', theme=themes[currentTheme], post=None, title='Note')
 
 # -------------------------------------------------------------------------------------------------------------------------
 @app.route('/savenote', methods=['POST'])
 @login_required
 def saveNewNote():
+    '''Save New Note
+
+    *login required*
+
+    :return: Get data from submitted form and create a new JSON to insert into database
+    '''
     title = request.form.get('title')
     tags = request.form.get('tags')
     noteColor = request.form.get('noteColor')
@@ -131,6 +157,12 @@ def saveNewNote():
 @app.route('/savenote/<int:id>', methods=['POST'])
 @login_required
 def saveNoteById(id):
+    '''Save a modified Note
+
+    *login required*
+
+    :return: Get data from submitted form and create a new JSON to insert into database
+    '''
     idExists = db.session.query(Post.id).filter_by(id=id).scalar() is not None
     if idExists:
         title = request.form.get('title')
@@ -158,6 +190,10 @@ def saveNoteById(id):
     return '0'
         
 def noteData(title, bgcolor, tags, body, canvas = False):
+    '''Note Data
+
+    :return: Create a new Note data to later convert to JSON and insert into body
+    '''
     icon = 'event_note'
     if "cbox" in body:
         icon = 'event_available'
@@ -177,6 +213,10 @@ def noteData(title, bgcolor, tags, body, canvas = False):
 
 # -------------------------------------------------------------------------------------------------------------------------
 def saveToDB(note):
+    '''Save To Database
+
+    :return: Global Save Function to Database.
+    '''
     try:
         db.session.add(note)
         db.session.commit()
@@ -188,6 +228,12 @@ def saveToDB(note):
 @app.route('/editnote/<int:id>', methods=['GET'])
 @login_required
 def editnote(id):
+    '''Edit Note page
+
+    *login required*
+
+    :return: Get note data by id, check note's owner and if note's is writable
+    '''
     # return True or False
     # True = get from owner
     # False = get from sharing
@@ -237,6 +283,12 @@ def editnote(id):
     return redirect(url_for('index'))
 #-------------------------------------------------------------------------------------------------------------------------
 def NoteOwner(id):
+    '''Note Owner
+
+    :return: Get Note by id and verify it with curren_user.id to check the ownership
+    :return: return None = not owner
+    :return: return **data** = owner
+    '''
     noteOwner = Post.query.filter_by(id=id, user_id=current_user.id).scalar() is not None
 
     return noteOwner
@@ -245,6 +297,12 @@ def NoteOwner(id):
 @app.route('/delnote/<int:id>', methods=['GET'])
 @login_required
 def delNoteById(id):
+    '''Delete Note by id
+
+    *login required*
+
+    :return: Delete Note by id, use getNoteById() function to validate before deleting
+    '''
     post = getNoteById(id)
     if post is None:
         print("note not found or no access")
@@ -256,6 +314,12 @@ def delNoteById(id):
 
 # -------------------------------------------------------------------------------------------------------------------------
 def getNoteById(id, owner=True):
+    '''Get Note By Id
+
+    :return: Get note data by id, check note's owner and or if note's is shared
+    :return: return None = not owner
+    :return: return **Data** = owner
+    '''
     note = None
 
     if owner:
@@ -281,12 +345,22 @@ def getNoteById(id, owner=True):
 @app.route('/newCanvas')
 @login_required
 def newCanvas():
+    '''New Canvas page
+
+    *login required*
+
+    :return: Open an empty canvas page for handwriting feature
+    '''
     session['room'] = str(current_user.email)
         
     return render_template('canvas.html', room=session['room'], theme=themes[currentTheme], post=None, title='Canvas')
 
 #-------------------------------------------------------------------------------------------------------------------------
 def saveCanvas(title, tags, thumbnail, JSONData):
+    '''Save Canvas
+
+    :return: Save canvas data to database
+    '''
     if title is not None:
         data = noteData(title, None, tags, thumbnail, True)
 
@@ -305,6 +379,11 @@ def saveCanvas(title, tags, thumbnail, JSONData):
     
 #-------------------------------------------------------------------------------------------------------------------------
 def saveCanvasById(id, title, tags, thumbnail, JSONData):  
+    '''Save Canvas By Id
+
+
+    :return: Save Modified Canvas data by id, user getNoteById() to validate
+    '''
     idExists = db.session.query(Post.id).filter_by(id=id).scalar() is not None
     if idExists:
         owner = NoteOwner(id)
@@ -331,6 +410,12 @@ def saveCanvasById(id, title, tags, thumbnail, JSONData):
 @app.route('/shared')
 @login_required
 def shared():
+    '''Share Main Page
+
+    *login required*
+
+    :return: Get all Shared Notes
+    '''
     global tags, currentTheme
     currentTheme = current_user.settings
 
@@ -347,7 +432,12 @@ def shared():
 @app.route('/share/<int:note_id>/<string:email>', methods=['GET'])
 @login_required
 def shareNoteById(note_id, email):
+    '''Share Note By Id
 
+    *login required*
+
+    :return:  Using AJAX to get note data by id, and check note's owner. Then validate the provided email before insert into shares database.
+    '''
     note = getNoteById(note_id)
 
     if note:
@@ -373,6 +463,12 @@ def shareNoteById(note_id, email):
 @app.route('/sharedel/<int:getPost_id>/<int:getUser_id>', methods=['GET'])
 @login_required
 def delMemberByNoteId(getPost_id, getUser_id):
+    '''Delete Shared Member (Id) By Note Id
+
+    *login required*
+
+    :return: Get note data by id, and validate by checking note's owner, then delete column by id from shares database.
+    '''
     owner = NoteOwner(getPost_id)
     member = None
     
@@ -392,7 +488,12 @@ def delMemberByNoteId(getPost_id, getUser_id):
 @app.route('/writeAccess/<int:note_id>/<string:type>', methods=['GET'])
 @login_required
 def noteWriteAccess(note_id, type):
+    '''Write Access Modifier
 
+    *login required*
+
+    :return: Using AJAX to modify note's writeAllowed value from database. Use getNoteById() to validate.
+    '''
     note = getNoteById(note_id, True)
     if note:
         if type == 'true':
@@ -410,6 +511,28 @@ def noteWriteAccess(note_id, type):
 # -------------------------------------------------------------------------------------------------------------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    '''Login Function
+
+    :return:Get radio form "login-option" to route functions to Login, Logout or Registration
+
+
+    sign-in
+    +++++++
+
+    :return: Get user's input email and password, then validate and authenticate the user.
+
+
+    sign-up
+    +++++++
+
+    :return: Get user's filled form data, then validate and create a new user.
+
+
+    reset-login
+    +++++++++++
+
+    :return: Get user's input email, then validate the email on file and send a reset password email to the user's email.
+    '''
         # if user logged in, go to main home page
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -477,6 +600,12 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    '''Logout Function
+
+    *login required*
+
+    :return: Log the user out
+    '''
     logout_user()
     return redirect(url_for('index'))
 # -------------------------------------------------------------------------------------------------------------------------

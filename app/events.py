@@ -29,6 +29,12 @@ def clearDatas(currentRoom):
     
 @socketio.on('joined', namespace='/')
 def joined(data):
+    '''
+    New User Joined
+    ---------------
+
+    Add user to the room array.
+    '''
     global rooms
     currentRoom = session.get('room')
     clients.append(request.namespace + str(currentRoom))
@@ -47,6 +53,12 @@ def joined(data):
     
 @socketio.on('disconnect', namespace='/')
 def disconnect():
+    '''
+    User Disconnected
+    ---------------
+
+    Remove the user from the room array.
+    '''
     global rooms
     currentRoom = session.get('room')
     
@@ -64,6 +76,12 @@ def disconnect():
 	
 @socketio.on('drawing', namespace='/')
 def drawing(data):
+    '''
+    Drawing Feature
+    ---------------
+
+    Save current user drawing data into memory and emit data to all users in the room.
+    '''
     currentRoom = session.get('room')
     checkDatas()
     datas[currentRoom]['d'].append(data)
@@ -71,6 +89,12 @@ def drawing(data):
 	
 @socketio.on('fill', namespace='/')
 def fill(data):
+    '''
+    Fill Feature
+    ---------------
+
+    Save current user fill data into memory and emit data to all users in the room.
+    '''
     currentRoom = session.get('room')
     checkDatas()
     datas[currentRoom]['d'].append(data['color'])
@@ -80,6 +104,12 @@ def fill(data):
     
 @socketio.on('img', namespace='/')
 def loadImg(data):
+    '''
+    Image Feature
+    ---------------
+
+    Save current user image data into memory and emit data to all users in the room.
+    '''
     currentRoom = session.get('room')
     clearDatas(currentRoom)
     datas[currentRoom]['i'] = data
@@ -87,12 +117,24 @@ def loadImg(data):
 
 @socketio.on('new', namespace='/')
 def new(data):
+    '''
+    New Canvas
+    ---------------
+
+    Clear memory and emit to all users.
+    '''
     currentRoom = session.get('room')
     clearDatas(currentRoom)
     emit('new', {}, room=currentRoom)	
     
 @socketio.on('save', namespace='/')
 def save(newdata):
+    '''
+    Save Feature
+    ---------------
+
+    Save current user canvas data into database.
+    '''
     currentRoom = session.get('room')
     
     id = newdata['id'] if newdata['id'] is not None else ''
@@ -110,10 +152,22 @@ def save(newdata):
     print('Canvas Saved')
 
 def revokeAccess():
+    '''
+    Revoke Access
+    ---------------
+
+    Init and emit revoke access to all current active shared users.
+    '''
     currentRoom = session.get('room')
     socketio.emit('accessRevoked', {}, room=currentRoom)	
     
 @app.route('/img', methods=['GET'])
 def img():
+    '''
+    Get Image
+    ---------------
+
+    Get Image data.
+    '''
     currentRoom = session.get('room')
     return datas
