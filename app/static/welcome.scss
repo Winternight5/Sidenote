@@ -1,27 +1,37 @@
 // Variables
 $sidenote-red: #F85E5E;
+$landing-page-background: rgb(25,25,25);
 
 html {
-    background-color: rgb(25,25,25);
-  
+  scroll-behavior: smooth;
   }
+
+nav {
+  .right {
+    padding-right: 5%;
+  }
+}
   
+#landingPage {
+  background-color: $landing-page-background;  
   .container {
     height: 100vh;
   }
+}
 
-  .row {
-    font-family: 'Lato', sans-serif;
+.row {
+  width: 100%;
+  font-family: 'Lato', sans-serif;
     
-    #loginBlock {
-      margin-top: 5%;
-    }
+  #loginBlock {
+    margin-top: 5%;
   }
+}
   
-  .row h3 {
-    font-weight: 800;
-    color: #ffffff;
-  }
+.row h3 {
+  font-weight: 800;
+  color: #ffffff;
+}
 
   input.sign-in, input.sign-up, input.reset-login {
     color: #ffffff;
@@ -121,10 +131,11 @@ html {
     cursor: pointer;
 }
 
+// Navbar
 nav
 {
   // adding to and overriding parts of materialize's default navbar styling
-  background-color: rgba(0,0,0,0) !important;
+  background-color: $landing-page-background !important;
   box-shadow: none !important;
 
   ul li.active
@@ -153,5 +164,20 @@ nav
   a
   {
     font-size: 16px !important;
+  }
+}
+
+/* ABOUT PAGE */
+#aboutPage {
+  font-family: 'Lato', sans-serif;
+  margin: 15vh 0 15vh 0;
+  h3 {
+    padding: 25px 0 10px 0;
+  }
+  .valign-wrapper {
+    flex-wrap: wrap;
+  }
+  .col {
+    padding-top: 5px;
   }
 }
