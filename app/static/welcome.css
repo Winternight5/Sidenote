@@ -164,13 +164,13 @@ nav a {
   padding: 10vh 0 10vh 0;
 }
 
+.pageSection h3 {
+  padding: 0 0 10vh 0;
+}
+
 /* ABOUT PAGE */
 #aboutPage {
   font-family: 'Lato', sans-serif;
-}
-
-#aboutPage h3 {
-  padding: 25px 0 10px 0;
 }
 
 #aboutPage .valign-wrapper {
@@ -187,7 +187,20 @@ nav a {
 }
 
 /* MEET THE DEVS PAGE */
+#devPage {
+  font-family: 'Lato', sans-serif;
+}
+
 #devPage h6 {
   color: #666666;
+}
+
+#devPage .s12 p {
+  padding: 0 0 5vh 0;
+}
+
+footer {
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
 }
 /*# sourceMappingURL=welcome.css.map */

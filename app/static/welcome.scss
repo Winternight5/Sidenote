@@ -171,14 +171,14 @@ nav
 // Used to add padding to all sections in the landing page
 .pageSection {
   padding: 10vh 0 10vh 0;
+  h3 {
+    padding: 0 0 10vh 0;
+  }
 }
 
 /* ABOUT PAGE */
 #aboutPage {
   font-family: 'Lato', sans-serif;
-  h3 {
-    padding: 25px 0 10px 0;
-  }
   .valign-wrapper {
     flex-wrap: wrap;
   }
@@ -186,15 +186,28 @@ nav
     padding-top: 5px;
   }
   #plusSign {
-    // When on small screens, add this padding
+    // When on small screens, this padding is clutch
     padding: 5vh 0 5vh 0;
   }
 }
 
 /* MEET THE DEVS PAGE */
 #devPage {
+  font-family: 'Lato', sans-serif;
   h6 {
     color: #666666;
-    ;
   }
+  .s12 p {
+    padding: 0 0 5vh 0;
+  }
+}
+
+// footer
+footer {
+  // margin-bottom: 0;
+  // background-color: $landing-page-background;
+  // color: $sidenote-red;
+
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
 }
