@@ -71,6 +71,7 @@ label[for="sign-up"],
 label[for="reset-login"] {
   font-size: 15px;
   font-weight: 800;
+  text-align: center;
   padding: 0 20px 20px 0;
 }
 
@@ -159,10 +160,13 @@ nav a {
   font-size: 16px !important;
 }
 
+.pageSection {
+  padding: 10vh 0 10vh 0;
+}
+
 /* ABOUT PAGE */
 #aboutPage {
   font-family: 'Lato', sans-serif;
-  margin: 15vh 0 15vh 0;
 }
 
 #aboutPage h3 {
@@ -176,5 +180,14 @@ nav a {
 
 #aboutPage .col {
   padding-top: 5px;
+}
+
+#aboutPage .s12 {
+  padding: 5vh 0 5vh 0;
+}
+
+/* MEET THE DEVS PAGE */
+#devPage h6 {
+  color: #666666;
 }
 /*# sourceMappingURL=welcome.css.map */

@@ -74,6 +74,7 @@ nav {
   label[for="reset-login"] {
     font-size: 15px;
     font-weight: 800;
+    text-align: center;
     padding: 0 20px 20px 0;
   }
   
@@ -167,10 +168,14 @@ nav
   }
 }
 
+// Used to add padding to all sections in the landing page
+.pageSection {
+  padding: 10vh 0 10vh 0;
+}
+
 /* ABOUT PAGE */
 #aboutPage {
   font-family: 'Lato', sans-serif;
-  margin: 15vh 0 15vh 0;
   h3 {
     padding: 25px 0 10px 0;
   }
@@ -179,5 +184,17 @@ nav
   }
   .col {
     padding-top: 5px;
+  }
+  .s12 {
+    // When on small screens, add this padding
+    padding: 5vh 0 5vh 0;
+  }
+}
+
+/* MEET THE DEVS PAGE */
+#devPage {
+  h6 {
+    color: #666666;
+    ;
   }
 }
