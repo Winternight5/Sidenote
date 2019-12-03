@@ -199,3 +199,23 @@ footer {
   font-family: 'Lato', sans-serif;
   font-weight: 500;
 }
+
+.back-to-top
+{
+  a
+  {
+    color: black;
+  }
+  i
+  {
+    position: fixed;
+    bottom: -21px;
+    right: 0px;
+    padding: 20px;
+    &:hover
+    {
+      transform: translateY(-3px);
+      transition: ease 350ms;
+    }
+  }
+}
