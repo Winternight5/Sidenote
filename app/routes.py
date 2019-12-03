@@ -1,7 +1,8 @@
+from flask import current_app as app
 from flask import render_template, flash, redirect, url_for, request, jsonify, json, session
-from app import app, db, events
-from app.forms import LoginForm, RegistrationForm, ResetForm
-from app.models import User, Post, Share
+from . import db, events
+from .forms import LoginForm, RegistrationForm, ResetForm
+from .models import User, Post, Share
 from flask_login import current_user, login_user, logout_user, login_required, login_manager
 from werkzeug.urls import url_parse
 import random, string, html, re, uuid

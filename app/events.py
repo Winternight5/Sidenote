@@ -1,7 +1,8 @@
 import os
+from flask import current_app as app
 from flask import session, json, request
 from flask_socketio import emit, join_room, leave_room
-from app import routes, socketio, app
+from . import routes, socketio
 	
 clients = []
 datas = {}
