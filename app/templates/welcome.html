@@ -24,10 +24,11 @@
 <body>
   <!-- navbar implementation-->
   <header>
-    <div class="navbar-fixed hide-on-med-and-down">
+    <a id="top"></a>
+    <div class="hide-on-med-and-down">
       <nav>
         <ul class="right">
-          <li class="active"><a href="#landingPage">Home</a></li>
+          <li class="active"><a href="#top">Home</a></li>
           <li><a href="#aboutPage">About</a></li>
           <li><a href="#devPage">Meet the Developers</a></li>
           <li><a href="">Contact</a></li>
@@ -99,6 +100,9 @@
             </form>
           </div>
         </div>
+        <div class="back-to-top hide-on-small-only">
+            <a href="#top"><i class="fas fa-angle-up fa-3x"></i></a>
+          </div>
       </div>
     </div>
   </section>
@@ -229,6 +233,24 @@
 
     });
   </script>
+
+<script>
+
+  $(document).ready(function()
+  {
+    $(".back-to-top a").hide();
+    $(window).on("scroll", function()
+    {
+      if (114 < $(window).scrollTop())
+      {
+        $(".back-to-top a").fadeIn(1750);
+      }
+      else
+      $(".back-to-top a").fadeOut(450);
+    })
+  });
+</script>
+
 </body>
 
 </html>
