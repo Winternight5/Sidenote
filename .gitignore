@@ -8,3 +8,4 @@ _test_main.py
 app.db
 app.db
 app.db
+app/templates/post.html
