@@ -179,7 +179,7 @@
         </div>
       </div>
       <div class="col s12 m3 center-align">
-        <img class="responsive-img" src="../static/images/dev_portraits/defaultpic.png">
+        <img class="responsive-img" src="../static/images/dev_portraits/brian.jpg">
         <h5>Brian Tamsing</h5>
         <h6><i>UI/UX Engineer</i></h6>
         <p>Collaborated on frontend, specializing in creating a unique, simple, and elegant user experience.</p>
@@ -218,9 +218,9 @@
   <!-- alters the display of the login form-->
   <script>
     $(document).ready(function () {
-      $('input[type=radio]').on('change', function() {
+      $('input[type=radio]').on('change', function () {
         displayNone();
-        $("." + $(this).val()).animate({height: "toggle", opacity: "toggle"}, 850);
+        $("." + $(this).val()).animate({ height: "toggle", opacity: "toggle" }, 850);
         applyButtonText($(this));
       })
 
