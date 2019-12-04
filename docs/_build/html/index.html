@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Documentation for SideNote &#8212; SideNote Fall 2019 documentation</title>
+    <title>SideNote Documentation &#8212; SideNote Fall 2019 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -33,9 +33,89 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="documentation-for-sidenote">
-<h1><strong>Documentation for SideNote</strong><a class="headerlink" href="#documentation-for-sidenote" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="sidenote-documentation">
+<h1><strong>SideNote Documentation</strong><a class="headerlink" href="#sidenote-documentation" title="Permalink to this headline">¶</a></h1>
 <p>The application’s main features will enable users to simply append tasks onto their to-do list. Users are able to create their own account, and persisting their notes/to-do lists upon login.</p>
+<ul class="simple">
+<li><em>Required packages:</em></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>python3</li>
+<li>Flask</li>
+<li>Flask-Heroku</li>
+<li>Flask-Login</li>
+<li>Flask-SQLAlchemy</li>
+<li>Flask-WTF</li>
+<li>Gunicorn</li>
+<li>Itsdangerous</li>
+<li>Jinja2</li>
+<li>MarkupSafe</li>
+<li>psycoph2 binary</li>
+<li>SQLAlchemy</li>
+<li>Werkzeug</li>
+<li>Sphinx</li>
+<li>WTForms</li>
+</ul>
+</div></blockquote>
+<p>Package installation(Linux):
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">(package</span> <span class="pre">name)</span></code></p>
+</div>
+<div class="section" id="sidenote-navigation">
+<h1>SideNote Navigation<a class="headerlink" href="#sidenote-navigation" title="Permalink to this headline">¶</a></h1>
+<p>This is an image of all the top level files in root level.</p>
+<img alt="_images/topLevelNav32Font.png" src="_images/topLevelNav32Font.png" />
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><strong>main.py</strong>       -   This file is what you will run to launch the application locally.</dt>
+<dd><ul class="first last">
+<li>Use the command(Linux): <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">python3</span> <span class="pre">main.py</span></code></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>config.py     -   This file contains the Config class for database setup.</li>
+<li>test_main.py  -   This file contains the testing for Travis CI on github.</li>
+<li>app directory -   Contains the majority of the application’s files.</li>
+<li>docs directory-   Contains all the documentation required for Sphinx.</li>
+</ul>
+<p>This is an image of all the files below the root level.</p>
+<img alt="_images/nav14Font.png" src="_images/nav14Font.png" />
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><strong>app</strong></dt>
+<dd><ul class="first last">
+<li>events.py     -   For SocketIO implementation.</li>
+<li>forms.py      -   For FlaskForms like login etc.</li>
+<li>__init__.py   -   For creating the application.</li>
+<li>models.py     -   Contains database table structure.</li>
+<li>routes.py     -   Location for SideNote’s logic.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="using-sidenote">
+<h1>Using SideNote<a class="headerlink" href="#using-sidenote" title="Permalink to this headline">¶</a></h1>
+<p><em>Login Page</em></p>
+<img alt="_images/loginPage.png" src="_images/loginPage.png" />
+<p>Existing users can input information here to sign in to view their notes and new users can enter in their information under the Sign In tab.</p>
+<p><em>Clean User Page</em> (Dark Theme setting on)</p>
+<img alt="_images/newUserPage.png" src="_images/newUserPage.png" />
+<p>After registering new users will be taken to this page. There are buttons near the top which list their purpose when hovered over.
+They include: Settings, New Canvas, New To-Do List and New Note.</p>
+<p><em>Making New Canvas Page</em></p>
+<img alt="_images/makingNewNote.png" src="_images/makingNewNote.png" />
+<p>This is what will display when user types New Canvas button on User Page.
+The user can write freehand on the page, upload a picture, reset the page or make the screen fullpage.
+One of the features is Save which will keep the canvas and display it on User page. Once Save is clicked user will be prompt with naming and giving a hash to the item.</p>
+<p><em>Updated User Page</em></p>
+<img alt="_images/afterSavingNewNote.png" src="_images/afterSavingNewNote.png" />
+<p>This canvas was named “First note” and given the hashtag First. Now that I have a Canvas created I can share it with other people or edit it later.</p>
+</div>
+<div class="section" id="files">
+<h1><strong>Files</strong><a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>

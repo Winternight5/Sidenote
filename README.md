@@ -82,6 +82,11 @@ This repo is built with Heroku package and is ready for deployment. Please see H
 [GitHub Integration (Heroku GitHub Deploys)]( https://devcenter.heroku.com/articles/github-integration)
 
 
+## Documentation
+For more information regarding how to navigate or code implementation please go to 
+```
+docs/_build/html/index.rst
+```
 ## Built With
 
 * [Python](https://www.python.org/) - An interpreted, high-level, general-purpose programming language.
