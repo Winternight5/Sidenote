@@ -5,6 +5,9 @@ from flask_login import LoginManager
 from flask_heroku import Heroku
 from flask_socketio import SocketIO
 
+"""
+Place where a lot of stuff gets initialized.
+"""
 socketio = SocketIO()
 heroku = Heroku()
 db = SQLAlchemy()
