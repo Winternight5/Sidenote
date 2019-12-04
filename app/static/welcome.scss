@@ -191,6 +191,11 @@ nav
 /* MEET THE DEVS PAGE */
 #devPage {
   font-family: 'Lato', sans-serif;
+  img {
+    height: 250px;
+    width: 250px;
+    border-radius: 2%;
+  }
   h6 {
     color: #666666;
   }
