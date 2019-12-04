@@ -9,7 +9,7 @@ html {
 
 nav {
   .right {
-    padding-right: 5%;
+    padding-right: 2%;
   }
 }
   
@@ -178,6 +178,14 @@ nav
     // When on small screens, this padding is clutch
     padding: 5vh 0 5vh 0;
   }
+  p {
+    font-size: 17.5px;
+    &#note
+    {
+      font-size: 14px;
+    }
+  }
+  
 }
 
 /* MEET THE DEVS PAGE */
@@ -218,7 +226,7 @@ footer {
   i {
     position: fixed;
     bottom: -21px;
-    right: 0px;
+    right: -10.5px;
     padding: 20px;
     &:hover
     {
