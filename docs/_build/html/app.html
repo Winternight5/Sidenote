@@ -42,8 +42,127 @@
 <div class="section" id="app-events-module">
 <h2>app.events module<a class="headerlink" href="#app-events-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="app-forms-module">
-<h2>app.forms module<a class="headerlink" href="#app-forms-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-app.forms">
+<span id="app-forms-module"></span><h2>app.forms module<a class="headerlink" href="#module-app.forms" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app.forms.LoginForm">
+<em class="property">class </em><code class="descclassname">app.forms.</code><code class="descname">LoginForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.LoginForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
+<p>Class handles the registering of an existing user. The varibales are defined using wtforms fields.
+The types taken by those fields are listed below.</p>
+<dl class="attribute">
+<dt id="app.forms.LoginForm.email">
+<code class="descname">email</code><em class="property"> = &lt;UnboundField(StringField, ('Email',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.LoginForm.firstname">
+<code class="descname">firstname</code><em class="property"> = &lt;UnboundField(StringField, ('First Name',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.firstname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.LoginForm.lastname">
+<code class="descname">lastname</code><em class="property"> = &lt;UnboundField(StringField, ('Last Name',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.lastname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.LoginForm.password">
+<code class="descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.LoginForm.password2">
+<code class="descname">password2</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password2',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.password2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.LoginForm.submit">
+<code class="descname">submit</code><em class="property"> = &lt;UnboundField(SubmitField, ('Sign In',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.submit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="app.forms.RegistrationForm">
+<em class="property">class </em><code class="descclassname">app.forms.</code><code class="descname">RegistrationForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.RegistrationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
+<p>Class handles the registering of a new user. The varibales are defined using wtforms fields.
+The types taken by those fields are listed below.</p>
+<dl class="attribute">
+<dt id="app.forms.RegistrationForm.email">
+<code class="descname">email</code><em class="property"> = &lt;UnboundField(StringField, ('Email',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;, &lt;wtforms.validators.Email object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.RegistrationForm.firstname">
+<code class="descname">firstname</code><em class="property"> = &lt;UnboundField(StringField, ('First Name',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.firstname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.RegistrationForm.lastname">
+<code class="descname">lastname</code><em class="property"> = &lt;UnboundField(StringField, ('Last Name',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.lastname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.RegistrationForm.password">
+<code class="descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.RegistrationForm.password2">
+<code class="descname">password2</code><em class="property"> = &lt;UnboundField(PasswordField, ('Confirm Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;, &lt;wtforms.validators.EqualTo object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.password2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.RegistrationForm.submit">
+<code class="descname">submit</code><em class="property"> = &lt;UnboundField(SubmitField, ('Submit',), {})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.submit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="app.forms.RegistrationForm.validate_email">
+<code class="descname">validate_email</code><span class="sig-paren">(</span><em>email</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.RegistrationForm.validate_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function makes sure that the user is indeed a new user and not reinputing existing information within database.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="app.forms.ResetForm">
+<em class="property">class </em><code class="descclassname">app.forms.</code><code class="descname">ResetForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.ResetForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
+<p>Class handles the reseting of an existing user’s information. This will remove the user.</p>
+<dl class="attribute">
+<dt id="app.forms.ResetForm.email">
+<code class="descname">email</code><em class="property"> = &lt;UnboundField(StringField, ('Email',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;, &lt;wtforms.validators.Email object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.ResetForm.firstname">
+<code class="descname">firstname</code><em class="property"> = &lt;UnboundField(StringField, ('First Name',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.firstname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.ResetForm.lastname">
+<code class="descname">lastname</code><em class="property"> = &lt;UnboundField(StringField, ('Last Name',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.lastname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.ResetForm.password">
+<code class="descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.ResetForm.password2">
+<code class="descname">password2</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password2',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.password2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="app.forms.ResetForm.submit">
+<code class="descname">submit</code><em class="property"> = &lt;UnboundField(SubmitField, ('Sign In',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.submit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-app.models">
 <span id="app-models-module"></span><h2>app.models module<a class="headerlink" href="#module-app.models" title="Permalink to this headline">¶</a></h2>
