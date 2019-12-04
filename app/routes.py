@@ -276,7 +276,7 @@ def editnote(id):
                 
             # edit note
             else:
-                pageUrl = 'post.html'
+                pageUrl = 'note.html'
                 pageTitle = 'Note'
                 
             return render_template(pageUrl, theme=themes[currentTheme], post=note, title=pageTitle, room=currentRoom) 
