@@ -41,7 +41,7 @@ input.sign-in:focus, input.sign-up:focus, input.reset-login:focus {
 [id="sign-in"]:checked ~ input.sign-in,
 [id="sign-up"]:checked ~ input.sign-up,
 [id="reset-login"]:checked ~ input.reset-login {
-  max-height: 40px;
+  max-height: 35px;
   margin: 15px 0px;
 }
 
