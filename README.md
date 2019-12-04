@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Winternight5/Team4.svg?branch=master)](https://travis-ci.org/Winternight5/Team4)
+[![Build Status](https://travis-ci.org/Winternight5/Sidenote.svg?branch=master)](https://travis-ci.org/Winternight5/Sidenote)
 
 # Sidenote
 ### Notes and To-do List web application.

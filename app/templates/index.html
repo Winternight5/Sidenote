@@ -57,12 +57,16 @@
   .CompleteList {
     display: none;
   }
+  
+  select {
+    color: blue !important;
+  }
 </style>
 <br><br><br>
 <div class="row">
   <div class="input-field col s11 m11 l11">
     <select class="filters" multiple>
-      {% for eachTag in tags %}<option value="{{ eachTag }}" class="{{ theme.note }}">{{ eachTag }}</option>
+      {% for eachTag in tags %}<option value="{{ eachTag }}">{{ eachTag }}</option>
       {% endfor %}</select>
     <label>Filter by Tags:</label>
   </div>
@@ -213,9 +217,5 @@
     if (nodeIndex == nodes.length)
       clearTimeout(timer);
   }
-
-  // Tooltip labels for buttons on Floating Button
-  $('.tooltipped').tooltip()
-
 </script>
 {% endblock %}
