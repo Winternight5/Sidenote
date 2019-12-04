@@ -1,3 +1,8 @@
+"""
+main.py
+    Initializing the app. Run this.
+"""
+
 #!/bin/env python
 from app import create_app, socketio
 

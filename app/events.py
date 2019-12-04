@@ -1,3 +1,7 @@
+"""
+events.py
+    Socketio functionality implemented here
+"""
 import os
 from flask import current_app as app
 from flask import session, json, request

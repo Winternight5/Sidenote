@@ -14,14 +14,14 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../app'))
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = u'SideNote'
-copyright = u'2019, Tai, William, Brian, Nate'
-author = u'Tai, William, Brian, Nate'
+copyright = u'2019, Tai, Will, Brain, Nate'
+author = u'Tai, Will, Brain, Nate'
 
 # The short X.Y version
 version = u''
@@ -40,7 +40,6 @@ release = u'Fall 2019'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.coverage',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -65,7 +64,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -131,7 +130,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'SideNote.tex', u'SideNote Documentation',
-     u'Tai, William, Brian, Nate', 'manual'),
+     u'Tai, Will, Brain, Nate', 'manual'),
 ]
 
 
