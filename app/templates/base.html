@@ -266,7 +266,7 @@
 
         {% if title == "Note" or title == "List" %}
         // note background color
-        var noteColor = '{% if post.note_bgcolor %}{{ post.note_bgcolor }}{% endif %}';
+        var noteColor = '{% if post.body and post.body.note_bgcolor %}{{ post.body.note_bgcolor }}{% endif %}';
 
         var noteModified = false;
 
