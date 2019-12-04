@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 themes = {
     'day': {
         'browser': '#ffc400',
-        'switch': 'Dark Mode',
+        'switch': 'Night Mode',
         'nav': 'amber accent-3',
         'note': 'amber',
         'themeMode': 'lighten-4',
@@ -74,7 +74,7 @@ def index():
     currentTheme = current_user.settings
 
     getposts = []
-    for post in current_user.post:
+    for post in current_user.post.order_by(Post.id.desc()).all():
         post.body = json.loads(post.body)
         post.body['body'] = post.body['body'].replace('chevron_right', '')
         post.body.update(id=post.id)
