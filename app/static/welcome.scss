@@ -1,6 +1,7 @@
 // Variables
 $sidenote-red: #F85E5E;
 $landing-page-background: rgb(25,25,25);
+$linkedin-blue: #007bb5;
 
 html {
   scroll-behavior: smooth;
@@ -185,8 +186,22 @@ nav
   h6 {
     color: #666666;
   }
-  .s12 p {
+  #socialIcons {
     padding: 0 0 5vh 0;
+    i {
+      font-size: 20px;
+      padding: 0 5px 0 5px;
+      transition: transform 0.2s;
+      &:hover {
+        transform: scale(1.3);
+      }
+    }
+    .fa-linkedin {
+      color: $linkedin-blue;
+    }
+    .fa-user-circle {
+      color: $sidenote-red;
+    }
   }
 }
 

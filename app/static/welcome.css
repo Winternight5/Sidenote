@@ -183,8 +183,30 @@ nav a {
   color: #666666;
 }
 
-#devPage .s12 p {
+#devPage #socialIcons {
   padding: 0 0 5vh 0;
+}
+
+#devPage #socialIcons i {
+  font-size: 20px;
+  padding: 0 5px 0 5px;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+}
+
+#devPage #socialIcons i:hover {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+}
+
+#devPage #socialIcons .fa-linkedin {
+  color: #007bb5;
+}
+
+#devPage #socialIcons .fa-user-circle {
+  color: #F85E5E;
 }
 
 footer {
