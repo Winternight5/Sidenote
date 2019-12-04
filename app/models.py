@@ -46,7 +46,7 @@ class Share(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), index=True)
 
     def __repr__(self):
-        return '<Share {}>'.format(self.post_id)
+        return '<Share {}>'.format(self.post_id).order_by(Post.id.desc())
 
 @login.user_loader
 def load_user(id):

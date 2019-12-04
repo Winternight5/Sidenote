@@ -80,7 +80,8 @@ def index():
         post.body.update(id=post.id)
         getposts.append(post.body)
 
-    getposts.reverse()
+    #getposts.reverse()
+    #print(getposts)
     return render_template('index.html', theme=themes[currentTheme], allposts=getposts, tags=tags, title='Home')
 # -------------------------------------------------------------------------------------------------------------------------
 #----- Theme & Styles
