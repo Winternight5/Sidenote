@@ -2,9 +2,14 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from .models import User
-
+"""
+This file contains login, register, reset functionality of a user.
+"""
 
 class LoginForm(FlaskForm):
+"""
+Class reponsible for logging in existing users.
+"""
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Password2')

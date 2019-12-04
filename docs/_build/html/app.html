@@ -42,121 +42,8 @@
 <div class="section" id="app-events-module">
 <h2>app.events module<a class="headerlink" href="#app-events-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-app.forms">
-<span id="app-forms-module"></span><h2>app.forms module<a class="headerlink" href="#module-app.forms" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="app.forms.LoginForm">
-<em class="property">class </em><code class="descclassname">app.forms.</code><code class="descname">LoginForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.LoginForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
-<dl class="attribute">
-<dt id="app.forms.LoginForm.email">
-<code class="descname">email</code><em class="property"> = &lt;UnboundField(StringField, ('Email',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.email" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.LoginForm.firstname">
-<code class="descname">firstname</code><em class="property"> = &lt;UnboundField(StringField, ('First Name',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.firstname" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.LoginForm.lastname">
-<code class="descname">lastname</code><em class="property"> = &lt;UnboundField(StringField, ('Last Name',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.lastname" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.LoginForm.password">
-<code class="descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.password" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.LoginForm.password2">
-<code class="descname">password2</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password2',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.password2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.LoginForm.submit">
-<code class="descname">submit</code><em class="property"> = &lt;UnboundField(SubmitField, ('Sign In',), {})&gt;</em><a class="headerlink" href="#app.forms.LoginForm.submit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="app.forms.RegistrationForm">
-<em class="property">class </em><code class="descclassname">app.forms.</code><code class="descname">RegistrationForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.RegistrationForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
-<dl class="attribute">
-<dt id="app.forms.RegistrationForm.email">
-<code class="descname">email</code><em class="property"> = &lt;UnboundField(StringField, ('Email',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;, &lt;wtforms.validators.Email object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.email" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.RegistrationForm.firstname">
-<code class="descname">firstname</code><em class="property"> = &lt;UnboundField(StringField, ('First Name',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.firstname" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.RegistrationForm.lastname">
-<code class="descname">lastname</code><em class="property"> = &lt;UnboundField(StringField, ('Last Name',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.lastname" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.RegistrationForm.password">
-<code class="descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.password" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.RegistrationForm.password2">
-<code class="descname">password2</code><em class="property"> = &lt;UnboundField(PasswordField, ('Confirm Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;, &lt;wtforms.validators.EqualTo object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.password2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.RegistrationForm.submit">
-<code class="descname">submit</code><em class="property"> = &lt;UnboundField(SubmitField, ('Submit',), {})&gt;</em><a class="headerlink" href="#app.forms.RegistrationForm.submit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="app.forms.RegistrationForm.validate_email">
-<code class="descname">validate_email</code><span class="sig-paren">(</span><em>email</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.RegistrationForm.validate_email" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="app.forms.ResetForm">
-<em class="property">class </em><code class="descclassname">app.forms.</code><code class="descname">ResetForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.forms.ResetForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_wtf.form.FlaskForm</span></code></p>
-<dl class="attribute">
-<dt id="app.forms.ResetForm.email">
-<code class="descname">email</code><em class="property"> = &lt;UnboundField(StringField, ('Email',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;, &lt;wtforms.validators.Email object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.email" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.ResetForm.firstname">
-<code class="descname">firstname</code><em class="property"> = &lt;UnboundField(StringField, ('First Name',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.firstname" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.ResetForm.lastname">
-<code class="descname">lastname</code><em class="property"> = &lt;UnboundField(StringField, ('Last Name',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.lastname" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.ResetForm.password">
-<code class="descname">password</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password',), {'validators': [&lt;wtforms.validators.DataRequired object&gt;]})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.password" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.ResetForm.password2">
-<code class="descname">password2</code><em class="property"> = &lt;UnboundField(PasswordField, ('Password2',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.password2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="app.forms.ResetForm.submit">
-<code class="descname">submit</code><em class="property"> = &lt;UnboundField(SubmitField, ('Sign In',), {})&gt;</em><a class="headerlink" href="#app.forms.ResetForm.submit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="app-forms-module">
+<h2>app.forms module<a class="headerlink" href="#app-forms-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-app.models">
 <span id="app-models-module"></span><h2>app.models module<a class="headerlink" href="#module-app.models" title="Permalink to this headline">¶</a></h2>
@@ -164,6 +51,8 @@
 <dt id="app.models.Post">
 <em class="property">class </em><code class="descclassname">app.models.</code><code class="descname">Post</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.models.Post" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Model</span></code></p>
+<p>This class is responsible for storing user’s post/note information.
+All of the attributes for this class are listed below.</p>
 <dl class="attribute">
 <dt id="app.models.Post.body">
 <code class="descname">body</code><a class="headerlink" href="#app.models.Post.body" title="Permalink to this definition">¶</a></dt>
@@ -205,6 +94,8 @@
 <dt id="app.models.Share">
 <em class="property">class </em><code class="descclassname">app.models.</code><code class="descname">Share</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.models.Share" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Model</span></code></p>
+<p>This class contains the post/note sharing functionality. 
+All of the attributes for this class are listed below.</p>
 <dl class="attribute">
 <dt id="app.models.Share.id">
 <code class="descname">id</code><a class="headerlink" href="#app.models.Share.id" title="Permalink to this definition">¶</a></dt>
@@ -226,6 +117,8 @@
 <dt id="app.models.User">
 <em class="property">class </em><code class="descclassname">app.models.</code><code class="descname">User</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#app.models.User" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_login.mixins.UserMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Model</span></code></p>
+<p>This class is responsible for storing user’s notes and login information.
+All of the attributes for this class are listed below.</p>
 <dl class="method">
 <dt id="app.models.User.check_password">
 <code class="descname">check_password</code><span class="sig-paren">(</span><em>password</em><span class="sig-paren">)</span><a class="headerlink" href="#app.models.User.check_password" title="Permalink to this definition">¶</a></dt>
