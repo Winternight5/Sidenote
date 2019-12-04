@@ -160,21 +160,15 @@
         <div class="modal-content center">
             <h5>Select note's color</h5>
             <ul>
-                <li data-color="" class="colorPalette s11 waves-effect amber {{ theme.themeMode }} btn-floating"><i
-                        class="material-icons black-text">check</i></li>
+                <li data-color="" class="colorPalette s11 waves-effect amber {{ theme.themeMode }} btn-floating">
+                    <i class="material-icons black-text">check</i></li>
                 <li data-color="red" class="colorPalette s11 waves-effect red {{ theme.themeMode }} btn-floating"></li>
-                <li data-color="deep-purple"
-                    class="colorPalette s11 waves-effect deep-purple {{ theme.themeMode }} btn-floating"></li>
-                <li data-color="blue" class="colorPalette s11 waves-effect blue {{ theme.themeMode }} btn-floating">
-                </li>
-                <li data-color="cyan" class="colorPalette s11 waves-effect cyan {{ theme.themeMode }} btn-floating">
-                </li>
-                <li data-color="lime" class="colorPalette s11 waves-effect lime {{ theme.themeMode }} btn-floating">
-                </li>
-                <li data-color="deep-orange"
-                    class="colorPalette s11 waves-effect deep-orange {{ theme.themeMode }} btn-floating"></li>
-                <li data-color="brown" class="colorPalette s11 waves-effect brown {{ theme.themeMode }} btn-floating">
-                </li>
+                <li data-color="deep-purple" class="colorPalette s11 waves-effect deep-purple {{ theme.themeMode }} btn-floating"></li>
+                <li data-color="blue" class="colorPalette s11 waves-effect blue {{ theme.themeMode }} btn-floating"></li>
+                <li data-color="cyan" class="colorPalette s11 waves-effect cyan {{ theme.themeMode }} btn-floating"></li>
+                <li data-color="lime" class="colorPalette s11 waves-effect lime {{ theme.themeMode }} btn-floating"></li>
+                <li data-color="deep-orange" class="colorPalette s11 waves-effect deep-orange {{ theme.themeMode }} btn-floating"></li>
+                <li data-color="brown" class="colorPalette s11 waves-effect brown {{ theme.themeMode }} btn-floating"> </li>
             </ul>
         </div>
         <div class="modal-footer {{ theme.button1 }}">
@@ -267,10 +261,15 @@
         {% if title == "Note" or title == "List" %}
         // note background color
         var noteColor = '{% if post.body and post.body.note_bgcolor %}{{ post.body.note_bgcolor }}{% endif %}';
+            if (noteColor != '') {
+                updateColorPalette($("li[data-color='" + noteColor +"']"));
+                //alert( $("li[data-color='" + noteColor +"']").html()+" "+noteColor);
+            }
 
         var noteModified = false;
 
         document.addEventListener('keydown', logKey);
+        
         function logKey(e) {
             noteModified = true;
         }
@@ -283,15 +282,19 @@
         });
 
         $('.colorPalette').click(function () {
+            updateColorPalette($(this));
+        });
+        
+        function updateColorPalette($obj) {
             $('.colorPalette').each(function () {
                 $(this).html('');
             });
 
-            $(this).html('<i class="material-icons black-text">check</i>');
+            $obj.html('<i class="material-icons black-text">check</i>');
 
-            noteColor = $(this).data('color');
+            noteColor = $obj.data('color');
             document.getElementById('contentEditor').className = "card black-text {{ theme.themeMode }} " + noteColor;
-        });
+        }
 
         function submitForm(goToIndex) {
             //document.post.submit();
