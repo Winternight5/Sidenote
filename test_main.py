@@ -7,6 +7,11 @@ from flask_login import current_user, login_user, logout_user
 
 @pytest.fixture(scope='module')
 def new_user():
+    """
+    This file contatins all the testing for Travis CI.
+    To run locally use command:
+    $ pytest
+    """
     user = User(email='patkennedy79@gmail.com', firstname='firstname',
                 lastname='lastname', password_hash=generate_password_hash('1234'), settings='dark')
     return user

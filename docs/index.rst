@@ -3,8 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to SideNote's documentation!
+**Documentation for SideNote**
 ====================================
+The application’s main features will enable users to simply append tasks onto their to-do list. Users are able to create their own account, and persisting their notes/to-do lists upon login.
 
 .. toctree::
    :maxdepth: 2

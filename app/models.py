@@ -3,8 +3,13 @@ from . import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.orm import backref
-    
+
+
 class User(UserMixin, db.Model):
+    """
+    This class is responsible for storing user's notes and login information.
+    All of the attributes for this class are listed below. 
+    """
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(128), index=True, unique=True)
@@ -14,7 +19,8 @@ class User(UserMixin, db.Model):
     settings = db.Column(db.Text, default='day')
     tags = db.Column(db.Text)
     post = db.relationship('Post', backref='user', lazy='dynamic')
-    relations = db.relationship('Post', secondary="share", backref=backref('shareto', lazy='dynamic'))
+    relations = db.relationship(
+        'Post', secondary="share", backref=backref('shareto', lazy='dynamic'))
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -27,6 +33,10 @@ class User(UserMixin, db.Model):
 
 
 class Post(db.Model):
+    """
+    This class is responsible for storing user's post/note information.
+    All of the attributes for this class are listed below. 
+    """
     __tablename__ = "post"
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
@@ -39,7 +49,12 @@ class Post(db.Model):
     def __repr__(self):
         return '<Posts {}>'.format(self.body)
 
+
 class Share(db.Model):
+    """
+    This class contains the post/note sharing functionality. 
+    All of the attributes for this class are listed below. 
+    """
     __tablename__ = "share"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True)
@@ -47,6 +62,7 @@ class Share(db.Model):
 
     def __repr__(self):
         return '<Share {}>'.format(self.post_id)
+
 
 @login.user_loader
 def load_user(id):
