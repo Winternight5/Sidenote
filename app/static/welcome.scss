@@ -158,7 +158,7 @@ nav
 
 // Used to add padding to all sections in the landing page
 .pageSection {
-  padding: 10vh 0 10vh 0;
+  padding: 3vh 0 10vh 0;
   h3 {
     padding: 0 0 10vh 0;
   }
@@ -192,22 +192,15 @@ nav
 
 // footer
 footer {
-  // margin-bottom: 0;
-  // background-color: $landing-page-background;
-  // color: $sidenote-red;
-
   font-family: 'Lato', sans-serif;
   font-weight: 500;
 }
 
-.back-to-top
-{
-  a
-  {
+.back-to-top {
+  a {
     color: black;
   }
-  i
-  {
+  i {
     position: fixed;
     bottom: -21px;
     right: 0px;

@@ -101,8 +101,8 @@
           </div>
         </div>
         <div class="back-to-top hide-on-small-only">
-            <a href="#top"><i class="fas fa-angle-up fa-3x"></i></a>
-          </div>
+          <a href="#top"><i class="fas fa-angle-up fa-3x"></i></a>
+        </div>
       </div>
     </div>
   </section>
@@ -234,22 +234,19 @@
     });
   </script>
 
-<script>
+  <script>
 
-  $(document).ready(function()
-  {
-    $(".back-to-top a").hide();
-    $(window).on("scroll", function()
-    {
-      if (114 < $(window).scrollTop())
-      {
-        $(".back-to-top a").fadeIn(1750);
-      }
-      else
-      $(".back-to-top a").fadeOut(450);
-    })
-  });
-</script>
+    $(document).ready(function () {
+      $(".back-to-top a").hide();
+      $(window).on("scroll", function () {
+        if (114 < $(window).scrollTop()) {
+          $(".back-to-top a").fadeIn(1750);
+        }
+        else
+          $(".back-to-top a").fadeOut(450);
+      })
+    });
+  </script>
 
 </body>
 
