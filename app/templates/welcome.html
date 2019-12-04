@@ -123,22 +123,23 @@
       </div>
       <div class="row">
         <div class="col s12">
-          <p><b>Sidenote</b> is a note-taking app, todo list app, and a drawing app <b>all in
-              one.</b> The application’s main features are rather simple, but effective. The application
-            enables users to simply append tasks onto various to-do lists, and also take notes with the liberty of
-            typing or writing if on tablet/mobile. It also has the
-            feature of sharing notes/todo lists among peers via email address. Upon registering for an
-            account, users can immediately begin tracking
+          <p><b>Sidenote</b> is a note-taking app, a todo list app, and a drawing app <b>all in
+            one.</b> Though simple, the application's main features were designed to be extremely powerful. Enabling users to
+            easily append tasks onto various to-do lists, or even take notes with the liberty of
+            typing or writing (if on a tablet/mobile device), <b>Sidenote</b> makes managing your tasks a breeze. It even includes
+            the ability to share notes/todo lists among peers via their email addresses. Upon registration, users will be able to immediately begin tracking
             their daily tasks, taking miscellaneous notes, and sharing them with colleagues throughout the day. With our
-            simple user interface, <b>Sidenote</b> makes organizing your life an elegant experience.
+            sleek, easy-to-navigate user interface, <b>Sidenote</b> makes organizing your life a fun, elegant experience.
           </p>
           <p>
-            <b>Sidenote</b> is comprised from a
-            Python-Flask server side program that retrieves data from a PostgreSQL database
-            as a backend to which keeps track of user data. We used standard tools such as Git as a version control and
-            Travis CI for continuous integration. The feature of real time editing of notes/todo lists is possible via
-            the integration of websockets. The technologies we used were: Python, Flask, Javascript, AJAX, HTML,
-            CSS/SCSS, Materialize.css, Travis CI, and Heroku.
+            <b>Sidenote</b> runs on a
+            Python-Flask server-side program that retrieves data from a PostgreSQL database
+            to keep track of user data. We utilized standard tools such as Git as a version control system and
+            Travis CI as a continuous integration service. Finally, the feature of real time editing of notes/todo lists was made possible 
+            through the integration of websockets.
+            <p id="note"><b>Sidenote</b> was built with the following technologies: Python, Flask, JavaScript, AJAX, 
+              HTML, CSS/SCSS, Materialize.css, Travis CI, and Heroku.
+            </p>
           </p>
         </div>
       </div>
@@ -215,7 +216,7 @@
         displayNone();
         $('.' + $(this).val()).css(
           {
-            "display": "block",
+            "display": "block"
           });
         applyButtonText($(this));
       })
