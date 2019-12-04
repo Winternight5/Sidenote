@@ -4,13 +4,9 @@ from app.models import User, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user, logout_user
 
-"""
-SideNote's Testing 
-"""
 
 @pytest.fixture(scope='module')
 def new_user():
-"""Function initializes a new user."""
     user = User(email='patkennedy79@gmail.com', firstname='firstname',
                 lastname='lastname', password_hash=generate_password_hash('1234'), settings='dark')
     return user
@@ -18,46 +14,39 @@ def new_user():
 
 @pytest.fixture(scope='module')
 def new_note():
-"""Testing new note."""
     note = Post(body='blah blah blah', user_id='1', writeAllowed=False)
     return note
 
 # Pytest 1
 # Test validating of new user patkennedy79@gmail.com
 def test_new_user(new_user):
-"""Testing new users info matches new user."""
     assert new_user.email == 'patkennedy79@gmail.com'
     assert new_user.password_hash != generate_password_hash('1234')
 
 # Pytest 2
 # Test authentication of new user
 def test_login(new_user):
-"""Testing a login of new user."""
     assert new_user.is_authenticated == True
 
 # Pytest 3
 # Test changing user's theme
 def test_changetheme(new_user):
-"""Testing theme settings for new user."""
     assert new_user.settings == 'dark'
 
 # Pytest 4
 # Test note's model
 def test_new_note(new_note):
-"""Testing notes content."""
     assert new_note.body != None
 
 
 # Pytest 5
 # Test writing authorization
 def test_noteWriteAccess(new_note):
-"""Testing notes write access level."""
     assert new_note.writeAllowed == False
     
 # Pytest 6
 # Test concat of string List items into single Sting
 def test_listToString():
-"""Testing a list forms a string"""
     list = ['this', 'is', 'a', 'string']
     assert routes.listToString(list) == 'this is a string'
     

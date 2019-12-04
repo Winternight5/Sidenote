@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Documentation for SideNote
+Welcome to SideNote's documentation!
 ====================================
 
 .. toctree::
@@ -11,7 +11,6 @@ Documentation for SideNote
    :caption: Contents:
    
    modules
-   members
 
 
 Indices and tables

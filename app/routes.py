@@ -8,10 +8,6 @@ from werkzeug.urls import url_parse
 import random, string, html, re, uuid
 from sqlalchemy.orm import Session
 
-"""
-Database stuff.
-"""
-
 themes = {
     'day': {
         'browser': '#ffc400',
