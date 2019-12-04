@@ -742,16 +742,16 @@ tags = ['#Important', '#Untagged', '#school', '#homework', '#cmpe131', '#python'
 
 
 def sing_sen_maker():
-    s_nouns = ["A dude", "My mom", "The king", "Some guy",
-               "A cat with rabies", "A sloth", "Your homie", "My gardener", "Superman"]
+    s_nouns = ["A person", "That lady", "A student", "Some guy",
+               "A cat", "A sloth", "Your homie", "My gardener", "Ironman"]
     p_nouns = ["These dudes", "Both of my moms", "All the kings of the world", "Some guys", "All of a cattery's cats",
-               "The multitude of sloths living under your bed", "Your homies", "Like, these, like, all these people", "Supermen"]
-    s_verbs = ["eats", "kicks", "gives", "treats", "meets with", "creates", "hacks",
-               "configures", "spies on", "meows on", "flees from", "tries to automate", "explodes"]
-    p_verbs = ["eat", "kick", "give", "treat", "meet with", "create", "hack",
-               "configure", "spy on", "meow on", "flee from", "try to automate", "explode"]
+               "The multitude of sloths living on the tree", "Your homies", "Like, these, like, all these people", "Ironman"]
+    s_verbs = ["studys", "punchs", "gives", "treats", "meets with", "creates", "builds",
+               "configures", "spies on", "meows on", "flees from", "tries to automate", "pokes"]
+    p_verbs = ["study", "punch", "give", "treat", "meet with", "create", "build",
+               "configure", "spy on", "meow on", "flee from", "try to automate", "poke"]
     infinitives = ["to make a pie.", "for no apparent reason.", "because the sky is green.",
-                   "for fun.", "to make an babies.", "to know more about archeology."]
+                   "for fun.", "to develop a house.", "to know more about archeology."]
     '''Makes a random senctence from the different parts of speech. Uses a SINGULAR subject'''
     return listToString([random.choice(s_nouns), random.choice(s_verbs), random.choice(s_nouns).lower() or random.choice(p_nouns).lower(), random.choice(infinitives)])
 
