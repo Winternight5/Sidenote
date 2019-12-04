@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="back-to-top hide-on-small-only">
-          <a href="#top"><i class="fas fa-angle-up fa-3x"></i></a>
+          <a href="#top"><i class="fas fa-angle-up fa-4x"></i></a>
         </div>
       </div>
     </div>
@@ -249,15 +249,21 @@
   </script>
 
   <script>
-
     $(document).ready(function () {
       $(".back-to-top a").hide();
       $(window).on("scroll", function () {
-        if (114 < $(window).scrollTop()) {
+        if (81 < $(window).scrollTop()) {
           $(".back-to-top a").fadeIn(1750);
         }
-        else
+        else {
+          $(".back-to-top").css(
+            {
+              "color": "rgb(25,25,25)",
+              "transition": "300ms ease"
+            }
+          );
           $(".back-to-top a").fadeOut(450);
+        }
       })
     });
   </script>
