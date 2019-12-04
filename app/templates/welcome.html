@@ -142,9 +142,10 @@
             Travis CI as a continuous integration service. Finally, the feature of real time editing of notes/todo lists
             was made possible
             through the integration of websockets.
-            <p id="note"><b>Sidenote</b> was built with the following technologies: Python, Flask, JavaScript, AJAX,
-              HTML, CSS/SCSS, Materialize.css, Travis CI, and Heroku.
-            </p>
+          </p>
+          <p id="note">
+            <b>Sidenote</b> was built with the following technologies: Python, Flask, JavaScript, AJAX,
+            HTML, CSS/SCSS, Materialize.css, Travis CI, and Heroku.
           </p>
         </div>
       </div>
@@ -217,12 +218,9 @@
   <!-- alters the display of the login form-->
   <script>
     $(document).ready(function () {
-      $('input[type=radio]').on('change', function () {
+      $('input[type=radio]').on('change', function() {
         displayNone();
-        $('.' + $(this).val()).css(
-          {
-            "display": "block"
-          });
+        $("." + $(this).val()).animate({height: "toggle", opacity: "toggle"}, 850);
         applyButtonText($(this));
       })
 
@@ -246,7 +244,7 @@
             break;
           case "sign-up": $submitButton.val("Sign Up");
             break;
-          case "reset-login": $submitButton.val("Reset Login");
+          case "reset-login": $submitButton.val("Reset Password");
             break;
         }
       }
