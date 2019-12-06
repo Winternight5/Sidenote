@@ -51,30 +51,66 @@ For Mac:
 ```
 pip3 install Flask
 ```
-And repeat until all required packages are installed.
+All packages listed in the requirements text file are required to run the application.
 
 
 ## Running Test Cases
 
-Test cases can be found in highest level of the app folder: test_main.py
+Test cases can be found in the following folder: [Sidenote/app/tests/](https://github.com/Winternight5/Sidenote/tree/master/app/tests)
 
 ### Test Cases Break down 
 
-To ensure various python functions and database works properly, we need to use data validation and Back-end testing.
+#### conftest.py
 
-One example:
+Contains the pytest configuration and fixtures of app_context, client, and databases.
+
+
+#### test_auth.py
+
+##### Testing of server availability
+The first step is to test and check if the server is up and running:
 ```
-test_new_user(new_user)
+test_login(client)
 ``` 
-Database testing is checking the schema, and table of User database by insertion of new user
+This test simply check the server responce status code. If the server is up and running, it will returns HTTP 200 OK success status response code.
 
+##### Testing of databases
+The following test to ensure various python functions and database works properly, we uses pytest for back-end testing.
 
-Another example:
+Testing database availabilty by using the following functions:
 ```
- test_login(new_user)
+test_add_user_to_db(db)
+``` 
 ```
-Python testing is checking the login function to ensure authentication works using Flask-Login package
+test_valid_register(db)
+```
+```
+test_verify_user_exists(db)
+```
+```
+test_theme(db)
+```
+This is checking the schema of the User database by insertion of a new user. Then, validate and verifies if the database session and data integrity was successfully committed.
 
+
+Additional database verification and validity of Post db: by insertion of a new note:
+```
+ test_new_note(db)
+```
+
+##### Testing of functions
+
+Testing data integrity of a note object: 
+```
+test_noteData()
+```
+This is needed to ensure the note object data integrity is valid. Later on, this object is converted to JSON string to allows saving of data into the database.
+
+
+An example of function testing:
+```
+test_listToString()
+```
 
 ## Deployment
 
@@ -83,16 +119,19 @@ This repo is built with Heroku package and is ready for deployment. Please see H
 
 
 ## Documentation
-For more information regarding how to navigate or code implementation please go to 
+For more information regarding how to navigate or code implementation please go to Sphinx Documentation.
+
 ```
-docs/_build/html/index.rst
+[Sidenote/docs/_build/html/](https://github.com/Winternight5/Sidenote/tree/master/docs/_build/html)
 ```
+
+
 ## Built With
 
 * [Python](https://www.python.org/) - An interpreted, high-level, general-purpose programming language.
 * [JQuery](https://www.jquery.com) - A fast, small, and feature-rich JavaScript library.
-* [MaterializeCSS](https://materializecss.com/) - A modern responsive front-end framework based on Material Design
-* [Bootstrap](https://getbootstrap.com) - Responsive, mobile-first projects on the web with the world's most popular front-end component library
+* [MaterializeCSS](https://materializecss.com/) - A modern responsive front-end framework based on Material Design.
+* [Bootstrap](https://getbootstrap.com) - Responsive, mobile-first projects on the web with the world's most popular front-end component library.
 
 
 ## Authors
