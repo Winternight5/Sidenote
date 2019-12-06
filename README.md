@@ -130,12 +130,12 @@ For more information regarding how to navigate or code implementation please go 
 * [Bootstrap](https://getbootstrap.com) - Responsive, mobile-first projects on the web with the world's most popular front-end component library.
 
 
-## Authors
+## Authors, *Initial work*
 
-* **Tai Huynh** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
-* **William Nguyen** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
-* **Brian Tamsing** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
-* **Nate Garza** - *Initial work* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
+* **Tai Huynh** - *Project Manager* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
+* **William Nguyen** - *Frontend Engineer* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
+* **Brian Tamsing** - *UI/UX Engineer* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
+* **Nate Garza** - *Devops/Infrastucture Engineer* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
 
 List of [contributors]( https://github.com/Winternight5/Team4/graphs/contributors)
 
