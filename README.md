@@ -28,13 +28,9 @@ Required packages:
 4.	Flask-SQLAlchemy
 5.	Flask-WTF
 6.	Gunicorn (only required on Heroku)
-7.	Itsdangerous
-8.	Jinja2
-9.	MarkupSafe
-10.	psycopg2 binary (only required on Heroku)
-11.	SQLAlchemy
-12.	Werkzeug
-13.	WTForms
+7.	psycopg2 binary (only required on Heroku)
+8.	SQLAlchemy
+9. ...
 
 See the most updated complete list [requirements.txt](https://github.com/Winternight5/Team4/blob/master/requirements.txt)
 
