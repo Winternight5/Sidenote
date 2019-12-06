@@ -132,8 +132,8 @@ For more information regarding how to navigate or code implementation please go 
 
 ## Authors, *Initial work*
 
-* **Tai Huynh** - *Project Manager* - [Linkedin](https://www.linkedin.com/in/tai-huynh-09132957/) [Website](http://www.taihuynh.info/)
-* **William Nguyen** - *Frontend Engineer* - [Linkedin](https://www.linkedin.com/in/williamnguyen214/) [Website](https://www.williamtn.com/)
+* **Tai Huynh** - *Project Manager* - [Linkedin](https://www.linkedin.com/in/tai-huynh-09132957/), [taihuynh.info](http://www.taihuynh.info/)
+* **William Nguyen** - *Frontend Engineer* - [Linkedin](https://www.linkedin.com/in/williamnguyen214/), [williamtn.com](https://www.williamtn.com/)
 * **Brian Tamsing** - *UI/UX Engineer* - [Linkedin](https://www.linkedin.com/in/brian-tamsing/)
 * **Nate Garza** - *Devops/Infrastucture Engineer* - [Linkedin](https://www.linkedin.com/in/nathanaelrgarza/)
 
