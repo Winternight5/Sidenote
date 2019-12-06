@@ -1,11 +1,6 @@
 
 *.pyc
 *.db
-*.db
 requirements_old.txt
-app.db
 _test_main.py
-app.db
-app.db
-app.db
 app/templates/post.html
