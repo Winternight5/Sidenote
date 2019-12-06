@@ -413,8 +413,16 @@ All of the attributes for this class are listed below.</p>
 </div>
 <div class="section" id="app-tests-modules">
 <h2>app.tests modules<a class="headerlink" href="#app-tests-modules" title="Permalink to this headline">¶</a></h2>
-<p>Inclues contiuous testing files for Travis CI.
-Test locally: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pytest</span></code></p>
+<p>Includes contiuous testing files for Travis CI.</p>
+<p>Test locally: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pytest</span></code></p>
+<p><strong>def test_login(client)</strong> - Tests that login is accesible to client.</p>
+<p><strong>def test_add_user_to_db(db)</strong> - Tests adding a user to data base.</p>
+<p><strong>def test_verfy_user_exists(db)</strong> - Tests that the user is accesible outside declared scope.</p>
+<p><strong>def test_theme(db)</strong> - Tests the user’s settings are defined in database.</p>
+<p><strong>def test_new_note(db)</strong> - Tests the creation of new note to data base and checks if body variable is defined.</p>
+<p><strong>def test_valid_register(client, db)</strong> - Tests a user registration.</p>
+<p><strong>def test_listToString()</strong> - Tests that list of strings can form singular string.</p>
+<p><strong>def test_noteData()</strong> - Tests the attributes of a note.</p>
 </div>
 </div>
 

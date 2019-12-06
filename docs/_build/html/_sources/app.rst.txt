@@ -154,5 +154,22 @@ This file is responsible for the applications backend pathing. Login is required
 app.tests modules
 -----------------
 
-Inclues contiuous testing files for Travis CI. 
+Includes contiuous testing files for Travis CI. 
+
 Test locally: ``$ pytest`` 
+
+**def test_login(client)** - Tests that login is accesible to client.
+
+**def test_add_user_to_db(db)** - Tests adding a user to data base. 
+
+**def test_verfy_user_exists(db)** - Tests that the user is accesible outside declared scope.
+
+**def test_theme(db)** - Tests the user's settings are defined in database.
+
+**def test_new_note(db)** - Tests the creation of new note to data base and checks if body variable is defined.
+
+**def test_valid_register(client, db)** - Tests a user registration.
+
+**def test_listToString()** - Tests that list of strings can form singular string.
+
+**def test_noteData()** - Tests the attributes of a note.

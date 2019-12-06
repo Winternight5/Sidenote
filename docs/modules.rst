@@ -7,4 +7,3 @@ Sidenote
    app
    config
    main
- 

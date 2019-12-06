@@ -29,6 +29,7 @@ def test_new_note(db):
     note = Post(body='blah blah blah', user_id='1', writeAllowed=False)
     db.session.add(note)
     db.session.commit()
+    assert len(Post.query.all()) == 1
     assert Post.query.get(1).body == 'blah blah blah'
 
 
@@ -84,5 +85,4 @@ def test_noteData():
         'tags': '' if tags is None else tags,
         'body': '' if body is None else body
     }
-
     assert noteData(title, bgcolor, tags, body, canvas) == result
