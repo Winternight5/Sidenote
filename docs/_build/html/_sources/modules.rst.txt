@@ -7,4 +7,4 @@ Sidenote
    app
    config
    main
-   test_main
+ 

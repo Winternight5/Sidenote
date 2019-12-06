@@ -151,13 +151,8 @@ This file is responsible for the applications backend pathing. Login is required
 
 **def random_generator(size=4, chars=string.ascii_uppercase + string.digits)** - Admin function. *For def genPosts*
 
+app.tests modules
+-----------------
 
-
-
-
-.. automodule:: app.routes
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
+Inclues contiuous testing files for Travis CI. 
+Test locally: ``$ pytest`` 

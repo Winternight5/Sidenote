@@ -33,12 +33,11 @@ SideNote Navigation
 ===================
 This is an image of all the top level files in root level.
 
-.. image:: topLevelNav32Font.png
+.. image:: images/topLevelNav32Font.png
 
 - **main.py**       -   This file is what you will run to launch the application locally.
     - Use the command(Linux): ``$ python3 main.py``
 - config.py     -   This file contains the Config class for database setup.
-- test_main.py  -   This file contains the testing for Travis CI on github.
 - app directory -   Contains the majority of the application's files.
 - docs directory-   Contains all the documentation required for Sphinx.
 
@@ -46,7 +45,7 @@ This is an image of all the top level files in root level.
 
 This is an image of all the files below the root level.
 
-.. image:: nav14Font.png
+.. image:: images/nav14Font.png
 
 - **app directory** (Application's location)
     - events.py     -   For SocketIO implementation.
@@ -65,7 +64,6 @@ This is an image of all the files below the root level.
    
    modules
    tutorial
-   functions
 
 Indices and tables
 ==================
