@@ -17,7 +17,7 @@ def test_add_user_to_db(db):
     assert len(User.query.all()) == 1
 
 
-def test_verfy_user_exists(db):
+def test_verify_user_exists(db):
     user = User.query.get(1)
     assert user.is_authenticated == True
 
