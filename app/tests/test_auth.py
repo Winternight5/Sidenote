@@ -2,8 +2,6 @@ import pytest
 from app.models import User, Post, Share
 from app.forms import LoginForm
 
-# form = LoginForm()
-
 
 def test_login(client):
     response = client.get('/login')
@@ -40,3 +38,51 @@ def test_valid_register(client, db):
                                      password='testing', confirm='testing'),
                            follow_redirects=True)
     assert response.status_code == 200
+
+# Would fail pytest if import from routes
+def listToString(s, delimeter=' '):
+    str1 = " "
+    return (delimeter.join(str(v) for v in s))
+
+
+def test_listToString():
+    list = ['this', 'is', 'a', 'string']
+    assert listToString(list) == 'this is a string'
+
+# Would fail pytest if import from routes
+def noteData(title, bgcolor, tags, body, canvas=False):
+    icon = 'event_note'
+    if "cbox" in body:
+        icon = 'event_available'
+    elif canvas:
+        icon = 'brush'
+    elif "<img src" in body:
+        icon = 'image'
+
+    post = {
+        'title': '' if title is None else title,
+        'icon': icon,
+        'note_bgcolor': '' if bgcolor is None else bgcolor,
+        'tags': '' if tags is None else tags,
+        'body': '' if body is None else body
+    }
+    return post
+
+
+def test_noteData():
+    title = 'New Note'
+    bgcolor = 'yellow'
+    icon = 'event_note'
+    tags = 'Test'
+    body = 'This is a Test'
+    canvas = False
+
+    result = {
+        'title': '' if title is None else title,
+        'icon': icon,
+        'note_bgcolor': '' if bgcolor is None else bgcolor,
+        'tags': '' if tags is None else tags,
+        'body': '' if body is None else body
+    }
+
+    assert noteData(title, bgcolor, tags, body, canvas) == result
