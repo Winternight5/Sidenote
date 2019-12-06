@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>app package &#8212; SideNote Fall 2019 documentation</title>
+    <title>app directory &#8212; SideNote Fall 2019 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -34,13 +34,27 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="app-package">
-<h1>app package<a class="headerlink" href="#app-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="app-directory">
+<h1>app directory<a class="headerlink" href="#app-directory" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="app-init-module">
+<h2>app.__init__ module<a class="headerlink" href="#app-init-module" title="Permalink to this headline">¶</a></h2>
+<p><strong>def create_app(debug=False, test_config=None)</strong> - Creates an application. :return: app</p>
 </div>
 <div class="section" id="app-events-module">
 <h2>app.events module<a class="headerlink" href="#app-events-module" title="Permalink to this headline">¶</a></h2>
+<p><strong>def getKeys</strong> - returns list of keys.</p>
+<p><strong>def getValues</strong> - return list of the values.</p>
+<p><strong>def checkDatas</strong> - Verfies if current room is stable.</p>
+<p><strong>def clearDatas</strong> - Takes currentRoom paramater; Deletes the room data.</p>
+<p><strong>def join(data)</strong> - Takes data parameter for new user. Adds user to the room array.</p>
+<p><strong>def disconnect</strong> - Remove the user from the room array.</p>
+<p><strong>def drawing(data)</strong> - Save current user drawing data into memory and emit data to all users in the room.</p>
+<p><strong>def fill(data)</strong> - Save current user fill data into memory and emit data to all users in the room.</p>
+<p><strong>def loadImg(data)</strong> - Save current user image data into memory and emit data to all users in the room.</p>
+<p><strong>def new(data)</strong> - Clear memory and emit to all users.</p>
+<p><strong>def save(newdata)</strong> - Save current user canvas data into database. Returns “Canvas Saved” output.</p>
+<p><strong>def revokeAccess</strong> - Init and emit revoke access to all current active shared users.</p>
+<p><strong>def img</strong> - Get image data.</p>
 </div>
 <div class="section" id="module-app.forms">
 <span id="app-forms-module"></span><h2>app.forms module<a class="headerlink" href="#module-app.forms" title="Permalink to this headline">¶</a></h2>
@@ -303,15 +317,99 @@ All of the attributes for this class are listed below.</p>
 </div>
 <div class="section" id="app-routes-module">
 <h2>app.routes module<a class="headerlink" href="#app-routes-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-app">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-app" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="app.create_app">
-<code class="descclassname">app.</code><code class="descname">create_app</code><span class="sig-paren">(</span><em>debug=False</em>, <em>test_config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#app.create_app" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create an application.</p>
-</dd></dl>
-
+<p>This file is responsible for the applications backend pathing. Login is required for most features.</p>
+<p><em>Themes</em> - Settings for night and day theme settings.</p>
+<p><strong>def index</strong> - Main home page :return: Display all of user’s notes.</p>
+<p><strong>def changetheme</strong> - Change theme. :return: Allow the user to change from day to dark theme.</p>
+<p><strong>def newList</strong> - New To Do List page.</p>
+<p><strong>def newnote</strong> - New notes page.</p>
+<p><strong>def saveNewNote</strong> - Saves new note. :return: Get data from submitted form and create a new JSON to insert into database.</p>
+<p><strong>saveNoteById(id)</strong> - Saves a modified note. :return: Get data from submitted form and create a new JSON to insert into database.</p>
+<p><strong>noteData(title, bgcolor, tags, body, canvas = False)</strong> - :return: Create a new Note data to later convert to JSON and insert into body.</p>
+<p><strong>saveToDB(note)</strong> - :return: Global Save Function to Database.</p>
+<p><strong>editnote(id)</strong> - :return: Get note data by id, check note’s owner and if note’s is writable</p>
+<p><strong>def NoteOwner</strong> -</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">Get Note by id and verify it with curren_user.id to check the ownership</td>
+</tr>
+<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">return None = not owner</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">return <strong>data</strong> = owner</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>def delNoteById(id)</strong> - :return: Delete Note by id, use getNoteById() function to validate before deleting</p>
+<dl class="docutils">
+<dt><strong>def getNoteById(id, owner=True)</strong> -</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">Get note data by id, check note’s owner and or if note’s is shared</td>
+</tr>
+<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">return None = not owner</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">return <strong>Data</strong> = owner</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p><strong>def newCanvas()</strong> - :return: Open an empty canvas page for handwriting feature</p>
+<p><strong>def saveCanvas(title, tags, thumbnail, JSONData)</strong> - :return: Save canvas data to database</p>
+<p><strong>def saveCanvasById(id, title, tags, thumbnail, JSONData)</strong> - :return: Save Modified Canvas data by id, user getNoteById() to validate</p>
+<p><strong>def shared()</strong> - :return: Get all Shared Notes</p>
+<p><strong>def shareNoteById(note_id, email)</strong> - :return:  Using AJAX to get note data by id, and check note’s owner. Then validate the provided email before insert into shares database.</p>
+<p><strong>def delMemberByNoteId(getPost_id, getUser_id)</strong> - :return: Get note data by id, and validate by checking note’s owner, then delete column by id from shares database.</p>
+<p><strong>def noteWriteAccess(note_id, type)</strong> - :return: Using AJAX to modify note’s writeAllowed value from database. Use getNoteById() to validate.</p>
+<p><strong>def login()</strong> - Login Function</p>
+<blockquote>
+<div><p>:return:Get radio form “login-option” to route functions to Login, Logout or Registration</p>
+<p>sign-in - :return: Get user’s input email and password, then validate and authenticate the user.</p>
+<p>sign-up - :return: Get user’s filled form data, then validate and create a new user.</p>
+<p>reset-login - :return: Get user’s input email, then validate the email on file and send a reset password email to the user’s email.</p>
+</div></blockquote>
+<p><strong>def logout()</strong> - :return: Log the user out</p>
+<p><strong>def showdb()</strong> - :return: result html</p>
+<p><strong>def delShareId(id)</strong> - Admin function.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">showdb</td>
+</tr>
+<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">index</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>def delID(id)</strong> - Admin function.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">showdb</td>
+</tr>
+<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">index</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>def fillCheck()</strong> - Admin funtion.</p>
+<p><strong>def addadmin()</strong> - Admin function. Hardcodes admins to database.</p>
+<p><strong>def clearPosts()</strong> - Admin function.</p>
+<p><strong>def addDB()</strong> - Admin function.</p>
+<p><strong>def genPosts()</strong> - Admin function. <em>Randomly generates post for demo</em></p>
+<p><strong>def sing_sen_maker()</strong> - Admin function. <em>For def genPosts</em></p>
+<p><strong>def listToString(s, delimeter=’ ‘)</strong> - Admin function. <em>For def genPosts</em></p>
+<p><strong>def random_generator(size=4, chars=string.ascii_uppercase + string.digits)</strong> - Admin function. <em>For def genPosts</em></p>
 </div>
 </div>
 
@@ -335,12 +433,14 @@ All of the attributes for this class are listed below.</p>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Sidenote</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">app package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">app directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="config.html">config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test_main.html">test_main module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>
 </ul>
 
 <div class="relations">
