@@ -68,12 +68,12 @@ The first step is to test and check if the server is up and running:
 ```
 test_login(client)
 ``` 
-This test simply check the server responce status code. If the server is up and running, it will returns HTTP 200 OK success status response code.
+This test simply check the server response status code. If the server is up and running, it will returns HTTP 200 OK success status response code.
 
 ##### Testing of databases
 The following test to ensure various python functions and database works properly, we uses pytest for back-end testing.
 
-Testing database availabilty by using the following functions:
+Testing database availability by using the following functions:
 ```
 test_add_user_to_db(db)
 ``` 
