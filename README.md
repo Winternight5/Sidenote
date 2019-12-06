@@ -117,9 +117,8 @@ This repo is built with Heroku package and is ready for deployment. Please see H
 ## Documentation
 For more information regarding how to navigate or code implementation please go to Sphinx Documentation.
 
-```
 [Sidenote/docs/_build/html/](https://github.com/Winternight5/Sidenote/tree/master/docs/_build/html)
-```
+
 
 
 ## Built With
