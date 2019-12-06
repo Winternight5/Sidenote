@@ -132,10 +132,10 @@ For more information regarding how to navigate or code implementation please go 
 
 ## Authors, *Initial work*
 
-* **Tai Huynh** - *Project Manager* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
-* **William Nguyen** - *Frontend Engineer* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
-* **Brian Tamsing** - *UI/UX Engineer* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
-* **Nate Garza** - *Devops/Infrastucture Engineer* - [Team4 - Sidenote]( https://github.com/Winternight5/Team4)
+* **Tai Huynh** - *Project Manager* - [Linkedin](https://www.linkedin.com/in/tai-huynh-09132957/) [Website](http://www.taihuynh.info/)
+* **William Nguyen** - *Frontend Engineer* - [Linkedin](https://www.linkedin.com/in/williamnguyen214/) [Website](https://www.williamtn.com/)
+* **Brian Tamsing** - *UI/UX Engineer* - [Linkedin](https://www.linkedin.com/in/brian-tamsing/)
+* **Nate Garza** - *Devops/Infrastucture Engineer* - [Linkedin](https://www.linkedin.com/in/nathanaelrgarza/)
 
 List of [contributors]( https://github.com/Winternight5/Team4/graphs/contributors)
 
