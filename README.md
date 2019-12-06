@@ -34,7 +34,7 @@ Required packages:
 
 See the most updated complete list [requirements.txt](https://github.com/Winternight5/Team4/blob/master/requirements.txt)
 
-### Installing
+### Installation
 
 Clone this git repo then install the required packages. 
 
