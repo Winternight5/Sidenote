@@ -1,6 +1,7 @@
 import pytest
 from app.models import User, Post, Share
 from app.forms import LoginForm
+from app import routes
 
 
 def test_login(client):
@@ -48,7 +49,7 @@ def listToString(s, delimeter=' '):
 
 def test_listToString():
     list = ['this', 'is', 'a', 'string']
-    assert listToString(list) == 'this is a string'
+    assert routes.listToString(list) == 'this is a string'
 
 # Would fail pytest if import from routes
 def noteData(title, bgcolor, tags, body, canvas=False):
