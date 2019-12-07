@@ -37,11 +37,12 @@ See the most updated complete list [requirements.txt](https://github.com/Wintern
 ### Installation
 
 Clone this git repo then install the required packages. 
+Use the terminal: *(For Window, make sure to “Run as administrator”)*
 ```
 git clone git@github.com:Winternight5/Sidenote.git
 ```
 
-To install individual package, use the terminal: *(For Window, make sure to “Run as administrator”)*
+Example of installing individual package:
 
 ```
 pip install Flask
