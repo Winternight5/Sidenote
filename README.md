@@ -37,6 +37,9 @@ See the most updated complete list [requirements.txt](https://github.com/Wintern
 ### Installation
 
 Clone this git repo then install the required packages. 
+```
+git clone git@github.com:Winternight5/Sidenote.git
+```
 
 To install individual package, use the terminal: *(For Window, make sure to “Run as administrator”)*
 
