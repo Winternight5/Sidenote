@@ -60,12 +60,12 @@ Test cases can be found in the following folder: [Sidenote/app/tests/](https://g
 
 ### Test Cases Break down 
 
-#### conftest.py
+#### 1. conftest.py
 
 Contains the pytest configuration and fixtures of app_context, client, and databases.
 
 
-#### test_auth.py
+#### 2. test_auth.py
 
 ##### Testing of server availability
 The first step is to test and check if the server is up and running:
