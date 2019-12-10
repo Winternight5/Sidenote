@@ -43,7 +43,6 @@ def test_valid_register(client, db):
 
 # Would fail pytest if import from routes
 def listToString(s, delimeter=' '):
-    str1 = " "
     return (delimeter.join(str(v) for v in s))
 
 
